@@ -26,6 +26,33 @@ public class SvjLib implements Runnable {
 
             Thread.currentThread().setName ( "main" );
 
+            Log.l.info ( "\n----------------------------------------------------------------------------------" );
+
+            // - Определить домашнюю директорию пользователя
+            // Попытка выяснить что за операционная система - по параметру хранения логина пользователя.
+            // - Linux   - параметр USER
+            // - Windows - параметр USERNAME
+
+            // USER_LOGIN  - только для изменяемых параметров Редактора (dynamic)
+            str = System.getenv ( "USERNAME" ); // for Windows
+            Log.l.debug ( "USERNAME = %s", str );
+            if ( str != null )
+            {
+                Par.USER_LOGIN  = str;
+            }
+            else
+            {
+                str = System.getenv ( "USER" ); // for Linux
+                if ( str != null )  Par.USER_LOGIN  = str;
+            }
+            Log.l.debug ( "User = '%s'", str );
+
+            // HOME - домашняя директория пользователя. Именно в ней будет лежать конфиг пользователя. В директории '.wedit6'
+            str = System.getenv ( "HOME" ); // for Windows
+            Log.l.debug ( "HOME = %s", str );
+            if ( str != null )  Par.USER_HOME_DIR  = str;
+
+
             // ----------- Инициализируем логгер   ----------------------
             //str = System.getProperty ( "log4j" );
             str     = FileTools.createFileName ( "conf/logger.txt" );
@@ -74,11 +101,20 @@ public class SvjLib implements Runnable {
         try
         {
             // Установить имя потока, в котoром будет крутиться EmsGUI приложение
-            Thread.currentThread().setName("svjlib");
+            Thread.currentThread().setName("main");
+
+            // todo запускаем процесс чтения конфига - если он есть
+            initDialog = new WEdit6InitDialog ( "Инициализация" );
+            initDialog.showDialog();
+
+            openParams    = initDialog.getResult();
+
+            Log.l.debug ( "WEdit.run: run init WEdit6." );
+
 
             //content = gm.getContent();
-            Par.GM.getFrame().init();
-            Par.GM.getInstance().getFrame().pack ();
+            Par.GM.init();
+            Par.GM.getFrame().pack ();
 
             // Флаг что редактор поднят
             Par.WEDIT_STARTED = true;

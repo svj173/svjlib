@@ -2,26 +2,26 @@
 
 <!--
 Запуск руками:
- ant -buildfile wedit6.xml deploy.linux.common
+ ant -buildfile svjlib.xml deploy.linux.common
 
 
 -->
-<project name="WEdit_6" basedir="." default="compile">
+<project name="SvjLib" basedir="." default="compile">
 
-    <property name="project" value="wedit" />
+    <property name="project" value="svjlib" />
     <property name="deploy" value="../../deploy" />
-    <property name="version" value="6.0" />
+    <property name="version" value="1.0" />
     <property name="docdir" value="${deploy}/javadoc" />
     <property name="src" value="../src" />
     <property name="classes" value="${deploy}/classes" />
     <property name="lib" value="../lib" />
     <property name="bin" value="../bin" />
     <property name="jar" value="${deploy}/jar" />
-    <property name="deploy.common.path" value="/usr/lib/wedit6" />
+    <property name="deploy.common.path" value="/usr/lib/svjlib" />
 
 
     <!-- Создать рабочую директорию и скопировать туда библ jar, стартовые скрипты -->
-    <property name="programmPath" value="/home/svj/programm/my/wedit6" />
+    <property name="programmPath" value="/home/svj/programm/my/svjlib" />
     
     <path id="project.class.path">
         <!--pathelement location="./"/-->
@@ -84,7 +84,7 @@
 
             <manifest>
                 <attribute name="Built-By" value="Zhiganov Sergey" />
-                <attribute name="Main-Class" value="svj.wedit.v6.WEdit6" />
+                <attribute name="Main-Class" value="svj.svjlib.SvjLib" />
                 <attribute name="Class-Path" value="${project}.jar log4j-api-2.0-beta9.jar
                  log4j-core-2.0-beta9.jar itext-2.0.6.jar dom4j-2.0.0-RC1.jar
                  poi/poi-4.1.2.jar  poi/ooxml-schemas-1.1.jar
@@ -239,7 +239,7 @@
         <mkdir dir="${deploy.common.path}/img" />
         <mkdir dir="${deploy.common.path}/msg" />
         <mkdir dir="${deploy.common.path}/doc" />
-        <mkdir dir="/var/log/wedit6" />
+        <mkdir dir="/var/log/svjlib" />
 
         <echo message="Copy files." />
 
@@ -251,7 +251,7 @@
         <!--copy todir="${deploy.path}/bin">
             <fileset file="${bin}/*.*" />
         </copy-->
-        <copy file="../bin/linux/wedit6_common.sh" tofile="/usr/bin/wedit6.sh"/>
+        <copy file="../bin/linux/svjlib_common.sh" tofile="/usr/bin/svjlib.sh"/>
 
         <copy file="../conf/config.txt" todir="${deploy.common.path}/conf"/>
         <copy file="../conf/log4j/linux/log4j2_common.xml" tofile="${deploy.common.path}/conf/log4j2.xml"/>
@@ -267,11 +267,11 @@
         </copy>
         <!--copy file="../doc/guid/*.xml" todir="${deploy.path}/doc"/-->
 
-        <echo message="CHMOD /usr/bin/wedit6.sh" />
-        <chmod file="/usr/bin/wedit6.sh" perm="ugo+x" />
+        <echo message="CHMOD /usr/bin/svjlib.sh" />
+        <chmod file="/usr/bin/svjlib.sh" perm="ugo+x" />
 
-        <echo message="CHMOD /var/log/wedit6" />
-        <chmod dir="/var/log/wedit6" perm="777" />
+        <echo message="CHMOD /var/log/svjlib" />
+        <chmod dir="/var/log/svjlib" perm="777" />
 
     </target>
 
