@@ -1,5 +1,7 @@
 package svj.svjlib;
 
+import svj.svjlib.obj.BookTitles;
+
 import java.awt.*;
 import java.io.FileInputStream;
 import java.util.*;
@@ -104,20 +106,21 @@ public class SvjLib implements Runnable {
             Thread.currentThread().setName("main");
 
             // todo запускаем процесс чтения конфига - если он есть
-            initDialog = new WEdit6InitDialog ( "Инициализация" );
+            WEdit6InitDialog initDialog = new WEdit6InitDialog ( "Инициализация" );
             initDialog.showDialog();
 
-            openParams    = initDialog.getResult();
+            // получить распарсенную инфу о книгах - если етсь аткой файл
+            BookTitles bookTitles    = initDialog.getResult();
 
             Log.l.debug ( "WEdit.run: run init WEdit6." );
 
 
             //content = gm.getContent();
-            Par.GM.init();
+            Par.GM.getFrame().init(bookTitles);
             Par.GM.getFrame().pack ();
 
             // Флаг что редактор поднят
-            Par.WEDIT_STARTED = true;
+            //Par.WEDIT_STARTED = true;
 
             // Открыть фрейм
             Par.GM.getFrame().setVisible ( true );

@@ -10,6 +10,6 @@ public class Par {
     /* Размер экрана пользователя */
     public static Dimension SCREEN_SIZE;
 
-    public static ContentFrame GM;
+    public static GeneralManager GM;
 
 }
