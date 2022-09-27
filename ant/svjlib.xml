@@ -188,9 +188,9 @@
         <!--copy todir="${programmPath}/bin">
             <fileset file="${bin}/*.*" />
         </copy-->
-        <copy file="${bin}/linux/wedit6_locale.sh" tofile="${programmPath}/bin/wedit6.sh"/>
-        <copy file="${bin}/linux/we6.sh" tofile="${programmPath}/bin/we6.sh"/>
-        <copy file="${bin}/windows/we6.bat" tofile="${programmPath}/bin/we6.bat"/>
+        <copy file="${bin}/linux/svjlib_locale.sh" tofile="${programmPath}/bin/svjlib.sh"/>
+        <copy file="${bin}/linux/svjlib.sh" tofile="${programmPath}/bin/sl.sh"/>
+        <copy file="${bin}/windows/svjlib.bat" tofile="${programmPath}/bin/svjlib.bat"/>
 
         <copy file="../conf/config.txt" todir="${programmPath}/conf"/>
         <copy file="../conf/log4j/linux/log4j2_locale.xml" tofile="${programmPath}/conf/log4j2.xml"/>
@@ -254,7 +254,7 @@
         <copy file="../bin/linux/svjlib_common.sh" tofile="/usr/bin/svjlib.sh"/>
 
         <copy file="../conf/config.txt" todir="${deploy.common.path}/conf"/>
-        <copy file="../conf/log4j/linux/log4j2_common.xml" tofile="${deploy.common.path}/conf/log4j2.xml"/>
+        <copy file="../conf/logs.xml" tofile="${deploy.common.path}/conf/logs.xml"/>
 
         <copy todir="${deploy.common.path}/img">
             <fileset file="../img/**" />

@@ -1,5 +1,12 @@
 package svj.svjlib.gui.dialog;
 
+import svj.svjlib.Par;
+import svj.svjlib.exc.WEditException;
+import svj.svjlib.handler.CloseHandler;
+import svj.svjlib.listener.CloseWindowListener;
+import svj.svjlib.listener.EltexKeyAdapter;
+import svj.svjlib.obj.WorkResult;
+
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
 
@@ -15,7 +22,7 @@ import java.awt.event.KeyEvent;
  */
 public abstract class WDialog<T,M>   extends JDialog implements CloseHandler
 {
-    private WorkResult      returnStatus;
+    private WorkResult returnStatus;
 
     /* Обработка клавиш - Enter, Esc */
     private EltexKeyAdapter keyAdapter;
