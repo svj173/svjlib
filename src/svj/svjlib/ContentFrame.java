@@ -2,6 +2,8 @@ package svj.svjlib;
 
 import svj.svjlib.gui.WComponent;
 import svj.svjlib.gui.listener.WEditWindowAdapter;
+import svj.svjlib.gui.menu.WEMenuBar;
+import svj.svjlib.gui.panel.ServicePanel;
 import svj.svjlib.obj.BookTitles;
 
 import javax.swing.*;
@@ -12,12 +14,24 @@ import javax.swing.*;
  */
 public class ContentFrame extends JFrame implements WComponent {
 
+    private WEMenuBar       menuBar;
+    private ServicePanel servicePanel;
+
+    public ContentFrame() {
+        // todo создаем все ГУИ элементы
+
+        // Повесить на крестик фрейма функцию закрытия
+        addWindowListener ( new WEditWindowAdapter() );
+
+    }
+
     public void init (BookTitles bookTitles)
     {
         Log.l.debug ( "ContentFrame.init: Start." );
 
-        // Повесить на крестик фрейма функцию закрытия
-        addWindowListener ( new WEditWindowAdapter() );
+        // todo Добавляем инфу о книга
+
+        // todo создаем табик - книги по жанрам
 
         // Перерисовать фрейм согласно установленному языку
         rewrite();
@@ -75,5 +89,12 @@ public class ContentFrame extends JFrame implements WComponent {
         //contentPanel.rewrite ();
     }
 
+    public void setMenuBar ( WEMenuBar menuBar )
+    {
+        this.menuBar = menuBar;
+    }
 
+    public ServicePanel getServicePanel() {
+        return servicePanel;
+    }
 }

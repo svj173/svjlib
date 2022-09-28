@@ -1,5 +1,7 @@
 package svj.svjlib.exc;
 
+import svj.svjlib.tools.Convert;
+
 /**
  * <BR/>
  * <BR/> User: svj

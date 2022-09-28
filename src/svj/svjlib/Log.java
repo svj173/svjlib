@@ -15,7 +15,7 @@ public class Log {
     /**
      * При работе с файлами.
      */
-    public static final Logger FILE = LoggerFactory.getLogger("file");
+    public static final Logger file = LoggerFactory.getLogger("file");
     public static final Logger l = LoggerFactory.getLogger("kernel");
 
     private Log() {

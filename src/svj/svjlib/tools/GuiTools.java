@@ -1,14 +1,23 @@
 package svj.svjlib.tools;
 
 
+import svj.svjlib.Log;
+import svj.svjlib.Par;
+import svj.svjlib.WCons;
+import svj.svjlib.exc.WEditException;
+import svj.svjlib.gui.WComponent;
+import svj.svjlib.gui.button.WButton;
+import svj.svjlib.gui.img.TabIcon;
+import svj.svjlib.gui.menu.WEMenu;
+import svj.svjlib.gui.menu.WEMenuItem;
+import svj.svjlib.gui.panel.EditablePanel;
+import svj.svjlib.listener.CloseTabListener;
+
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
-import javax.swing.text.AttributeSet;
-import javax.swing.text.StyleConstants;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.net.URL;
@@ -42,7 +51,7 @@ public class GuiTools
 
     public static final Collection<Integer> iconSizeList        = new LinkedList<Integer>();
 
-
+/*
     public static AbstractWidget createWidget ( FunctionParameter parameter, int titleWidth, int valueWidth )
     {
         AbstractWidget result = null;
@@ -91,7 +100,7 @@ public class GuiTools
 
         return widget;
     }
-
+*/
 
     public static Border createRightTitleBorder ( String title, Color color )
     {
@@ -123,7 +132,7 @@ public class GuiTools
      * @param title        Заголовок для нового табика.
      * @param icon         Титульная иконка нового табика.
      */
-    public static JLabel addClosableTab ( JTabbedPane tabbedPane, JComponent c, String title, Icon icon, Function closeFunction )
+    public static JLabel addClosableTab ( JTabbedPane tabbedPane, JComponent c, String title, Icon icon )
     {
         int             pos, titleIndex;
         String          titleRelease;
@@ -199,7 +208,7 @@ public class GuiTools
         tabbedPane.setTabComponentAt ( pos, pnlTab );
 
         // Add the listener that removes the tab
-        listener = new CloseTabListener ( closeFunction );
+        listener = new CloseTabListener("name");
         btnClose.addActionListener ( listener );
 
         // Optionally bring the new tab to the front
@@ -270,7 +279,7 @@ public class GuiTools
         return result;
     }
 
-
+/*
     public static EmptyButton createIconButton ( Function function, int componentHeight ) //throws WEditException
     {
         EmptyButton result;
@@ -354,9 +363,9 @@ public class GuiTools
 
         return icon;
     }
+*/
 
-
-    public static WButton createButton ( String title, String toolTip, String iconFileName )
+    public static WButton createButton (String title, String toolTip, String iconFileName )
     {
         // - iconPath - именно только имя иконки. Сформировать относительный путь = img/button/img_button_size/имя_иконки
         String iconPath;
@@ -524,42 +533,9 @@ public class GuiTools
     }
 
 
-    /**
-      * Добавляет в указанный объект дочерний, с автоматической сортировкой по имени среди "детей".
-      * <BR/> Без акций.
-      * @param parent родительский объект
-      * @param child ребёнок для добавления
-      * @throws WEditException ош
-      */
-     public static void addChild ( TreeObj parent, TreeObj child ) throws WEditException
-     {
-         /*
-         Collection<WTreeObj> v;
-         TreeSet<WTreeObj> sorter;
-
-         try
-         {
-             parent.add ( child );
-             child.setParent(parent);
-             // для автоматической сортировки "детей" в списке используется TreeSet
-             v       = parent.getChildrens();
-             sorter  = new TreeSet<WTreeObj>(v);
-             // удалить все
-             parent.removeAllChildren();
-             // добавить заново, уже отсортированные в коллекции TreeSet по имени
-             for ( WTreeObj obj : sorter )
-             {
-                 parent.add ( obj );
-             }
-         } catch (Exception e) {
-             Log.l.error ( e, "Error add child to ", parent, " cause: ", e.getMessage() );
-             throw new WEditException ( e, "Системная ошибка добавления нового объекта '", child.toString(), "' к объекту '", parent.toString (), "'." );
-         }
-         */
-     }
-
     /* Контекстное меню, которое вызывается по правой кнопке мышки на панели дерева (но не на объектах).
        Не используется так как лишнее. Не удалять - мало ли что. */
+    /*
     public static JPopupMenu createDefaultTreePopupMenu ( final TreePanel treePanel )
     {
         JPopupMenu  result;
@@ -613,7 +589,7 @@ public class GuiTools
 
         return result;
     }
-
+*/
     public static Icon createTabIcon ( EditablePanel editPanel )
     {
         TabIcon result;
@@ -645,7 +621,7 @@ public class GuiTools
 
     public static void rewriteComponents ( Container container )
     {
-        WComponent  ec;
+        WComponent ec;
         Container   c;
 
         Log.l.debug ( "GuiTools.rewriteComponents: Start. container = %s (%s)", container.getName(), container.getClass().getName() );
@@ -780,6 +756,7 @@ public class GuiTools
         }
     }
 
+    /*
     public static com.lowagie.text.Font createRtfFont ( AttributeSet swing )
     {
         com.lowagie.text.Font result;
@@ -824,109 +801,11 @@ public class GuiTools
 
         return result;
     }
-
-    /**
-     * Тщательное сравнение текстовых стилей.
-     * <br/> Сравниваем все атрибуты стиля:
-     * <br/> 1) Цвет символа
-     * <br/> 2) Размер
-     * <br/> 3) Цвет фона
-     * <br/> 4) Смещение
-     * <br/> 5) Family
-     * <br/> 6) Alignment
-     * <br/>
-     * <br/> size=10,Alignment=0,styleName=text,foreground=java.awt.Color[r=0,g=255,b=0],bold=true,FirstLineIndent=10.0,family=CMU Serif
-     * <br/>
-     * @param style       Стиль, полученный из свинг-редактора.
-     * @param textStyle   Стиль текста данной книги.
-     * @return            TRUE  - стили полностью равны.
-     */
-    public static boolean compareTextStyle ( AttributeSet style, WEditStyle textStyle )
-    {
-        boolean result;
-        String strEditor, strBook;
-        int    iEditorStyle, iBookStyle;
-        float  fEditor, fBook;
-        Color  editorColor, bookColor;
-
-        result = false;
-
-        // size
-        iEditorStyle    = StyleConstants.getFontSize ( style );
-        iBookStyle      = StyleConstants.getFontSize ( textStyle );
-
-        if ( iBookStyle == iEditorStyle )
-        {
-            // Размеры совпали. Сравниваем цвет символа.
-            editorColor = StyleConstants.getForeground ( style );
-            bookColor   = StyleConstants.getForeground ( textStyle );
-            if ( bookColor.equals ( editorColor ) )
-            {
-                // Цвета символов совпали. Сравниваем цвета фона -- его может и не быть. Сравниваем Alignment
-                iEditorStyle    = StyleConstants.getAlignment ( style );
-                iBookStyle      = StyleConstants.getAlignment ( textStyle );
-                if ( iBookStyle == iEditorStyle )
-                {
-                    // Alignment совпали. Сравниваем название шрифта.
-                    strEditor    = StyleConstants.getFontFamily ( style );
-                    strBook      = StyleConstants.getFontFamily ( textStyle );
-                    if ( strBook.equals ( strEditor ) )
-                    {
-                        // Названия шрифтов совпали. Сравниваем смещение.
-                        fEditor    = StyleConstants.getFirstLineIndent ( style );
-                        fBook      = StyleConstants.getFirstLineIndent ( textStyle );
-
-                        if ( fBook == fEditor )
-                        {
-                            // Смещения совпали. Сравниваем тип шрифта (bold, italic...).
-                            if ( StyleConstants.isItalic (style) == StyleConstants.isItalic (textStyle) )
-                            {
-                                if ( StyleConstants.isBold ( style ) == StyleConstants.isBold ( textStyle ) )
-                                {
-                                    if ( StyleConstants.isUnderline ( style ) == StyleConstants.isUnderline ( textStyle ) )  result = true;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        return result;
-    }
+*/
 
     public static int getFontSize ( Font font, int titleSize )
     {
         return font.getSize() * titleSize;
-    }
-
-    public static EnumOS getOs ()
-    {
-        String s = System.getProperty ( "os.name" ).toLowerCase ();
-
-        /*
-        -- Параметры доступны для любой ОС.
-        file.encoding=UTF-8
-        java.version=1.6.0_21-ea
-        os.name=Linux                        -- Linux, Windows,..
-        os.version=2.6.31.5-0.1-desktop
-        path.separator=:
-        user.country=RU
-        user.dir=/home/svj/projects/SVJ/JavaSample
-        user.home=/home/svj
-        user.language=ru
-        user.name=svj
-        user.timezone=
-         */
-
-        if ( s.contains ( "win" ) )         return EnumOS.windows;
-        if ( s.contains ( "mac" ) )         return EnumOS.macos;
-        if ( s.contains ( "solaris" ) )     return EnumOS.solaris;
-        if ( s.contains ( "sunos" ) )       return EnumOS.solaris;
-        if ( s.contains ( "linux" ) )       return EnumOS.linux;
-        if ( s.contains ( "unix" ) )        return EnumOS.linux;
-
-        return EnumOS.unknown;
     }
 
 }

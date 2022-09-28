@@ -3,7 +3,6 @@ package svj.svjlib;
 import svj.svjlib.obj.BookTitles;
 
 import java.awt.*;
-import java.io.FileInputStream;
 import java.util.*;
 
 /**
@@ -36,8 +35,10 @@ public class SvjLib implements Runnable {
             Log.l.debug ( "WEdit.run: run init WEdit6." );
 
 
+            Par.GM = new GeneralManager();
+
             Par.GM.getFrame().init(bookTitles);
-            Par.GM.getFrame().pack ();
+            Par.GM.getFrame().pack();
 
             // Флаг что редактор поднят
             //Par.WEDIT_STARTED = true;

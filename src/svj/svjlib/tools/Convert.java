@@ -1,14 +1,11 @@
 package svj.svjlib.tools;
 
 
-import svj.wedit.v6.WCons;
-import svj.wedit.v6.exception.WEditException;
+import svj.svjlib.WCons;
+import svj.svjlib.exc.WEditException;
 
 import java.awt.*;
-import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
-import java.io.StringReader;
+import java.io.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;

@@ -2,10 +2,12 @@ package svj.svjlib.gui.dialog;
 
 import svj.svjlib.Par;
 import svj.svjlib.exc.WEditException;
+import svj.svjlib.gui.panel.WPanel;
 import svj.svjlib.handler.CloseHandler;
 import svj.svjlib.listener.CloseWindowListener;
 import svj.svjlib.listener.EltexKeyAdapter;
 import svj.svjlib.obj.WorkResult;
+import svj.svjlib.tools.GuiTools;
 
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
@@ -150,7 +152,7 @@ public abstract class WDialog<T,M>   extends JDialog implements CloseHandler
     {
         WPanel  jPanel2;
 
-        jPanel2 = new WPanel ();
+        jPanel2 = new WPanel();
         jPanel2.setInsets (5,5,5,5);
         jPanel2.setBorder( BorderFactory.createEtchedBorder ( EtchedBorder.RAISED ) );
 

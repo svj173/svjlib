@@ -27,5 +27,7 @@ public class Par {
     /* Вид кодировки книги*/
     public static String CODE_BOOK      = "UTF-8";
 
+    /* Размеры иконок в рабочих кнопках. */
+    public static int BUTTONS_ICON_SIZE = 24;
 
 }

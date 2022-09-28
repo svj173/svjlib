@@ -1,11 +1,11 @@
 package svj.svjlib;
 
 import svj.svjlib.exc.WEditException;
+import svj.svjlib.gui.menu.WEMenuBar;
 import svj.svjlib.obj.BookTitles;
 
 import javax.swing.*;
 
-import java.io.File;
 import java.util.*;
 
 /**
