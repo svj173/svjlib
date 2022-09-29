@@ -1,5 +1,6 @@
 package svj.svjlib.gui.menu;
 
+import svj.svjlib.svjlibs.tools.SLTools;
 import svj.svjlib.tools.DialogTools;
 import svj.svjlib.tools.GuiTools;
 
@@ -25,39 +26,13 @@ public class WEMenuBar extends JMenuBar
 
         WEMenu menu;
 
-        /*
-        // Файл
-        menu    = createFileMenu();
+        // ---- наполнить меню для SvjLib ----
+
+        // Библиотека
+        menu    = SLTools.createLibMenu();
         add ( menu );
 
-        // Поиск
-        menu    = createSearchMenu();
-        add ( menu );
 
-        // Преобразовать
-        menu    = createConvertMenu ();
-        add ( menu );
-
-        // Импортировать
-        menu    = createImportMenu ();
-        add ( menu );
-
-        // Сборник
-        menu    = createProjectMenu();
-        add ( menu );
-
-        // Книга
-        menu    = createBookMenu();
-        add ( menu );
-
-        // Настройки
-        menu    = createOptionMenu();
-        add ( menu );
-
-        // Статистика
-        menu    = createStatisticMenu();
-        add ( menu );
-        */
 
         // help -- не реализовано в java
         setHelpMenu ( new JMenu("Помощь") );
@@ -154,7 +129,7 @@ public class WEMenuBar extends JMenuBar
         helpMenu = new JMenu ( "Помощь" );
         add ( helpMenu );
 
-        menuItem = new JMenuItem("О Редакторе"); // Инструкция пользователя с функцией - скинуть в файл (PDF).
+        menuItem = new JMenuItem("О программе"); // Инструкция пользователя с функцией - скинуть в файл (PDF).
         menuItem.setComponentOrientation ( ComponentOrientation.RIGHT_TO_LEFT );
         helpMenu.add ( menuItem );
 

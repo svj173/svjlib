@@ -12,6 +12,8 @@ import java.awt.*;
  */
 public interface WCons
 {
+    String PROGRAMM_TITLE = "SvjLib";
+
     /* Окончание в имени файла книги. */
     String  BOOK_FILE_NAME_SUFFIX  = "book";
 

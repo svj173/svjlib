@@ -3,7 +3,6 @@ package svj.svjlib;
 import svj.svjlib.obj.BookTitles;
 
 import java.awt.*;
-import java.util.*;
 
 /**
  * <BR/>
@@ -13,11 +12,15 @@ public class SvjLib implements Runnable {
 
     public SvjLib ()
     {
-        // Внимание!!! Мониторов может быть два - тогда путаница.
-        Par.SCREEN_SIZE     = Toolkit.getDefaultToolkit().getScreenSize();
         // System.getProperty("java.version")
+
+        Par.GM = new GeneralManager();
+
     }
 
+    /**
+     * Запускается в SwingUtilities.invokeLater ( mk ); -- ?
+     */
     public void run ()
     {
         try
@@ -32,10 +35,8 @@ public class SvjLib implements Runnable {
             // получить распарсенную инфу о книгах - если етсь аткой файл
             BookTitles bookTitles    = initDialog.getResult();
 
-            Log.l.debug ( "WEdit.run: run init WEdit6." );
+            Log.l.debug ( "SvjLib.run: run init SvjLib." );
 
-
-            Par.GM = new GeneralManager();
 
             Par.GM.getFrame().init(bookTitles);
             Par.GM.getFrame().pack();
@@ -56,43 +57,20 @@ public class SvjLib implements Runnable {
     {
         String      str;
         SvjLib mk;
-        Properties config;
 
         System.setErr ( System.out );
         //if ( args.length > 0 )  configFile  = args[0];
 
         try
         {
-            Par.MODULE_HOME     = System.getProperty ( "module.home" );
-
             Thread.currentThread().setName ( "main" );
 
             Log.l.info ( "\n----------------------------------------------------------------------------------" );
 
-            // - Определить домашнюю директорию пользователя
-            // Попытка выяснить что за операционная система - по параметру хранения логина пользователя.
-            // - Linux   - параметр USER
-            // - Windows - параметр USERNAME
+            // установка общих параметров
+            setCommonPar();
 
-            // USER_LOGIN  - только для изменяемых параметров Редактора (dynamic)
-            str = System.getenv ( "USERNAME" ); // for Windows
-            Log.l.debug ( "USERNAME = %s", str );
-            if ( str != null )
-            {
-                Par.USER_LOGIN  = str;
-            }
-            else
-            {
-                str = System.getenv ( "USER" ); // for Linux
-                if ( str != null )  Par.USER_LOGIN  = str;
-            }
-            Log.l.debug ( "User = '%s'", str );
-
-            // HOME - домашняя директория пользователя. Именно в ней будет лежать конфиг пользователя. В директории '.svjlib'
-            str = System.getenv ( "HOME" ); // for Windows
-            Log.l.debug ( "HOME = %s", str );
-            if ( str != null )  Par.USER_HOME_DIR  = str;
-
+            // todo если логгер не прописан - инициировать руками
             /*
             str     = FileTools.createFileName ( "conf/config.txt" );
             Log.l.debug ( "Config dir = ", str );
@@ -100,7 +78,7 @@ public class SvjLib implements Runnable {
             config.load ( new FileInputStream( str ) );
             */
 
-            // Создать и инициализировать
+            // Модуль. Создать и инициализировать
             mk      = new SvjLib();
 
             // Запустить в отдельной самостоятельной нити
@@ -108,12 +86,44 @@ public class SvjLib implements Runnable {
             //System.out.println ( "MK. finish " );
 
         } catch ( Throwable e ) {
-            // Обработать  ошибку и закрыть киоск.
+            // Обработать  ошибку и закрыть.
             str = "SVJLib.main ERROR: " + e.getMessage();
             System.err.println ( str );
             e.printStackTrace();
             System.exit ( 12 );
         }
+    }
+
+    private static void setCommonPar() {
+
+        Par.MODULE_HOME     = System.getProperty ( "module.home" );
+
+        // Внимание!!! Мониторов может быть два - тогда путаница.
+        Par.SCREEN_SIZE     = Toolkit.getDefaultToolkit().getScreenSize();
+
+        // - Определить домашнюю директорию пользователя
+        // Попытка выяснить что за операционная система - по параметру хранения логина пользователя.
+        // - Linux   - параметр USER
+        // - Windows - параметр USERNAME
+
+        // USER_LOGIN  - только для изменяемых параметров Редактора (dynamic)
+        String str = System.getenv ( "USERNAME" ); // for Windows
+        Log.l.debug ( "USERNAME = %s", str );
+        if ( str != null )
+        {
+            Par.USER_LOGIN  = str;
+        }
+        else
+        {
+            str = System.getenv ( "USER" ); // for Linux
+            if ( str != null )  Par.USER_LOGIN  = str;
+        }
+        Log.l.debug ( "User = '%s'", str );
+
+        // HOME - домашняя директория пользователя. Именно в ней будет лежать конфиг пользователя. В директории '.svjlib'
+        str = System.getenv ( "HOME" ); // for Windows
+        Log.l.debug ( "HOME = %s", str );
+        if ( str != null )  Par.USER_HOME_DIR  = str;
     }
 
 }

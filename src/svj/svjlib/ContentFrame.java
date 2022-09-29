@@ -18,7 +18,16 @@ public class ContentFrame extends JFrame implements WComponent {
     private ServicePanel servicePanel;
 
     public ContentFrame() {
+        // todo + version / build / create date
+        // LibRusEk - SvjLib .....
+        super(WCons.PROGRAMM_TITLE);
+
         // todo создаем все ГУИ элементы
+
+        // 1. тулбар
+        menuBar = new WEMenuBar();
+        getRootPane().setJMenuBar ( menuBar );
+
 
         // Повесить на крестик фрейма функцию закрытия
         addWindowListener ( new WEditWindowAdapter() );

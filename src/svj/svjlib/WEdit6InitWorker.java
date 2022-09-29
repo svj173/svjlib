@@ -1,7 +1,6 @@
 package svj.svjlib;
 
 import svj.svjlib.exc.WEditException;
-import svj.svjlib.gui.menu.WEMenuBar;
 import svj.svjlib.obj.BookTitles;
 
 import javax.swing.*;
@@ -159,15 +158,6 @@ public class WEdit6InitWorker    extends SwingWorker<BookTitles,String>
     }
 
 
-    private void createMenu ( ContentFrame frame, FunctionManager fm, ContentFrame content )
-    {
-        WEMenuBar menuBar;
-
-        menuBar = new WEMenuBar();
-        frame.setMenuBar ( menuBar );
-
-        content.getRootPane().setJMenuBar ( menuBar );
-    }
 
     @Override
     protected void done ()
