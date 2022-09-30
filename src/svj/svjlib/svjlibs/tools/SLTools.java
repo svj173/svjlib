@@ -2,6 +2,7 @@ package svj.svjlib.svjlibs.tools;
 
 import svj.svjlib.gui.menu.WEMenu;
 import svj.svjlib.gui.menu.WEMenuItem;
+import svj.svjlib.svjlibs.listener.LoadLibListListener;
 import svj.svjlib.svjlibs.listener.ViewLibsListListener;
 
 /**
@@ -20,6 +21,7 @@ public class SLTools {
         result.add ( menu );
 
         menu    = new WEMenuItem("Добавить библиотеку");
+        menu.addActionListener(new LoadLibListListener());
         result.add ( menu );
 
         return result;

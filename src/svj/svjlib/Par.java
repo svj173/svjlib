@@ -1,5 +1,7 @@
 package svj.svjlib;
 
+import svj.svjlib.obj.BookTitles;
+
 import java.awt.*;
 
 /**
@@ -29,5 +31,7 @@ public class Par {
 
     /* Размеры иконок в рабочих кнопках. */
     public static int BUTTONS_ICON_SIZE = 24;
+
+    public static BookTitles BOOKS = null;
 
 }

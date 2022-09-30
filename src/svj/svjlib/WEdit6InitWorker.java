@@ -5,6 +5,7 @@ import svj.svjlib.obj.BookTitles;
 
 import javax.swing.*;
 
+import java.io.File;
 import java.util.*;
 
 /**
@@ -40,7 +41,41 @@ public class WEdit6InitWorker    extends SwingWorker<BookTitles,String>
         FunctionManager     fm;
         ContentFrame        content;
 
-        publish ( "Старт" );
+        // Здесь загружаем инфу о книгах - если она есть (т.е. библиотеки были добавлены)
+        // - лезем в конфиг-директорию проги (home/.svjlib/books.xml)
+        // Заносим в Par.BOOKS
+
+        String booksFile = Par.USER_HOME_DIR + "/.svjlib/books.xml";
+
+        File file = new File(booksFile);
+        if (file.isFile()) {
+            // todo
+        }
+
+        // А также загрузить Инфу о загруженных библиотеках
+
+        try {
+            publish ( "Старт" );
+            Thread.sleep(2000);
+
+            // Загружается файл с информацией о книгах. Размер файла - ...
+
+            publish ( "Шаг-1" );
+            Thread.sleep(2000);
+
+            publish ( "Шаг-2" );
+            Thread.sleep(2000);
+
+            publish ( "Шаг-3" );
+            Thread.sleep(2000);
+
+            publish ( "Финиш" );
+            Thread.sleep(2000);
+
+        } catch (Exception e) {
+
+
+        }
 
         /*
         ConfigManager       config;

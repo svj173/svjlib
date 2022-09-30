@@ -20,11 +20,17 @@ import java.awt.event.MouseListener;
 public class StringFieldWidget  extends AbstractWidget<String>
 {
     private final JTextField textField;
-    /* Максимальная длина поля. Иначе не занесется в БД. */
+    /* Максимальная длина поля, в символах. Иначе не занесется в БД. */
     private int                 maxSize;
 
-    
-    public StringFieldWidget (String titleName, boolean hasEmpty, int maxSize, int width )
+
+    /**
+     *
+     * @param titleName
+     * @param hasEmpty
+     * @param maxSize
+     */
+    public StringFieldWidget (String titleName, boolean hasEmpty, int maxSize )
     {
         super ( titleName, hasEmpty, ""  );
 
@@ -34,8 +40,8 @@ public class StringFieldWidget  extends AbstractWidget<String>
 
         textField   = new JTextField();
 
-        size        = new Dimension( width, WCons.BUTTON_HEIGHT );
-        textField.setPreferredSize ( size );
+        //size        = new Dimension( width, WCons.BUTTON_HEIGHT );
+        //textField.setPreferredSize ( size );
 
         //setBorder ( BorderFactory.createEtchedBorder() );
         //textField.setBackground ( Color.RED );
@@ -47,14 +53,14 @@ public class StringFieldWidget  extends AbstractWidget<String>
 
     public StringFieldWidget (String titleName, String value )
     {
-        this ( titleName, true, 2000, 250 );
+        this ( titleName, true, 2000 );
 
         setValue ( value );
     }
 
     public StringFieldWidget (String titleName, String value, boolean hasEmpty )
     {
-        this ( titleName, hasEmpty, 2000, 250 );
+        this ( titleName, hasEmpty, 2000 );
 
         setValue ( value );
     }
