@@ -1,12 +1,12 @@
 package svj.svjlib.gui.widget;
 
 
-import svj.svjlib.Par;
 import svj.svjlib.WCons;
 import svj.svjlib.exc.WEditException;
 import svj.svjlib.tools.GuiTools;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileFilter;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -29,7 +29,7 @@ public class FileWidget extends AbstractWidget<String>
     private final JButton choseFileButton;
 
 
-    public FileWidget (String titleName, boolean hasEmpty )
+    public FileWidget (String titleName, boolean hasEmpty, String defaultDir )
     {
         super ( titleName, hasEmpty, ""  );
 
@@ -42,11 +42,13 @@ public class FileWidget extends AbstractWidget<String>
         textField.setPreferredSize ( size );
         //setBorder ( BorderFactory.createEtchedBorder() );
         //textField.setBackground ( Color.RED );
+        textField.setText( defaultDir );
         textField.setHorizontalAlignment ( JTextField.LEFT );
         //textField.setColumns ( maxSize );   // выкл - делает почему-то шире чем задано символов (svj, 2010-10-12)
         add ( textField );
 
-        choseFileButton = GuiTools.createButton ( "..", "Выбрать существующий файл - для перезаписи.", null );
+        choseFileButton = GuiTools.createButton ( "..",
+                "Выбрать существующую директорию, содержащую файлы библиотеки", null );
         choseFileButton.addActionListener ( new ActionListener()
         {
             @Override
@@ -57,19 +59,36 @@ public class FileWidget extends AbstractWidget<String>
                 File file;
                 chooser     = new JFileChooser( textField.getText() );
                 //chooser = new JFileChooser ( currentDirectory );
-                chooser.setDialogTitle ( "Выберите результирующий файл." );
+                chooser.setDialogTitle ( "Выберите директорию" );
                 chooser.setMultiSelectionEnabled ( false );
+
+                // выборка -толкьо директории
+                chooser.setFileFilter(new FileFilter() {
+                    @Override
+                    public boolean accept(File f) {
+                        return f.isDirectory();
+                    }
+
+                    // форматы файлов
+                    @Override
+                    public String getDescription() {
+                        return "";
+                    }
+                });
+                chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+
                 //chooser.setAcceptAllFileFilterUsed ( true );
                 //chooser.setFileSelectionMode ( JFileChooser.FILES_ONLY );
-                returnValue = chooser.showSaveDialog ( Par.GM.getFrame() );  // may be NULL
+                //returnValue = chooser.showSaveDialog ( Par.GM.getFrame() );  // may be NULL
+                returnValue = chooser.showSaveDialog ( choseFileButton );
 
-               if ( returnValue == JFileChooser.APPROVE_OPTION )
-               {
+                if ( returnValue == JFileChooser.APPROVE_OPTION )
+                {
                    // взять имя выбранной директории
                    file  = chooser.getSelectedFile();
                    //Log.l.debug ( "selected  = ", file );
                    textField.setText ( file.getAbsolutePath() );
-               }
+                }
             }
         } );
         add ( choseFileButton );

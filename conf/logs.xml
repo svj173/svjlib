@@ -5,6 +5,7 @@
     <property name="maxFileSize" value="5MB"/>
     <property name="maxHistory" value="7"/>
 
+    <!--
     <appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>${logDir}/logs.txt</file>
         <append>true</append>
@@ -22,6 +23,26 @@
                 <maxFileSize>${maxFileSize}</maxFileSize>
             </timeBasedFileNamingAndTriggeringPolicy>
         </rollingPolicy>
+    </appender>
+    -->
+
+    <appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${logDir}/logs.txt</file>
+        <append>true</append>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- daily rollover -->
+            <fileNamePattern>${logDir}/logs-%d.%i.log</fileNamePattern>
+            <maxHistory>${maxHistory}</maxHistory>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>${maxFileSize}</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+
+        <encoder>
+            <pattern>%d{ISO8601} [%t] %p %C{0}.%M line:%L - %msg%n</pattern>
+            <!--pattern>%relative [%thread] %-5level %logger{35} - %msg%n</pattern-->
+        </encoder>
     </appender>
 
     <root>

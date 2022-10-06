@@ -22,6 +22,28 @@ public class ContentFrame extends JFrame implements WComponent {
         // LibRusEk - SvjLib .....
         super(WCons.PROGRAMM_TITLE);
 
+        // Установить точку вывода
+        setLocation ( 200, 100 );
+        setDefaultCloseOperation ( WindowConstants.EXIT_ON_CLOSE );
+
+        // иконка
+        //Image icon = GuiTools.createImage ( "img/editor/we6_title.png" );
+        //if ( icon != null )  setIconImage ( icon );
+
+        // Вешаем листенер на крестик фрейма
+        addWindowListener ( new WEditWindowAdapter() );
+
+        /*
+        // Установить размер - если размер не был взят из сохраняемых параметров при загрузке книги.
+        Dimension d   = Toolkit.getDefaultToolkit().getScreenSize();
+        x   = d.width / 2;
+        y   = d.height - 100;
+        //Dimension size  = new Dimension ( x,y );
+        setSize ( x,y );
+        //getContentPane().setPreferredSize ( size );
+        */
+
+
         // todo создаем все ГУИ элементы
 
         // 1. тулбар

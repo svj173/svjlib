@@ -101,7 +101,7 @@ public class DialogTools
             dialog.init ( htmlText );
             //dialog.setDefaultButton(buttonType);
         } catch ( WEditException e )         {
-            Log.l.error ( "err", e );
+            Log.l.error ( "error. title = " + title, e );
         }
         dialog.showDialog ();
         //JOptionPane.showMessageDialog ( Par.GM.getFrame(), msg, title, JOptionPane.INFORMATION_MESSAGE );
@@ -156,12 +156,12 @@ public class DialogTools
     public static void showError ( Component parentFrame, Object msg, String title )
     {
         Object object;
-        Log.l.info("[M] msg = %s");   // ловим ошибку с длинным текстом который почемуто не обрезается.
+        Log.l.info("[M] msg = {}", msg);   // ловим ошибку с длинным текстом который почемуто не обрезается.
         // Анализ на очень длинные строки.
         if ( msg instanceof String )
         {
             String str = msg.toString ();
-            Log.l.info("[M] msg is String/ length = %d", str.length());
+            Log.l.info("[M] msg is String / length = {}", str.length());
             if ( str.length() > 80 )
             {
                 Log.l.info("[M] msg > 80");
@@ -169,7 +169,7 @@ public class DialogTools
                 textArea.setWrapStyleWord ( true );
                 textArea.setLineWrap ( true );
                 Dimension size = new Dimension ( Par.SCREEN_SIZE.width / 2, (str.length() / 80 + 1)*15 );
-                Log.l.info("[M] new size = %s", size);
+                Log.l.info("[M] new size = {}", size);
                 textArea.setPreferredSize ( size );
                 object = textArea;
                 //str = StringTools.recut ( str, 75, "\n" );

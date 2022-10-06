@@ -41,6 +41,9 @@ public class SvjLib implements Runnable {
             Par.GM.getFrame().init(bookTitles);
             Par.GM.getFrame().pack();
 
+            // центрируем Фрейм
+            //GuiTools.setDialogScreenCenterPosition ( Par.GM.getFrame() );
+
             // Флаг что редактор поднят
             //Par.WEDIT_STARTED = true;
 
@@ -108,7 +111,7 @@ public class SvjLib implements Runnable {
 
         // USER_LOGIN  - только для изменяемых параметров Редактора (dynamic)
         String str = System.getenv ( "USERNAME" ); // for Windows
-        Log.l.debug ( "USERNAME = %s", str );
+        Log.l.debug ( "USERNAME = {}", str );
         if ( str != null )
         {
             Par.USER_LOGIN  = str;
@@ -118,11 +121,11 @@ public class SvjLib implements Runnable {
             str = System.getenv ( "USER" ); // for Linux
             if ( str != null )  Par.USER_LOGIN  = str;
         }
-        Log.l.debug ( "User = '%s'", str );
+        Log.l.debug ( "User = '{}'", str );
 
         // HOME - домашняя директория пользователя. Именно в ней будет лежать конфиг пользователя. В директории '.svjlib'
         str = System.getenv ( "HOME" ); // for Windows
-        Log.l.debug ( "HOME = %s", str );
+        Log.l.debug ( "HOME = {}", str );
         if ( str != null )  Par.USER_HOME_DIR  = str;
     }
 

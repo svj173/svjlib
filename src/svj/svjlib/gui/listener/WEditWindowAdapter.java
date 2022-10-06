@@ -29,14 +29,14 @@ public class WEditWindowAdapter extends WindowAdapter
 
     public void windowClosing ( WindowEvent e )
     {
-        Log.l.debug ( "Press Krestik. Close WEDIT started" );
+        Log.l.debug ( "Press Krestik. Close SvjLib started" );
 
         Par.GM.close();
 
         System.exit ( 0 );
         // Здесь дальше запускается функция SHUTDOWN
         
-        Log.l.debug ( "Press Krestik. Close WEDIT finished" );
+        Log.l.debug ( "Press Krestik. Close SvjLib finished" );
     }
 
 }

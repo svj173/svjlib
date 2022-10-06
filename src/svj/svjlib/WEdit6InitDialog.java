@@ -3,6 +3,7 @@ package svj.svjlib;
 import svj.svjlib.exc.WEditException;
 import svj.svjlib.gui.dialog.WDialog;
 import svj.svjlib.obj.BookTitles;
+import svj.svjlib.tools.GuiTools;
 
 import javax.swing.*;
 
@@ -43,6 +44,7 @@ public class WEdit6InitDialog  extends WDialog<Void,BookTitles>
             setAlwaysOnTop ( true );
         } catch ( Exception e )        {
             // Ошибки например из-за permission на опцию setWindowAlwaysOnTop
+            Log.l.error("init dialog error", e);
             e.printStackTrace();
         }
 
@@ -55,7 +57,7 @@ public class WEdit6InitDialog  extends WDialog<Void,BookTitles>
         createDialogSize();
 
         // центрируем
-      //  GuiTools.setDialogScreenCenterPosition ( this );
+        GuiTools.setDialogScreenCenterPosition ( this );
 
         // - создаем swingWorker - T, D.  -- T - что возвращает doInBackground. D - что передается в publish-process.
         swingWorker   = new WEdit6InitWorker ( this );

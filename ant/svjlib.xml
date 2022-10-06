@@ -85,15 +85,8 @@
             <manifest>
                 <attribute name="Built-By" value="Zhiganov Sergey" />
                 <attribute name="Main-Class" value="svj.svjlib.SvjLib" />
-                <attribute name="Class-Path" value="${project}.jar log4j-api-2.0-beta9.jar
-                 log4j-core-2.0-beta9.jar itext-2.0.6.jar dom4j-2.0.0-RC1.jar
-                 poi/poi-4.1.2.jar  poi/ooxml-schemas-1.1.jar
-                 poi/poi-ooxml-4.1.2.jar poi/poi-scratchpad-4.1.2.jar
-                 poi/xmlbeans-3.1.0.jar  poi/poi-ooxml-schemas-4.1.2.jar
-                 poi/poi-excelant-4.1.2.jar  poi/commons-compress-1.20.jar
-                 poi/commons-collections4-4.4.jar
-                 spell/jortho.jar
-                " />
+                <attribute name="Class-Path" value="${project}.jar slf4j-api-1.7.36.jar
+logback-classic-1.2.11.jar logback-core-1.2.11.jar" />
                 <attribute name="Implementation-Version" value="${version}-b${build.number} / ${TODAY}"/>
 
                 <section name="common">
@@ -161,11 +154,11 @@
         <delete includeEmptyDirs="true" quiet="true" failonerror="false">
           <fileset dir="${programmPath}/bin"/>
           <fileset dir="${programmPath}/conf"/>
-          <fileset dir="${programmPath}/doc"/>
           <fileset dir="${programmPath}/img"/>
           <fileset dir="${programmPath}/lib"/>
           <fileset dir="${programmPath}/log"/>
-          <fileset dir="${programmPath}/msg"/>
+          <!--fileset dir="${programmPath}/msg"/>
+          <fileset dir="${programmPath}/doc"/-->
             <!-- dir pconf_user NOT deleted !!! -->
         </delete>
 
@@ -175,8 +168,8 @@
         <mkdir dir="${programmPath}/log" />
         <mkdir dir="${programmPath}/conf" />
         <mkdir dir="${programmPath}/img" />
-        <mkdir dir="${programmPath}/msg" />
-        <mkdir dir="${programmPath}/doc" />
+        <!--mkdir dir="${programmPath}/msg" />
+        <mkdir dir="${programmPath}/doc" /-->
 
         <echo message="Copy files." />
 
@@ -193,21 +186,17 @@
         <copy file="${bin}/windows/svjlib.bat" tofile="${programmPath}/bin/svjlib.bat"/>
 
         <copy file="../conf/config.txt" todir="${programmPath}/conf"/>
-        <copy file="../conf/log4j/linux/log4j2_locale.xml" tofile="${programmPath}/conf/log4j2.xml"/>
-
-        <copy todir="${programmPath}/conf/spell">
-            <fileset file="../conf/text/spell/**" />
-        </copy>
+        <copy file="../conf/logs.xml" todir="${programmPath}/conf"/>
 
         <copy todir="${programmPath}/img">
             <fileset file="../img/**" />
         </copy>
-        <copy todir="${programmPath}/msg">
+        <!--copy todir="${programmPath}/msg">
             <fileset file="../msg/**" />
         </copy>
         <copy todir="${programmPath}/doc">
             <fileset file="../doc/guid/*.xml" />
-        </copy>
+        </copy-->
         <!--copy file="../doc/guid/*.xml" todir="${programmPath}/doc"/-->
 
         <chmod dir="${programmPath}/bin" perm="ugo+x" includes="*.sh"/>

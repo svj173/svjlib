@@ -56,10 +56,10 @@ public class WEdit6InitWorker    extends SwingWorker<BookTitles,String>
 
         try {
             publish ( "Старт" );
-            Thread.sleep(2000);
+            Thread.sleep(1000);
 
             // Загружается файл с информацией о книгах. Размер файла - ...
-
+            /*
             publish ( "Шаг-1" );
             Thread.sleep(2000);
 
@@ -68,9 +68,10 @@ public class WEdit6InitWorker    extends SwingWorker<BookTitles,String>
 
             publish ( "Шаг-3" );
             Thread.sleep(2000);
+            */
 
             publish ( "Финиш" );
-            Thread.sleep(2000);
+            Thread.sleep(1000);
 
         } catch (Exception e) {
 
