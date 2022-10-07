@@ -30,6 +30,7 @@ public interface WCons
     char    COMMA       = ',';
     String  SP          = "";
     String  PP          = "_";
+    String  SEP_1       = " / ";
 
     String  HTML_SP     = "&nbsp;";
 

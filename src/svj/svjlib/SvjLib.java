@@ -14,6 +14,9 @@ public class SvjLib implements Runnable {
     {
         // System.getProperty("java.version")
 
+        Runtime.getRuntime().addShutdownHook ( new SvjLibShutdown() );
+        
+
         Par.GM = new GeneralManager();
 
     }

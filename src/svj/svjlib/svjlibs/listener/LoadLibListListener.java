@@ -6,16 +6,20 @@ import svj.svjlib.gui.dialog.WidgetsDialog;
 import svj.svjlib.gui.widget.FileWidget;
 import svj.svjlib.gui.widget.StringFieldWidget;
 import svj.svjlib.obj.BookTitle;
+import svj.svjlib.svjlibs.obj.LoadLibInfo;
+import svj.svjlib.svjlibs.stax.Fb2TitleStaxParser;
 import svj.svjlib.tools.DialogTools;
+import svj.svjlib.tools.DumpTools;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.io.IOException;
 import java.util.*;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipInputStream;
+
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 /**
  * Загрузить новую библиотеку.
@@ -26,10 +30,18 @@ public class LoadLibListListener implements ActionListener {
 
     private FileWidget dirPath;
     private StringFieldWidget myLibName;
+    //private  final        String endTag = "</description>";
+    private  final        String endTag = "</title-info>";
+    private final LoadLibInfo libInfo = new LoadLibInfo();
+    private final Collection<BookTitle> bookList = new ArrayList<>();
+
+    private Fb2TitleStaxParser bookParser = new Fb2TitleStaxParser();
+
+    private  String libDirPath = "none";
+
 
     @Override
     public void actionPerformed(ActionEvent event) {
-        // todo
 
         // Диалог ввода данных
         //     -- рутовый пароль - если нет прав дсотупа
@@ -39,12 +51,7 @@ public class LoadLibListListener implements ActionListener {
         // Проверяем - есть ли у нас такой путь - т.е. массив загруженных библиотек - без их привязки к книгам
         //if (Par.LIBS != null )
 
-        //String msg = "<html><body><h1>Не реализовано</h1></body></html>";
-
-        //DialogTools.showHtml("Добавить библиотеку", msg);
-
         // виджеты
-        // StringFieldWidget (String titleName, String value, boolean hasEmpty )
         // дефолтная директория - берется из конфиг-файла Редактора - директория полсденей загруженной библиотеки
         String defDir = "/home/svj/Serg/Libruks/Архивы Либрусек";
         dirPath = new FileWidget("Директория библиотеки", false, defDir);
@@ -65,6 +72,7 @@ public class LoadLibListListener implements ActionListener {
             String libName = myLibName.getValue();
             // Берем директорию
             String libDir = dirPath.getValue();
+            libDirPath = libDir;
 
             // todo Проверяем права дсотупа к директории. Если что - запрашиваем логин-пароль на доступ.
 
@@ -73,9 +81,51 @@ public class LoadLibListListener implements ActionListener {
             try {
                 // сам процесс чтения
                 // todo Здесь необходим бегунок с процентом рабоыт - по кол-ву файлов в библиотеке
+                libInfo.setLibDir(libDir);
                 Collection<BookTitle> result = processLoad(libDir);
 
                 // todo сохранить инфу о новой библиотеке в конфиг-директории Проги
+
+                Log.file.info("{}", DumpTools.printBookTitles(bookList));
+                Log.file.info("libInfo = {}", libInfo);
+
+                // Добавить новую библиотеку
+
+                // Сохранить изменения в конфиг-файл
+
+                // Добавить книги в общую кучу
+
+                // Скинуть файлом в конфиг (Не java-обьектом, т.к. при изменениях в классе инфа пропадет)
+                // - YML? - но тогад при проблемах в структуре не сможем вмешаться - лучше свой парсер
+
+                /*
+                Стуктура
+
+                - home_dir = {User_home}/svjlib
+
+                Конфиг файл  - svjlib_conf.xml - ?
+                1) Экспорт - диреткория куда извлекать файлы
+                2) Список библиотек
+                 - название
+                 - директория
+                 - ссылка на файл-инфу
+
+                3) файлы-инфо о книгах
+                 - bibl_1.xml
+                 ...
+
+                 ??? - для Либрусек - этот файл будте много-много метров.
+                 -- может, разбить на несколько?
+
+                 При старте программы парсится конфиг-файл, и извлекаются данные о библиотеках и о книгах.
+                 Данные о книгах суммируются в одном массиве
+                 Возможно - сразу же создавать мапперы
+                 - по жанрам      - мап в мапе - Общий жанр (Деткетивы) / Поджанры (Исторические детективы)
+                 - по алфавиту авторов
+
+
+
+                 */
 
             } catch (Exception e) {
                 Log.l.error("libDir = " + libDir, e);
@@ -91,12 +141,12 @@ public class LoadLibListListener implements ActionListener {
         String[] list = dirFile.list();
         String msg;
         int maxCount;
-        Collection<BookTitle> result = new ArrayList<>();
 
         if (list != null) {
             msg = "list size = " + list.length;
+            // todo
             //maxCount = list.length;
-            maxCount = 2;
+            maxCount = 1;
         } else {
             msg = "list files is Null";
             maxCount = 0;
@@ -109,30 +159,29 @@ public class LoadLibListListener implements ActionListener {
             BookTitle bookTitle;
             for (String fileName : list) {
 
-                Log.file.info("- {}) {}", ic, fileName );
-
+                //Log.file.info("- {}) {}", ic, fileName );
 
                 ic++;
                 if (ic > maxCount) break;
 
-                if (fileName.endsWith(".zip") || fileName.endsWith(".ZIP")) {
+                if (isZip(fileName)) {
                     // todo Но это может быть и файл книги - толкьо упакованный  -- На будущее
 
                     // Это ЗИП-архив. Разархивируем
                     processZipArchive(libDir, fileName);
                 } else {
                     // Это файл книги - вытаскиваем из него инфу
-                    bookTitle = createBookTitle(fileName);
-                    result.add(bookTitle);
+                    //bookTitle = createBookTitle(fileName);
+                    //result.add(bookTitle);
+                    libInfo.incBookNoneZip();
                 }
+                libInfo.incSourceArchive();
             }
         }
 
-        Log.file.info("result = {}", result.size() );
+        Log.file.info("result.books.size = {}", bookList.size() );
 
-        //throw new RuntimeException("Files list: " + msg);
-
-        return result;
+        return bookList;
     }
 
     /**
@@ -145,8 +194,6 @@ public class LoadLibListListener implements ActionListener {
 
         ZipEntry zipEntry;
         long size, fullSize;
-        ZipInputStream zin = null;
-        String endTag = "</description>";
 
         String fullZipName = libDir + File.separator + zipFileName;
 
@@ -161,52 +208,122 @@ public class LoadLibListListener implements ActionListener {
                 size = zipEntry.getCompressedSize();
                 fullSize = zipEntry.getSize();     // то же что и getCompressedSize
 
-                Log.file.info("size = {}; fullSize = {}; zipEntry = {}", size, fullSize, zipEntry);
+                //Log.file.info("size = {}; fullSize = {}; zipEntry = {}", size, fullSize, zipEntry);
 
-                //try(ZipInputStream zin = new ZipInputStream(zipEntry.))
-                //{
-                // по дефолту кодирвока - UTF-8
-                zin = new ZipInputStream(zf.getInputStream(zipEntry));
-                    ZipEntry entry;
-                    String name;
-                    while((entry=zin.getNextEntry())!=null){
-
-                        name = entry.getName(); // получим название файла
-                        //size=entry.getSize();  // получим его размер в байтах
-                        //System.out.printf("File name: %s \t File size: %d \n", name, size);
-
-                        // распаковка - только заголовок FB2
-                        int ic = 0;
-                        //StringBuilder sb = new StringBuilder(100);
-                        // todo Почему-то не берутся русские буквы. Надо конвертить и выход?
-                        StringBuilder str = new StringBuilder();
-                        for (int c = zin.read(); c != -1; c = zin.read()) {
-                            ic++;
-                            //sb.append((char)c);
-                            str.append((char) c);
-                            if (str.toString().endsWith(endTag) || ic > 4000)
-                             break;
-                        }
-                        zin.closeEntry();
-                        Log.file.info("FB2 title = {}", str.toString());
-                    }
-
+                // Обработка книг
+                if (isZip(zipEntry.getName())) {
+                    // книга в ZIP архиве
+                    libInfo.incSourceBook();
+                    processZipBook(zf, zipEntry, zipFileName);
+                } else {
+                    // Не ЗИП архив - пока пропускаем
+                    libInfo.incBookNoneZip();
+                }
             }
-
         } catch (Exception e) {
             Log.file.error("fullZipName = " + fullZipName, e);
             throw new WEditException("Error read zipFile = " + fullZipName, e);
-        } finally {
-            if (zin != null) {
-                try {
-                    zin.close();
-                } catch (IOException e) {
-                    Log.file.error("ZIP close error", e);
-
-                }
-            }
         }
 
+    }
+
+    private void processZipBook(ZipFile zf, ZipEntry zipEntry, String zipFileName) {
+
+        ZipInputStream zin = null;
+        ZipEntry entry;
+        String name = null;
+
+        try {
+            zin = new ZipInputStream(zf.getInputStream(zipEntry), UTF_8);
+
+            // в архиве - толкьо одна книга. но все равно делаем цикл
+            while ((entry = zin.getNextEntry()) != null) {
+
+                name = entry.getName(); // получим короткое название файла
+                //Log.file.info("-- zipFileName = {}", zipFileName);
+                //Log.file.info("-- zipEntry = {}", zipEntry);
+                //Log.file.info("-- entry = {}", entry);
+
+                // распаковка - только заголовок FB2
+
+                int bufSize = 80000;
+                byte[] bytes = new byte[bufSize + 10];
+
+                int offset = 0;
+                int numRead = 0;
+
+                //while (offset < bytes.length && (numRead=zin.read(bytes, offset, bytes.length-offset)) >= 0)
+                while (offset < bytes.length && (numRead = zin.read(bytes, offset, 1024)) >= 0) {
+                    offset += numRead;
+                    String str = new String(bytes);
+                    if (str.contains(endTag))
+                        break;
+                }
+                //Log.file.info("offset = {}", offset);
+                //Log.file.info("bytes.size = {}", bytes.length);
+                String text = new String(bytes, 0, offset);
+                //Log.file.info("text.size = {}", bytes.length);
+
+                int istart = text.indexOf("encoding=\"");
+                istart = istart + "encoding=\"".length();
+                int iend = text.indexOf("\"", istart + 1);
+                //Log.file.info("- istart = {}; iend = {}", istart, iend);
+                if (iend - istart > 20) {
+                    Log.file.info("++++++ Code format error = {}", iend - istart);
+                    libInfo.incBadCodeText();
+                } else {
+                    String code = text.substring(istart, iend);
+                    //Log.file.info("        Code format = '{}'", code);
+                    text = new String(bytes, 0, offset, code);
+                    //Log.file.info("FB2 title = {}", text);
+                    //
+                    BookTitle bookTitle = parseFb2(text, code);
+                    if (bookTitle != null) {
+                        // директория библиотеки
+                        bookTitle.setArchiveDirName(libDirPath);
+                        // имя зип-файла, содержащего в себе зип-файлы книг
+                        bookTitle.setArchiveName(zipFileName);
+                        // имя зип-файла архива книги
+                        bookTitle.setFileName(zipEntry.getName());
+                        bookTitle.setBookSize(entry.getSize() * 3);
+                        bookList.add(bookTitle);
+                    }
+                }
+
+                zin.closeEntry();
+            }
+        } catch (Exception e) {
+            libInfo.incParseError();
+            Log.file.error("Error in zipEntry = '" + zipEntry + "'; entryName = " + name, e);
+
+        //} finally {
+            //Utils.close(zin);
+        }
+
+    }
+
+    /**
+     *
+     * @param text  Кусок заголовка FB2 до  заключительного тега "/description"
+     * @return  Инфа о книге - титл, автор, анотация, язык книги, серия и пр.
+     */
+    private BookTitle parseFb2(String text, String code) {
+        BookTitle result = null;
+
+        // todo читаем заголовок FB2 - своим парсером
+        try {
+            result = bookParser.read(text, code);
+            libInfo.incBook();
+        } catch (WEditException e) {
+            Log.file.error("text = " + text, e);
+            libInfo.incParseError();
+        }
+
+        return result;
+    }
+
+    private boolean isZip(String name) {
+        return (name.endsWith(".zip") || name.endsWith(".ZIP"));
     }
 
     /**
