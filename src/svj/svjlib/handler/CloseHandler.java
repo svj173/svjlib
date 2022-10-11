@@ -9,12 +9,21 @@ package svj.svjlib.handler;
 public interface CloseHandler
 {
     /* Вызывается в основном при физическом закрытии окна. Для окончательного (корреткного) завершения работы. */
-    public void close();
+    void close();
+
 
     /**
      * Вызывается из программы.
-     * @param closeType  - тип закрытия. Это int-константы из ряда JOptionPane: YES_OPTION, NO_OPTION, CANCEL_OPTION, OK_OPTION, CLOSED_OPTION.
+     *
+     * @param closeType - тип закрытия. Это int-константы из ряда JOptionPane: YES_OPTION, NO_OPTION, CANCEL_OPTION,
+     *                  OK_OPTION, CLOSED_OPTION.
      */
-    public void doClose ( int closeType );
+    void doClose(int closeType);
+
+    // Отдельно выводим акции, т.к. для одного диалога Cancel это doClose(1), а для другого - doClose(2)
+    void doCancel();
+
+    void doOk();
+
 
 }

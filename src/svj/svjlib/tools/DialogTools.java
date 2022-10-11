@@ -4,10 +4,13 @@ import svj.svjlib.Log;
 import svj.svjlib.Par;
 import svj.svjlib.exc.WEditException;
 import svj.svjlib.gui.dialog.ShowHtmlDialog;
+import svj.svjlib.gui.dialog.WaitingObjectDialog;
+import svj.svjlib.obj.ResponseObject;
 
 import javax.swing.*;
 
 import java.awt.*;
+import java.util.function.Supplier;
 
 /**
  * Генератор внутренних диалоговых окон.
@@ -188,5 +191,35 @@ public class DialogTools
         if ( parentFrame == null )  parentFrame = Par.GM.getFrame();
         JOptionPane.showMessageDialog ( parentFrame, object, title, JOptionPane.ERROR_MESSAGE );
     }
+
+    /**
+     * Запускает полученную функцию с диалогом ожидания, возвращает обернутый результат работы функции.
+     * @param work функция, которую нужно выполнить под окном ожидания
+     * @return результат работы
+     * @throws WEditException ошибка обработки
+     */
+    public static ResponseObject doWithProgress(Supplier work) throws WEditException {
+        WaitingObjectDialog waitingDialog = new WaitingObjectDialog(new SwingWorker() {
+            @Override
+            protected Object doInBackground() {
+                ResponseObject result = new ResponseObject();
+                result.setObject(work.get());
+                return result;
+            }
+        }, -1, "Данные");
+
+        waitingDialog.start(Par.GM.getFrame());
+
+        return waitingDialog.getResultMsg();
+    }
+
+    public static ResponseObject doWithProgress(SwingWorker work) throws WEditException {
+        WaitingObjectDialog waitingDialog = new WaitingObjectDialog(work, -1, "Данные");
+
+        waitingDialog.start(Par.GM.getFrame());
+
+        return waitingDialog.getResultMsg();
+    }
+
 
 }
