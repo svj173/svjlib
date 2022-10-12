@@ -15,6 +15,7 @@ public class ResponseObject {
     private Object object;
     /* исключение - на случай ошибки выполнения. */
     private WEditException ex = null;
+    private Object object2;
 
     public Object getObject() {
         return object;
@@ -60,4 +61,11 @@ public class ResponseObject {
         return result.toString();
     }
 
+    public Object getObject2() {
+        return object2;
+    }
+
+    public void setObject2(Object object2) {
+        this.object2 = object2;
+    }
 }

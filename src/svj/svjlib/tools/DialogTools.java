@@ -5,6 +5,7 @@ import svj.svjlib.Par;
 import svj.svjlib.exc.WEditException;
 import svj.svjlib.gui.dialog.ShowHtmlDialog;
 import svj.svjlib.gui.dialog.WaitingObjectDialog;
+import svj.svjlib.gui.panel.WPanel;
 import svj.svjlib.obj.ResponseObject;
 
 import javax.swing.*;
@@ -206,15 +207,15 @@ public class DialogTools
                 result.setObject(work.get());
                 return result;
             }
-        }, -1, "Данные");
+        }, -1, null,"Данные");
 
         waitingDialog.start(Par.GM.getFrame());
 
         return waitingDialog.getResultMsg();
     }
 
-    public static ResponseObject doWithProgress(SwingWorker work) throws WEditException {
-        WaitingObjectDialog waitingDialog = new WaitingObjectDialog(work, -1, "Данные");
+    public static ResponseObject doWithProgress(SwingWorker work, WPanel panel) throws WEditException {
+        WaitingObjectDialog waitingDialog = new WaitingObjectDialog(work, -1, panel, "Данные");
 
         waitingDialog.start(Par.GM.getFrame());
 

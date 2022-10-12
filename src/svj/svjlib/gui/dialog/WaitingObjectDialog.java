@@ -9,7 +9,6 @@ import svj.svjlib.gui.panel.WPanel;
 import svj.svjlib.handler.CloseHandler;
 import svj.svjlib.obj.ICancel;
 import svj.svjlib.obj.ResponseObject;
-import svj.svjlib.tools.Convert;
 import svj.svjlib.tools.GuiTools;
 
 import javax.swing.*;
@@ -58,8 +57,8 @@ public class WaitingObjectDialog extends JDialog implements CloseHandler, Window
     private boolean canceled = false;
 
 
-    public WaitingObjectDialog(SwingWorker swingWorker, int maxTimeout, Object... title) throws WEditException {
-        super(Par.GM.getFrame(), Convert.concatObj(title), true);
+    public WaitingObjectDialog(SwingWorker swingWorker, int maxTimeout, WPanel panel, String dialogTitle)  {
+        super(Par.GM.getFrame(), dialogTitle, true);
 
         Border border;
         JButton cancelButton;
@@ -69,17 +68,25 @@ public class WaitingObjectDialog extends JDialog implements CloseHandler, Window
         worker = swingWorker;
 
         try {
-            setName(Convert.concatObj(title));
+            setName(dialogTitle);
 
             getContentPane().setLayout(new BorderLayout());
+
+            /*
             setPreferredSize(
-                    new Dimension(500, 120));       // h: 80 - один бегунок, без кнопки Отмена. 120 - с кнопкой Отмена.
+                    new Dimension(500, 220));       // h: 80 - один бегунок, без кнопки Отмена. 120 - с кнопкой Отмена.
             setSize(500, 120);       // h: 80 - один бегунок, без кнопки Отмена. 120 - с кнопкой Отмена.
+            */
 
             // блокируем крестик (по нажатию ничего не происходит)
             // Разрешаем работу крестика. Чтобы при гуи-глюках винды (пропадает кнопка Отмена) можно было отменять
             // работу по нажатию крестика.
             setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+
+            // Какое-то внешнее ГУИ
+            if (panel != null) {
+                getContentPane().add(panel, BorderLayout.NORTH);
+            }
 
             progressBar = new JProgressBar(0, 2000);
 
@@ -157,9 +164,7 @@ public class WaitingObjectDialog extends JDialog implements CloseHandler, Window
             });
         } catch (Exception e) {
             // Иногда почему-то появляется диалог без кнопки Отмена. Проблемы при создании?
-            Log.l.error("WaitingObjectDialog:: error", e);
-            Log.l
-                    .error("WaitingObjectDialog (" + getName() + "):: error. title = " + Convert.concatObj(title), e);
+            Log.l.error("WaitingObjectDialog (" + getName() + "): error. title = " + dialogTitle, e);
         }
     }
 

@@ -14,8 +14,11 @@ public class LoadLibInfo {
     private int sourceBookSize = 0;
     // благополучно загружено книг
     private int bookSize = 0;
+    // Ошибки получения кодировки текста
     private int badCodeText = 0;
+    // Книга - не зип-файл
     private int bookNoneZip = 0;
+    // Ошибки извлечения книги
     private int parseError = 0;
     private String libDir;
 
@@ -41,6 +44,30 @@ public class LoadLibInfo {
 
     public void incParseError() {
         parseError++;
+    }
+
+    public int getSourceArchiveSize() {
+        return sourceArchiveSize;
+    }
+
+    public int getSourceBookSize() {
+        return sourceBookSize;
+    }
+
+    public int getBookSize() {
+        return bookSize;
+    }
+
+    public int getBadCodeText() {
+        return badCodeText;
+    }
+
+    public int getBookNoneZip() {
+        return bookNoneZip;
+    }
+
+    public int getParseError() {
+        return parseError;
     }
 
     @Override

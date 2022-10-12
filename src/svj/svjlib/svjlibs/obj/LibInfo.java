@@ -9,7 +9,7 @@ public class LibInfo {
     /**
      * Номер загрузки библиотеки по-порядку. Фактически это ее ИД.
      */
-    private final int index;
+    private final long id;
 
     /**
      * Полный путь до директории, где лежат файлы библиотеки.
@@ -21,14 +21,14 @@ public class LibInfo {
      */
     private final String name;
 
-    public LibInfo(int index, String libDir, String name) {
-        this.index = index;
+    public LibInfo(String libDir, String name) {
+        id = System.currentTimeMillis();
         this.libDir = libDir;
         this.name = name;
     }
 
-    public int getIndex() {
-        return index;
+    public long getId() {
+        return id;
     }
 
     public String getLibDir() {

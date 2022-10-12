@@ -22,8 +22,8 @@ import java.util.*;
  */
 public class BookTitle {
 
-    // путь до директории библиотеки  
-    private String archiveDirName;
+    // ИД библиотеки
+    private long libId;
 
     // fb2-27-439041-446105-RUSSIAN.zip
     private String archiveName;
@@ -87,7 +87,7 @@ public class BookTitle {
             sb.append(WCons.SEP_SPACE);
         }
 
-        sb.append(getArchiveDirName());
+        sb.append(getLibId());
         sb.append(WCons.SEP_1);
         sb.append(getArchiveName());
         sb.append(WCons.SEP_1);
@@ -97,12 +97,12 @@ public class BookTitle {
         return sb.toString();
     }
 
-    public String getArchiveDirName() {
-        return archiveDirName;
+    public long getLibId() {
+        return libId;
     }
 
-    public void setArchiveDirName(String archiveDirName) {
-        this.archiveDirName = archiveDirName;
+    public void setLibId(long libId) {
+        this.libId = libId;
     }
 
     public String getArchiveName() {
@@ -200,7 +200,7 @@ public class BookTitle {
     @Override
     public String toString() {
         return "BookTitle{" +
-                "archiveDirName='" + archiveDirName + '\'' +
+                "archiveDirName='" + libId + '\'' +
                 ", archiveName='" + archiveName + '\'' +
                 ", fileName='" + fileName + '\'' +
                 ", bookTitle='" + bookTitle + '\'' +

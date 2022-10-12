@@ -1,9 +1,11 @@
 package svj.svjlib.svjlibs.listener;
 
 import svj.svjlib.Log;
+import svj.svjlib.Par;
 import svj.svjlib.exc.WEditException;
 import svj.svjlib.obj.BookTitle;
 import svj.svjlib.obj.ResponseObject;
+import svj.svjlib.svjlibs.obj.LibInfo;
 import svj.svjlib.svjlibs.obj.LoadLibInfo;
 import svj.svjlib.svjlibs.stax.Fb2TitleStaxParser;
 
@@ -22,20 +24,29 @@ import static java.nio.charset.StandardCharsets.UTF_8;
  */
 public class LoadLibWorker extends SwingWorker<ResponseObject, Void> {
 
-    private final LoadLibInfo libInfo = new LoadLibInfo();
+    private final LoadLibInfo loadLibInfo = new LoadLibInfo();
 
     private  final        String endTag = "</title-info>";
     private final Collection<BookTitle> bookList = new ArrayList<>();
 
     private Fb2TitleStaxParser bookParser = new Fb2TitleStaxParser();
 
-    private  final String libDirPath;
-    private  final String libName;
+    //private  final String libDirPath;
+    private  final LibInfo libInfo;
+
+    private     JLabel totalZipValue, loadZipValue, totalBooksValue;
+    private int countBooks = 0;
 
 
-    public LoadLibWorker(String libDir, String libName) {
-        this.libDirPath = libDir;
-        this.libName = libName;
+
+    public LoadLibWorker(LibInfo libInfo, JLabel totalZipValue, JLabel loadZipValue, JLabel totalBooksValue)
+    {
+        //this.libDirPath = libInfo.getLibDir();
+        this.libInfo = libInfo;
+
+        this.totalZipValue = totalZipValue;
+        this.loadZipValue = loadZipValue;
+        this.totalBooksValue = totalBooksValue;
     }
 
     /**
@@ -49,20 +60,25 @@ public class LoadLibWorker extends SwingWorker<ResponseObject, Void> {
         ResponseObject result = new ResponseObject();
 
         // парсим все файлы новой библиотеки
-        processLoad(libDirPath);
+        processLoad(libInfo.getLibDir());
 
         result.setObject(bookList);
 
+        result.setObject2(loadLibInfo);
+
+        Log.file.info("loadLibInfo = {}", loadLibInfo);
         Log.file.info("libInfo = {}", libInfo);
 
 
-        // Добавить новую библиотеку
+        // Добавить новую библиотеку - libInfo
+        Par.LIBS.addLib(libInfo);
 
-        // Сохранить изменения в конфиг-файл
+        // todo Сохранить изменения в конфиг-файл - libs.xml
+        Par.LIBS.saveFile();
 
-        // Добавить книги в общую кучу
+        // todo Добавить книги в общую кучу - BooksManager
 
-        // Скинуть файлом в конфиг (Не java-обьектом, т.к. при изменениях в классе инфа пропадет)
+        // todo Скинуть книги файлом в конфиг (Не java-обьектом, т.к. при изменениях в классе инфа пропадет)
         // - YML? - но тогад при проблемах в структуре не сможем вмешаться - лучше свой парсер
 
 
@@ -76,7 +92,7 @@ public class LoadLibWorker extends SwingWorker<ResponseObject, Void> {
         String msg;
         int maxCount;
 
-        libInfo.setLibDir(libDir);
+        loadLibInfo.setLibDir(libDir);
 
 
         if (list != null) {
@@ -89,10 +105,14 @@ public class LoadLibWorker extends SwingWorker<ResponseObject, Void> {
             maxCount = 0;
         }
 
+        totalZipValue.setText(Integer.toString(maxCount));
+
         Log.l.info(msg);
 
         int ic = 0;
         if (list != null) {
+            // перебор зип-архивов, находящихся в директории
+            // - каждый зип-архив содержит в себе зип-файлы книг. один зип-файл - одна книга.
             for (String fileName : list) {
 
                 //Log.file.info("- {}) {}", ic, fileName );
@@ -109,9 +129,10 @@ public class LoadLibWorker extends SwingWorker<ResponseObject, Void> {
                     // Это файл книги - вытаскиваем из него инфу
                     //BookTitle bookTitle = createBookTitle(fileName);
                     //result.add(bookTitle);
-                    libInfo.incBookNoneZip();
+                    loadLibInfo.incBookNoneZip();
                 }
-                libInfo.incSourceArchive();
+                loadLibInfo.incSourceArchive();
+                loadZipValue.setText(Integer.toString(ic));
             }
         }
 
@@ -127,7 +148,7 @@ public class LoadLibWorker extends SwingWorker<ResponseObject, Void> {
     private void processZipArchive(String libDir, String zipFileName) throws WEditException {
 
         ZipEntry zipEntry;
-        long size, fullSize;
+        //long size, fullSize;
 
         String fullZipName = libDir + File.separator + zipFileName;
 
@@ -135,24 +156,29 @@ public class LoadLibWorker extends SwingWorker<ResponseObject, Void> {
             ZipFile zf = new ZipFile(fullZipName);
 
             Enumeration en = zf.entries();
+            // Перебор зип-файлов в зип-архиве.
+            // - каждый зип-файл - это одна книга
             while(en.hasMoreElements())
             {
                 // запись в зип-архиве. по идее - зип-файл книги
                 zipEntry = (ZipEntry) en.nextElement();
-                size = zipEntry.getCompressedSize();
-                fullSize = zipEntry.getSize();     // то же что и getCompressedSize
+                //size = zipEntry.getCompressedSize();
+                //fullSize = zipEntry.getSize();     // то же что и getCompressedSize
 
                 //Log.file.info("size = {}; fullSize = {}; zipEntry = {}", size, fullSize, zipEntry);
 
                 // Обработка книг
                 if (isZip(zipEntry.getName())) {
                     // книга в ZIP архиве
-                    libInfo.incSourceBook();
+                    loadLibInfo.incSourceBook();
                     processZipBook(zf, zipEntry, zipFileName);
                 } else {
                     // Не ЗИП архив - пока пропускаем
-                    libInfo.incBookNoneZip();
+                    loadLibInfo.incBookNoneZip();
                 }
+
+                countBooks++;
+                totalBooksValue.setText(Integer.toString(countBooks));
             }
         } catch (Exception e) {
             Log.file.error("fullZipName = " + fullZipName, e);
@@ -204,7 +230,7 @@ public class LoadLibWorker extends SwingWorker<ResponseObject, Void> {
                 //Log.file.info("- istart = {}; iend = {}", istart, iend);
                 if (iend - istart > 20) {
                     Log.file.info("++++++ Code format error = {}", iend - istart);
-                    libInfo.incBadCodeText();
+                    loadLibInfo.incBadCodeText();
                 } else {
                     String code = text.substring(istart, iend);
                     //Log.file.info("        Code format = '{}'", code);
@@ -214,7 +240,7 @@ public class LoadLibWorker extends SwingWorker<ResponseObject, Void> {
                     BookTitle bookTitle = parseFb2(text, code);
                     if (bookTitle != null) {
                         // директория библиотеки
-                        bookTitle.setArchiveDirName(libDirPath);
+                        bookTitle.setLibId(libInfo.getId());
                         // имя зип-файла, содержащего в себе зип-файлы книг
                         bookTitle.setArchiveName(zipFileName);
                         // имя зип-файла архива книги
@@ -227,7 +253,7 @@ public class LoadLibWorker extends SwingWorker<ResponseObject, Void> {
                 zin.closeEntry();
             }
         } catch (Exception e) {
-            libInfo.incParseError();
+            loadLibInfo.incParseError();
             Log.file.error("Error in zipEntry = '" + zipEntry + "'; entryName = " + name, e);
 
         //} finally {
@@ -247,10 +273,10 @@ public class LoadLibWorker extends SwingWorker<ResponseObject, Void> {
         // читаем заголовок FB2 - своим парсером
         try {
             result = bookParser.read(text, code);
-            libInfo.incBook();
+            loadLibInfo.incBook();
         } catch (WEditException e) {
             Log.file.error("text = " + text, e);
-            libInfo.incParseError();
+            loadLibInfo.incParseError();
         }
 
         return result;

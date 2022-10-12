@@ -1,6 +1,7 @@
 package svj.svjlib;
 
 import svj.svjlib.obj.BookTitles;
+import svj.svjlib.svjlibs.manager.LibsManager;
 
 import java.awt.*;
 
@@ -9,10 +10,18 @@ import java.awt.*;
  */
 public class Par {
 
+    // -------------------- Обьекты -----------------------
+    public static GeneralManager GM;
+    public static LibsManager LIBS;
+
+    // ?
+    public static BookTitles BOOKS = null;
+
+
+    // ----------------- Динамические параметры ----------------
+
     /* Размер экрана пользователя */
     public static Dimension SCREEN_SIZE;
-
-    public static GeneralManager GM;
 
     /** Рабочая директория Редактора (т.е. где он находится). */
     public static String MODULE_HOME    = "";
@@ -32,6 +41,5 @@ public class Par {
     /* Размеры иконок в рабочих кнопках. */
     public static int BUTTONS_ICON_SIZE = 24;
 
-    public static BookTitles BOOKS = null;
 
 }

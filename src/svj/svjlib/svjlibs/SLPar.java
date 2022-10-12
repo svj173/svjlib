@@ -5,4 +5,5 @@ package svj.svjlib.svjlibs;
  */
 public class SLPar {
 
+    public static String CONF_DIR = null;
 }

@@ -1,8 +1,13 @@
 package svj.svjlib;
 
 import svj.svjlib.obj.BookTitles;
+import svj.svjlib.svjlibs.SLCons;
+import svj.svjlib.svjlibs.SLPar;
+import svj.svjlib.svjlibs.manager.LibsManager;
 
 import java.awt.*;
+import java.io.File;
+
 
 /**
  * <BR/>
@@ -18,6 +23,8 @@ public class SvjLib implements Runnable {
         
 
         Par.GM = new GeneralManager();
+
+        Par.LIBS = new LibsManager();
 
     }
 
@@ -129,7 +136,10 @@ public class SvjLib implements Runnable {
         // HOME - домашняя директория пользователя. Именно в ней будет лежать конфиг пользователя. В директории '.svjlib'
         str = System.getenv ( "HOME" ); // for Windows
         Log.l.debug ( "HOME = {}", str );
-        if ( str != null )  Par.USER_HOME_DIR  = str;
+        if ( str != null ) {
+            Par.USER_HOME_DIR  = str;
+            SLPar.CONF_DIR = Par.USER_HOME_DIR + File.separator + SLCons.LIBS_DIR_NAME;
+        }
     }
 
 }

@@ -1,15 +1,22 @@
 package svj.svjlib.svjlibs.listener;
 
 import svj.svjlib.Log;
+import svj.svjlib.Par;
 import svj.svjlib.exc.WEditException;
 import svj.svjlib.gui.dialog.WidgetsDialog;
+import svj.svjlib.gui.panel.WPanel;
 import svj.svjlib.gui.widget.FileWidget;
 import svj.svjlib.gui.widget.StringFieldWidget;
 import svj.svjlib.obj.BookTitle;
 import svj.svjlib.obj.ResponseObject;
+import svj.svjlib.svjlibs.obj.LibInfo;
+import svj.svjlib.svjlibs.obj.LoadLibInfo;
 import svj.svjlib.tools.DialogTools;
 import svj.svjlib.tools.DumpTools;
 
+import javax.swing.*;
+
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.*;
@@ -66,16 +73,17 @@ public class LoadLibListListener implements ActionListener {
 
             try {
                 // сам процесс чтения
-                // todo Здесь необходим бегунок с процентом рабоыт - по кол-ву файлов в библиотеке
-                Collection<BookTitle> result = processLoad(libDir, libName);
-
-                // todo сохранить инфу о новой библиотеке в конфиг-директории Проги
+                // - Здесь необходим бегунок с процентом рабоыт - по кол-ву файлов в библиотеке
+                ResponseObject response = processLoad(libDir, libName);
+                Collection<BookTitle> result = (Collection<BookTitle>) response.getObject();
 
                 Log.file.info("books = {}", DumpTools.printBookTitles(result));
 
 
-                // показать диалог - закачано книг, в том числе - по жанрам
+                // todo показать диалог - закачано книг, в том числе - по жанрам
                 // + инфа из LoadLibInfo
+                LoadLibInfo libInfo = (LoadLibInfo) response.getObject2();
+                showTotalProcessDialog(libInfo);
 
             } catch (Exception e) {
                 Log.l.error("libDir = " + libDir, e);
@@ -85,17 +93,81 @@ public class LoadLibListListener implements ActionListener {
         }
     }
 
-    private Collection<BookTitle> processLoad(String libDir, String libName) throws WEditException {
+    private void showTotalProcessDialog(LoadLibInfo libInfo) {
+        WPanel panel = new WPanel();
 
-        LoadLibWorker worker = new LoadLibWorker(libDir, libName);
+        panel.setLayout ( new GridLayout( 7, 2, 5, 5 ) );
 
-        ResponseObject response = DialogTools.doWithProgress(worker);
+        /*
+- Директория
+- Всего архивных файлов:
+- Всего книг:
+Ошибки загрузки
+- Загрузки книг - подробный путь - диреткория, зип-архив книг, зип-файл книги
+ Прочие ошибки - ?
+         */
+
+        panel.add(new JLabel("Директория"));
+        panel.add(new JLabel(libInfo.getLibDir()));
+        panel.add(new JLabel("Всего архивных файлов"));
+        panel.add(new JLabel(Integer.toString(libInfo.getSourceArchiveSize())));
+        panel.add(new JLabel("Всего книг"));
+        panel.add(new JLabel(Integer.toString(libInfo.getSourceBookSize())));
+
+        // Ошибки
+        panel.add(new JLabel("Ошибки"));
+        panel.add(new JLabel("-------"));
+        panel.add(new JLabel("Ошибки получения кодировки текста"));
+        panel.add(new JLabel(Integer.toString(libInfo.getBadCodeText())));
+        panel.add(new JLabel("Книга - не зип-файл"));
+        panel.add(new JLabel(Integer.toString(libInfo.getBookNoneZip())));
+        panel.add(new JLabel("Ошибки извлечения книги"));
+        panel.add(new JLabel(Integer.toString(libInfo.getParseError())));
+
+        DialogTools.showMessage(Par.GM.getFrame(), panel, "Результат загрузки библиотеки");
+
+    }
+
+
+    private ResponseObject processLoad(String libDir, String libName) throws WEditException {
+
+        LibInfo lib = new LibInfo(libDir, libName);
+
+        // проверка возможности добавления
+        Par.LIBS.checkLib(lib);
+
+        WPanel panel = new WPanel();
+        panel.setLayout ( new GridLayout( 3, 2, 5, 5 ) );
+
+        /*
+   Всего архивных файлов: 2854
+   Загружено архивных файлов:  12
+   Всего книг: 234
+
+         */
+        //JLabel totalZipTitle, loadZipTitle, totalBooksTitle;
+        JLabel totalZipValue, loadZipValue, totalBooksValue;
+
+        totalZipValue = new JLabel("0");
+        loadZipValue = new JLabel("0");
+        totalBooksValue = new JLabel("0");
+
+        panel.add(new JLabel("Всего архивных файлов"));
+        panel.add(totalZipValue);
+        panel.add(new JLabel("Загружено архивных файлов"));
+        panel.add(loadZipValue);
+        panel.add(new JLabel("Всего книг"));
+        panel.add(totalBooksValue);
+
+        LoadLibWorker worker = new LoadLibWorker(lib, totalZipValue, loadZipValue, totalBooksValue);
+
+        ResponseObject response = DialogTools.doWithProgress(worker, panel);
 
         if (response.getObject() instanceof String) {
             throw new WEditException(response.getObject().toString());
         }
 
-        return (Collection<BookTitle>) response.getObject();
+        return response;
     }
 
 
