@@ -1,8 +1,5 @@
 package svj.svjlib;
 
-import svj.svjlib.obj.BookTitles;
-import svj.svjlib.svjlibs.manager.LibsManager;
-
 import java.awt.*;
 
 /**
@@ -12,10 +9,6 @@ public class Par {
 
     // -------------------- Обьекты -----------------------
     public static GeneralManager GM;
-    public static LibsManager LIBS;
-
-    // ?
-    public static BookTitles BOOKS = null;
 
 
     // ----------------- Динамические параметры ----------------

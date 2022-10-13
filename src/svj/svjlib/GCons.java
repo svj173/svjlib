@@ -5,6 +5,7 @@ package svj.svjlib;
  */
 public interface GCons {
 
-    String IMG_CANCEL_BUTTON = "/org/eltex/ems/web/gui/images/cancel-button.png";
+    String IMG_CANCEL_BUTTON = "cancel-button.png";
+    String IMG_COMMIT = "commit.png";
 
 }

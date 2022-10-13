@@ -21,9 +21,9 @@ public class AuthorStaxParser extends SvjStaxParser {
     public Author read (XMLEventReader eventReader) throws WEditException
     {
         String          tagName, value;
-        XMLEvent event;
-        StartElement startElement;
-        EndElement endElement;
+        XMLEvent        event;
+        StartElement    startElement;
+        EndElement      endElement;
         boolean         bWork;
 
         Author result = new Author();
@@ -48,21 +48,21 @@ public class AuthorStaxParser extends SvjStaxParser {
                     if ( tagName.equals(FIRST) )
                     {
                         value    = getText ( eventReader );
-                        result.setFirstName(value);
+                        if (value != null)  result.setFirstName(value);
                         continue;
                     }
 
                     if ( tagName.equals(MIDDLE) )
                     {
                         value    = getText ( eventReader );
-                        result.setMiddleName(value);
+                        if (value != null)  result.setMiddleName(value);
                         continue;
                     }
 
                     if ( tagName.equals(LAST) )
                     {
                         value    = getText ( eventReader );
-                        result.setLastName(value);
+                        if (value != null)  result.setLastName(value);
                         continue;
                     }
 

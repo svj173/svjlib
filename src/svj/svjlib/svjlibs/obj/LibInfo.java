@@ -27,6 +27,12 @@ public class LibInfo {
         this.name = name;
     }
 
+    public LibInfo(String id, String libDir, String name) {
+        this.id = Long.parseLong(id);
+        this.libDir = libDir;
+        this.name = name;
+    }
+
     public long getId() {
         return id;
     }

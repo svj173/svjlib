@@ -3,7 +3,6 @@ package svj.svjlib;
 import svj.svjlib.obj.BookTitles;
 import svj.svjlib.svjlibs.SLCons;
 import svj.svjlib.svjlibs.SLPar;
-import svj.svjlib.svjlibs.manager.LibsManager;
 
 import java.awt.*;
 import java.io.File;
@@ -23,9 +22,6 @@ public class SvjLib implements Runnable {
         
 
         Par.GM = new GeneralManager();
-
-        Par.LIBS = new LibsManager();
-
     }
 
     /**

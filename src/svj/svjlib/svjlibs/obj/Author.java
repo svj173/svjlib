@@ -41,4 +41,29 @@ public class Author {
                 ", lastName='" + lastName + '\'' +
                 '}';
     }
+
+    public String getAsXml() {
+        StringBuilder sb = new StringBuilder(128);
+
+        sb.append("<author ");
+        if (getFirstName() != null) {
+            sb.append("first='");
+            sb.append(getFirstName());
+            sb.append("'");
+        }
+        if (getMiddleName() != null) {
+            sb.append(" middle='");
+            sb.append(getMiddleName());
+            sb.append("'");
+        }
+        if (getLastName() != null) {
+            sb.append(" last='");
+            sb.append(getLastName());
+            sb.append("'");
+        }
+        sb.append(" />\n");
+
+        return sb.toString();
+    }
+
 }

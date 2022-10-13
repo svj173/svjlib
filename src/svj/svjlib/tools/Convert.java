@@ -463,6 +463,26 @@ public class Convert
         return result;
     }
 
+    public static String collectionToStr ( Collection array, char sep)
+    {
+        String          result;
+        StringBuilder   sb;
+
+        if ( (array == null) || array.isEmpty() ) return WCons.SP;
+
+        sb      = new StringBuilder ( 128 );
+        for ( Object obj : array )
+        {
+            sb.append ( obj );
+            sb.append ( sep );
+        }
+        result = sb.toString();
+        // удалить последнюю запятую (символ SEP)
+        result = result.substring ( 0, result.length() - 1 );
+
+        return result;
+    }
+
     public static String collectionToString ( Collection array, char sep )
     {
         return collectionToString ( array, sep, ' ' );

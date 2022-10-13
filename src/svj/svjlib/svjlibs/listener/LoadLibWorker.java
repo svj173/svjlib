@@ -1,10 +1,10 @@
 package svj.svjlib.svjlibs.listener;
 
 import svj.svjlib.Log;
-import svj.svjlib.Par;
 import svj.svjlib.exc.WEditException;
 import svj.svjlib.obj.BookTitle;
 import svj.svjlib.obj.ResponseObject;
+import svj.svjlib.svjlibs.SLCons;
 import svj.svjlib.svjlibs.obj.LibInfo;
 import svj.svjlib.svjlibs.obj.LoadLibInfo;
 import svj.svjlib.svjlibs.stax.Fb2TitleStaxParser;
@@ -71,15 +71,17 @@ public class LoadLibWorker extends SwingWorker<ResponseObject, Void> {
 
 
         // Добавить новую библиотеку - libInfo
-        Par.LIBS.addLib(libInfo);
+        SLCons.LIBS_MANAGER.addLib(libInfo);
 
-        // todo Сохранить изменения в конфиг-файл - libs.xml
-        Par.LIBS.saveFile();
+        // Сохранить изменения в конфиг-файл - libs.xml
+        SLCons.LIBS_MANAGER.saveFile();
 
-        // todo Добавить книги в общую кучу - BooksManager
+        // Добавить книги в общую кучу - BooksManager
+        SLCons.BOOKS_MANAGERS.addBooks(bookList);
 
-        // todo Скинуть книги файлом в конфиг (Не java-обьектом, т.к. при изменениях в классе инфа пропадет)
+        // Скинуть книги файлом в конфиг (Не java-обьектом, т.к. при изменениях в классе инфа пропадет)
         // - YML? - но тогад при проблемах в структуре не сможем вмешаться - лучше свой парсер
+        SLCons.BOOKS_MANAGERS.saveFile(bookList, libInfo.getId());
 
 
         return result;
@@ -121,7 +123,8 @@ public class LoadLibWorker extends SwingWorker<ResponseObject, Void> {
                 if (ic > maxCount) break;
 
                 if (isZip(fileName)) {
-                    // todo Но это может быть и файл книги - толкьо упакованный  -- На будущее
+                    // todo Но это может быть и файл книги - толкьо упакованный
+                    //  -- На будущее, либо задавать тип библиотеки - myrulib, flibusta...
 
                     // Это ЗИП-архив. Разархивируем
                     processZipArchive(libDir, fileName);

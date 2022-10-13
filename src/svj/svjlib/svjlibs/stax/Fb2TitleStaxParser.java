@@ -15,6 +15,8 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 
 /**
+ * Парсер заголовка титла книги формата FB2.
+ * Сюда подставляется кусок текста, взятый из зип-файла книги в формате FB2.
  * <BR/>
  */
 public class Fb2TitleStaxParser extends SvjStaxParser {
@@ -45,6 +47,7 @@ public class Fb2TitleStaxParser extends SvjStaxParser {
         BookTitle result = new BookTitle();
 
         AuthorStaxParser authorParser = new AuthorStaxParser();
+        AnnotationStaxParser annotationParser = new AnnotationStaxParser();
 
         tagName = null;
 
@@ -74,11 +77,11 @@ public class Fb2TitleStaxParser extends SvjStaxParser {
                         // Серия
                         attr    = startElement.getAttributeByName ( NAME );
                         if ( attr == null )
-                            throw new WEditException ("Отсутствует имя Сериии.");
+                            throw new WEditException ("Отсутствует имя Серии.");
                         result.setSerialName(attr.getValue());
                         attr    = startElement.getAttributeByName ( NUMBER );
                         if ( attr != null ) {
-                            result.setSerialIndex(Convert.getInt(attr.getValue(), 1));
+                            result.setSerialIndex(Convert.getInt(attr.getValue(), 0));
                         }
 
                         //attrValue    = getText ( eventReader );
@@ -97,7 +100,11 @@ public class Fb2TitleStaxParser extends SvjStaxParser {
 
                     if ( tagName.equals(ANNOTATION) )
                     {
-                        // Аннотация
+                        // Аннотация   - AnnotationStaxParser
+                        value = annotationParser.read(eventReader);
+                        result.setAnnotation(value);
+                        Log.file.info("ANNOTATION = '{}'", value);
+                        /*
                         value    = getText ( eventReader );
                         if (value != null) {
                             value = value.replace("<p>", " ");
@@ -105,7 +112,8 @@ public class Fb2TitleStaxParser extends SvjStaxParser {
                             value = value.replace("<empty-line/>", "\n");
                             result.setAnnotation(value);
                         }
-
+                        Log.file.info("ANNOTATION 2 = '{}'", value);
+                        */
                         continue;
                     }
 

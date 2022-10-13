@@ -370,7 +370,7 @@ public class GuiTools
         // - iconPath - именно только имя иконки. Сформировать относительный путь = img/button/img_button_size/имя_иконки
         String iconPath;
 
-        iconPath = Convert.concatObj ( "img/button/", Par.BUTTONS_ICON_SIZE, '/', iconFileName );
+        iconPath = "img/icon/" + iconFileName;
         WButton result = new WButton (title, toolTip, iconPath );
 
         //result.setEnabled(false);
@@ -384,7 +384,7 @@ public class GuiTools
     {
         String iconPath;
 
-        iconPath = Convert.concatObj ( "img/button/", Par.BUTTONS_ICON_SIZE, '/', iconFileName );
+        iconPath = "img/button/" + iconFileName;
         WButton result = new WButton (title, toolTip, iconPath );
 
         result.setPreferredSize ( new Dimension ( width, WCons.BUTTON_HEIGHT ) );

@@ -1,10 +1,12 @@
 package svj.svjlib.svjlibs.manager;
 
 import svj.svjlib.Log;
+import svj.svjlib.Par;
 import svj.svjlib.exc.WEditException;
 import svj.svjlib.svjlibs.SLCons;
 import svj.svjlib.svjlibs.SLPar;
 import svj.svjlib.svjlibs.obj.LibInfo;
+import svj.svjlib.svjlibs.stax.LibsStaxParser;
 import svj.svjlib.tools.FileTools;
 
 import java.io.File;
@@ -23,9 +25,19 @@ public class LibsManager {
      */
     private Map<Long, LibInfo> libs = new HashMap<>();
 
+    private String libFilePath = null;
+
     public void addLib(LibInfo libInfo) {
         if (libInfo != null) {
             libs.put(libInfo.getId(), libInfo);
+        }
+    }
+
+    public void addLibs(Collection<LibInfo> libList) {
+        if (libList != null) {
+            for (LibInfo libInfo: libList) {
+                libs.put(libInfo.getId(), libInfo);
+            }
         }
     }
 
@@ -114,4 +126,47 @@ public class LibsManager {
         return sb.toString();
     }
 
+    public String getLibFileName() {
+        if (libFilePath == null)
+            libFilePath = Par.USER_HOME_DIR + File.separator + SLCons.LIBS_DIR_NAME + File.separator + SLCons.LIBS_FILE_NAME;
+        return libFilePath;
+    }
+
+    public Collection<Long> loadLibs() throws WEditException {
+
+        Collection<Long> result = new ArrayList<>();
+
+        /*
+        Пример файла:
+<?xml version="1.0" encoding="UTF-8"?>
+<libs>
+  <lib id='1665643397991' name='Моя библиотека' libDir='/home/svj/Serg/Libruks/Архивы Либрусек' />
+</libs>
+
+         */
+
+        String libFile = getLibFileName();
+
+        File file = new File(libFile);
+        if (file.isFile()) {
+            // Есть такой файл
+
+            // - парсим, получаем массив LibInfo
+            LibsStaxParser libsStaxParser = new LibsStaxParser();
+            Collection<LibInfo> libList = libsStaxParser.read(libFile, Par.CODE_CONFIG);
+
+            // - добавляем себе массив LibInfo
+            addLibs(libList);
+
+            for (LibInfo lib : libList) {
+                result.add(lib.getId());
+            }
+        }
+
+        return result;
+    }
+
+    public int libSize() {
+        return libs.size();
+    }
 }

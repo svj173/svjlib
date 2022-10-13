@@ -1,11 +1,15 @@
 package svj.svjlib;
 
 import svj.svjlib.exc.WEditException;
+import svj.svjlib.gui.panel.WPanel;
 import svj.svjlib.obj.BookTitles;
+import svj.svjlib.svjlibs.SLCons;
+import svj.svjlib.tools.DialogTools;
 
 import javax.swing.*;
 
-import java.io.File;
+import java.awt.*;
+import java.util.List;
 import java.util.*;
 
 /**
@@ -45,18 +49,27 @@ public class WEdit6InitWorker    extends SwingWorker<BookTitles,String>
         // - лезем в конфиг-директорию проги (home/.svjlib/books.xml)
         // Заносим в Par.BOOKS
 
-        String booksFile = Par.USER_HOME_DIR + "/.svjlib/books.xml";
-
-        File file = new File(booksFile);
-        if (file.isFile()) {
-            // todo
-        }
 
         // А также загрузить Инфу о загруженных библиотеках
 
         try {
             publish ( "Старт" );
-            Thread.sleep(1000);
+
+                // есть такой файл - парсим его и инфу о книгах библиотек
+                publish ( "Есть добавленные библиотеки" );
+                publish ( "Загружаем информацию о библиотеках" );
+
+                // Загружаем инфу о библиотеках и получаем массив их ИД.
+                // - если нет библиотек - пустой список
+                Collection<Long> libIds = SLCons.LIBS_MANAGER.loadLibs();
+
+                for (Long libId : libIds) {
+                    publish ( "Загружаем библиотеку - " + libId );
+                    // формируем имя инфы о книгах библиотеки
+                    SLCons.BOOKS_MANAGERS.loadBooksInfo(libId);
+                }
+
+            //Thread.sleep(1000);
 
             // Загружается файл с информацией о книгах. Размер файла - ...
             /*
@@ -73,102 +86,20 @@ public class WEdit6InitWorker    extends SwingWorker<BookTitles,String>
             publish ( "Финиш" );
             Thread.sleep(1000);
 
+            // todo Итоговый диалог. Скачано:
+            // - библиотек
+            // - всего книг
+            showTotalProcessDialog(SLCons.LIBS_MANAGER.libSize(), SLCons.BOOKS_MANAGERS.bookSize());
+
         } catch (Exception e) {
-
-
+            Log.l.error("Init Library error", e);
+            DialogTools.showError(dialog, "Error: " + e.getMessage(), "Ошибка инициализации");
         }
 
-        /*
-        ConfigManager       config;
-        UserParamsManager   upm;
-        StringBuilder       errMsg;  // Сообщения об ошибках открытия.
-        long                mTime, nTime;
-
-        Log.l.debug ( "Start" );
-
-        mTime   = System.currentTimeMillis();
-        errMsg  = new StringBuilder ( 128 );
-
-        try
-        {
-            // Создать пустой обьект GM
-            gm  = new GeneralManager();
-            // Занести
-            Par.GM  = gm;
-
-            publish ( "Старт" );
-            // Загрузить конфиги -  Пользователя, Редактора -- Надо ли его хранить в памяти?
-            config  = new ConfigManager();
-            config.init();
-            gm.setConfig ( config );
-            nTime   = System.currentTimeMillis();
-            publish ( "Загрузка конфига" + createWorkTime ( mTime ) );
-
-            fm  = new FunctionManager();
-            fm.init ();
-            gm.setFm ( fm );
-            mTime   = System.currentTimeMillis();
-            publish ( "Инициализация функций" + createWorkTime ( nTime ) );
-            // Подписать функции друг на друга.
-            fm.signFunction ();
-            nTime   = System.currentTimeMillis();
-            publish ( "Подпись функций" + createWorkTime ( mTime ) );
-
-
-            // Загрузить и инсталлировать в функции параметры пользователя -- наполнить фрейм toolBar
-            upm = new UserParamsManager();
-            bookTitles = upm.start ( errMsg );
-            mTime   = System.currentTimeMillis ();
-            publish ( "Загрузка параметров пользователя" + createWorkTime ( nTime ));
-
-            // todo Взять номер версии и номер билда
-
-            // Создать JFrame обьект Content - здесь уже исп элементы и функции
-            content = new ContentFrame();
-            gm.setContent ( content );
-            nTime   = System.currentTimeMillis();
-            publish ( "Создание фрейма" + createWorkTime ( mTime ) );
-
-            // наполнить фрейм Главным меню
-            createMenu ( content, fm, content );
-            mTime   = System.currentTimeMillis();
-            publish ( "Создать Главное меню" + createWorkTime ( nTime ) );
-
-            // ---- Здесь все модули и функции подняты.
-            // Стартануть функции - декоратор, reopen... Reopen - не должен открывать свой проект - это просто список.
-            fm.startAll ( errMsg );
-            nTime   = System.currentTimeMillis();
-            publish ( "Запуск функций" + createWorkTime ( mTime ) );
-
-
-            // Открыть ранее открытое - по bookTitles
-            openProjects (bookTitles, errMsg );
-            mTime   = System.currentTimeMillis();
-            publish ( "Отрытие сборников и книг" + createWorkTime ( nTime ) );
-
-
-            //shutdown    = new WEditShutdown ( function );
-            shutdown    = new WEditShutdown ();
-            Runtime.getRuntime().addShutdownHook ( shutdown );
-            //nTime   = System.currentTimeMillis();
-            publish ( "Создание Shutdown " + createWorkTime ( mTime ) );
-
-            // Если были стартовые ошибки - вывести их отдельным диалогом.
-            if ( errMsg.length () > 0 )
-            {
-                Log.l.error ( ">>>>>>>>>>>>>> Start WEdit6 error >>>>>>>>>>>>>> :\n%s", errMsg );
-                DialogTools.showError ( errMsg, "Ошибки открытия редактора." );
-            }
-
-        } catch ( WEditException we )        {
-            // Это уже фатальные ошибки открытия редактора.
-            throw we;
-        } catch ( Exception e )        {
-            Log.l.error ( "WEdit.init:", e );
-            throw new WEditException( "init.wedit.error.throwable", e );
-        }
-        */
     }
+
+
+
 
     private String createWorkTime ( long t )
     {
@@ -209,5 +140,21 @@ public class WEdit6InitWorker    extends SwingWorker<BookTitles,String>
         dialog.setVisible ( false );
         Log.l.debug ( ".done: Finish." );
     }
+
+    private void showTotalProcessDialog(int libSize, int bookSize) {
+        WPanel panel = new WPanel();
+
+        panel.setLayout ( new GridLayout( 2, 2, 5, 5 ) );
+
+
+        panel.add(new JLabel("Всего библиотек"));
+        panel.add(new JLabel(Integer.toString(libSize)));
+        panel.add(new JLabel("Всего файлов"));
+        panel.add(new JLabel(Integer.toString(bookSize)));
+
+        DialogTools.showMessage(Par.GM.getFrame(), panel, "Результат инициализации библиотек");
+
+    }
+
 
 }

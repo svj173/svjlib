@@ -9,6 +9,7 @@ import svj.svjlib.gui.widget.FileWidget;
 import svj.svjlib.gui.widget.StringFieldWidget;
 import svj.svjlib.obj.BookTitle;
 import svj.svjlib.obj.ResponseObject;
+import svj.svjlib.svjlibs.SLCons;
 import svj.svjlib.svjlibs.obj.LibInfo;
 import svj.svjlib.svjlibs.obj.LoadLibInfo;
 import svj.svjlib.tools.DialogTools;
@@ -134,7 +135,7 @@ public class LoadLibListListener implements ActionListener {
         LibInfo lib = new LibInfo(libDir, libName);
 
         // проверка возможности добавления
-        Par.LIBS.checkLib(lib);
+        SLCons.LIBS_MANAGER.checkLib(lib);
 
         WPanel panel = new WPanel();
         panel.setLayout ( new GridLayout( 3, 2, 5, 5 ) );

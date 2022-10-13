@@ -1,5 +1,6 @@
 package svj.svjlib.gui.dialog;
 
+import svj.svjlib.GCons;
 import svj.svjlib.Par;
 import svj.svjlib.exc.WEditException;
 import svj.svjlib.gui.panel.WPanel;
@@ -165,10 +166,14 @@ public abstract class WDialog<T,M>   extends JDialog implements CloseHandler
         //jPanel2.setLayout ( new GridLayout(1,2,5,5) );
         //jPanel2.setLayout ( new FlowLayout(50,5, FlowLayout.CENTER) );
 
-        jButtonOk       = new JButton();
-        jButtonCancel   = new JButton();
+        jButtonOk = GuiTools.createButton("Принять", "Выполнить действие", GCons.IMG_COMMIT);
 
-        jButtonOk.setText("Принять");
+
+        //jButtonOk       = new JButton();
+        //jButtonCancel   = new JButton();
+
+        //jButtonOk.setText("Принять");
+
         jButtonOk.addActionListener ( new ActionListener() {
             @Override
             public void actionPerformed ( ActionEvent evt) {
@@ -179,21 +184,9 @@ public abstract class WDialog<T,M>   extends JDialog implements CloseHandler
         internalButtonPanel.add ( jButtonOk );
         jButtonOk.addKeyListener ( keyAdapter );
 
-        /*
-        // Акция на нажатие кнопки Энтер - почему -то не сработало в диалоге Сохранения книг
-        Action close = new AbstractAction("CLOSE")
-        {
-            public void actionPerformed(ActionEvent e)
-            {
-                Log.l.info("[B] Start action");
-                doOk();
-            }
-        };
-        jButtonOk.getInputMap().put(KeyStroke.getKeyStroke("ENTER"), "CLOSE");
-        jButtonOk.getActionMap().put("CLOSE", close);
-        */
 
-        jButtonCancel.setText("Отменить");
+        jButtonCancel = GuiTools.createButton("Отменить", "Отменить действие", GCons.IMG_CANCEL_BUTTON);
+        //jButtonCancel.setText("Отменить");
         jButtonCancel.addActionListener ( new ActionListener() {
             @Override
             public void actionPerformed ( ActionEvent evt) {
