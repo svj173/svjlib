@@ -132,9 +132,7 @@ public class LibsManager {
         return libFilePath;
     }
 
-    public Collection<Long> loadLibs() throws WEditException {
-
-        Collection<Long> result = new ArrayList<>();
+    public Collection<LibInfo> loadLibs() throws WEditException {
 
         /*
         Пример файла:
@@ -158,12 +156,11 @@ public class LibsManager {
             // - добавляем себе массив LibInfo
             addLibs(libList);
 
-            for (LibInfo lib : libList) {
-                result.add(lib.getId());
-            }
+            return libList;
+
         }
 
-        return result;
+        return null;
     }
 
     public int libSize() {

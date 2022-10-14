@@ -13,7 +13,6 @@ import svj.svjlib.svjlibs.SLCons;
 import svj.svjlib.svjlibs.obj.LibInfo;
 import svj.svjlib.svjlibs.obj.LoadLibInfo;
 import svj.svjlib.tools.DialogTools;
-import svj.svjlib.tools.DumpTools;
 
 import javax.swing.*;
 
@@ -78,7 +77,7 @@ public class LoadLibListListener implements ActionListener {
                 ResponseObject response = processLoad(libDir, libName);
                 Collection<BookTitle> result = (Collection<BookTitle>) response.getObject();
 
-                Log.file.info("books = {}", DumpTools.printBookTitles(result));
+                //Log.file.info("books = {}", DumpTools.printBookTitles(result));
 
 
                 // todo показать диалог - закачано книг, в том числе - по жанрам

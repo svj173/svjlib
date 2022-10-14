@@ -100,8 +100,8 @@ public class LoadLibWorker extends SwingWorker<ResponseObject, Void> {
         if (list != null) {
             msg = "list size = " + list.length;
             // todo
-            //maxCount = list.length;
-            maxCount = 1;
+            //maxCount = list.length;    // 14 часов будет парсится библиотека
+            maxCount = 2;
         } else {
             msg = "list files is Null";
             maxCount = 0;
@@ -232,7 +232,7 @@ public class LoadLibWorker extends SwingWorker<ResponseObject, Void> {
                 int iend = text.indexOf("\"", istart + 1);
                 //Log.file.info("- istart = {}; iend = {}", istart, iend);
                 if (iend - istart > 20) {
-                    Log.file.info("++++++ Code format error = {}", iend - istart);
+                    //Log.file.info("++++++ Code format error = {}", iend - istart);
                     loadLibInfo.incBadCodeText();
                 } else {
                     String code = text.substring(istart, iend);

@@ -34,7 +34,7 @@ public class IconsPanel extends RewritePanel
     @Override
     public void rewrite ()
     {
-        Log.l.debug ( "Start (%s).",getName() );
+        Log.l.debug ( "Start ({}).",getName() );
         /*
         // Перерисовываем иконки - только если изменился размер иконок.
         if ( currentIconSize != Par.PANEL_ICON_SIZE )
@@ -57,7 +57,7 @@ public class IconsPanel extends RewritePanel
             function.rewrite ();
         }
         */
-        Log.l.debug ( "Finish (%s).",getName() );
+        Log.l.debug ( "Finish ({}).",getName() );
     }
 
     /*

@@ -1,12 +1,13 @@
 package svj.svjlib.svjlibs.manager;
 
-import svj.svjlib.Log;
 import svj.svjlib.Par;
 import svj.svjlib.WCons;
+import svj.svjlib.exc.WEditException;
 import svj.svjlib.obj.BookTitle;
 import svj.svjlib.svjlibs.SLCons;
 import svj.svjlib.svjlibs.SLPar;
 import svj.svjlib.svjlibs.obj.Author;
+import svj.svjlib.svjlibs.stax.BooksTitleStaxParser;
 import svj.svjlib.tools.Convert;
 import svj.svjlib.tools.FileTools;
 
@@ -61,7 +62,7 @@ public class BooksManager extends XmlHandler{
         //String fileName = SLPar.CONF_DIR + File.separator + SLCons.BOOKS_FILE_NAME_PREFIX +
         //        "_" + libId + ".xml";
         String fileName = getBookFileName(libId);
-        Log.file.info("Books file name = {}; libId = {}", fileName, libId);
+        //Log.file.info("Books file name = {}; libId = {}", fileName, libId);
 
         // Если нет промежуточных директорий - создать
         FileTools.createFolder(new File(SLPar.CONF_DIR));
@@ -103,7 +104,7 @@ public class BooksManager extends XmlHandler{
 
             // жанры
             sb.append("    <genre>");
-            sb.append(Convert.collectionToStr(bookInfo.getGenres(), ';'));
+            sb.append(Convert.collectionToStr(bookInfo.getGenres(), SLCons.GENRE_SEP));
             sb.append("</genre>\n");
 
             sb.append("  </book>\n");
@@ -129,13 +130,17 @@ public class BooksManager extends XmlHandler{
         return prefixSp + "<" + tagName + ">" + tagValue + "</" + tagName + ">\n";
     }
 
-    public void loadBooksInfo(Long libId) {
-        // todo
+    public int loadBooksInfo(Long libId) throws WEditException {
         // создаем имя полное файла
         String fileName = getBookFileName(libId);
 
         // парсим файл
-        Collection<BookTitle> book = null;
+        BooksTitleStaxParser parser = new BooksTitleStaxParser();
+        Collection<BookTitle> booksList = parser.read(fileName, WCons.CODE_PAGE);
+
+        books.addAll(booksList);
+
+        return booksList.size();
 
     }
 

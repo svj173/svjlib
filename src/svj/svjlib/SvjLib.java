@@ -3,6 +3,7 @@ package svj.svjlib;
 import svj.svjlib.obj.BookTitles;
 import svj.svjlib.svjlibs.SLCons;
 import svj.svjlib.svjlibs.SLPar;
+import svj.svjlib.tools.DialogTools;
 
 import java.awt.*;
 import java.io.File;
@@ -57,8 +58,10 @@ public class SvjLib implements Runnable {
             Par.GM.getFrame().setVisible ( true );
 
         } catch ( Exception e )         {
-            System.err.println ( "SvjLib.run() Error = " + e.getMessage() );
-            e.printStackTrace();
+            //System.err.println ( "SvjLib.run() Error = " + e.getMessage() );
+            Log.l.error ( "SvjLib.run() Error = " + e.getMessage(), e );
+            //e.printStackTrace();
+            DialogTools.showError("SvjLib.run() Error = " + e.getMessage(), "Ошибка инициализации" );
         }
     }
 

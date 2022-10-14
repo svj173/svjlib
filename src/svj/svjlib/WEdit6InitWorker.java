@@ -4,6 +4,7 @@ import svj.svjlib.exc.WEditException;
 import svj.svjlib.gui.panel.WPanel;
 import svj.svjlib.obj.BookTitles;
 import svj.svjlib.svjlibs.SLCons;
+import svj.svjlib.svjlibs.obj.LibInfo;
 import svj.svjlib.tools.DialogTools;
 
 import javax.swing.*;
@@ -44,6 +45,7 @@ public class WEdit6InitWorker    extends SwingWorker<BookTitles,String>
         GeneralManager      gm;
         FunctionManager     fm;
         ContentFrame        content;
+        int ic;
 
         // Здесь загружаем инфу о книгах - если она есть (т.е. библиотеки были добавлены)
         // - лезем в конфиг-директорию проги (home/.svjlib/books.xml)
@@ -53,52 +55,43 @@ public class WEdit6InitWorker    extends SwingWorker<BookTitles,String>
         // А также загрузить Инфу о загруженных библиотеках
 
         try {
-            publish ( "Старт" );
+            publish("Старт");
 
-                // есть такой файл - парсим его и инфу о книгах библиотек
-                publish ( "Есть добавленные библиотеки" );
-                publish ( "Загружаем информацию о библиотеках" );
+            // есть такой файл - парсим его и инфу о книгах библиотек
+            publish("Есть добавленные библиотеки");
+            publish("Загружаем информацию о библиотеках");
+            //Thread.sleep(2000);
 
-                // Загружаем инфу о библиотеках и получаем массив их ИД.
-                // - если нет библиотек - пустой список
-                Collection<Long> libIds = SLCons.LIBS_MANAGER.loadLibs();
+            // Загружаем инфу о библиотеках и получаем массив их ИД.
+            // - если нет библиотек - пустой список
+            Collection<LibInfo> libs = SLCons.LIBS_MANAGER.loadLibs();
 
-                for (Long libId : libIds) {
-                    publish ( "Загружаем библиотеку - " + libId );
-                    // формируем имя инфы о книгах библиотеки
-                    SLCons.BOOKS_MANAGERS.loadBooksInfo(libId);
-                }
+            publish("Всего используется библиотек : " + libs.size());
+            //Thread.sleep(2000);
 
-            //Thread.sleep(1000);
+            for (LibInfo lib : libs) {
+                publish("-- Загружаем библиотеку : " + lib.getName());
+                // загружаем инфу о книгах указанной библиотеки
+                ic = SLCons.BOOKS_MANAGERS.loadBooksInfo(lib.getId());
+                publish("---- Книг : " + ic);
+            }
 
-            // Загружается файл с информацией о книгах. Размер файла - ...
-            /*
-            publish ( "Шаг-1" );
-            Thread.sleep(2000);
+            publish("Финиш");
+            //Thread.sleep(5000);
 
-            publish ( "Шаг-2" );
-            Thread.sleep(2000);
-
-            publish ( "Шаг-3" );
-            Thread.sleep(2000);
-            */
-
-            publish ( "Финиш" );
-            Thread.sleep(1000);
-
-            // todo Итоговый диалог. Скачано:
-            // - библиотек
+            // Итоговый диалог. Скачано:
+            // - всего библиотек
             // - всего книг
             showTotalProcessDialog(SLCons.LIBS_MANAGER.libSize(), SLCons.BOOKS_MANAGERS.bookSize());
 
+        } catch (WEditException we) {
+            throw we;
         } catch (Exception e) {
             Log.l.error("Init Library error", e);
-            DialogTools.showError(dialog, "Error: " + e.getMessage(), "Ошибка инициализации");
+            throw new WEditException("Ошибка инициализации", e);
+            //DialogTools.showError(dialog, "Error: " + e.getMessage(), "Ошибка инициализации");
         }
-
     }
-
-
 
 
     private String createWorkTime ( long t )

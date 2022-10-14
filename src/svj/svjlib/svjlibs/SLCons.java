@@ -23,4 +23,5 @@ public interface SLCons {
     // каждая библиотека имеет свой файл книг - books_(libId).xml - ?
     String BOOKS_FILE_NAME_PREFIX = "books";
 
+    String GENRE_SEP = ";";
 }

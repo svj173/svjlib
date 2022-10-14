@@ -2,7 +2,9 @@ package svj.svjlib.svjlibs.stax;
 
 import svj.svjlib.Log;
 import svj.svjlib.exc.WEditException;
-import svj.svjlib.svjlibs.obj.LibInfo;
+import svj.svjlib.obj.BookTitle;
+import svj.svjlib.svjlibs.SLCons;
+import svj.svjlib.svjlibs.obj.Author;
 
 import javax.xml.namespace.QName;
 import javax.xml.stream.XMLEventReader;
@@ -24,6 +26,16 @@ public class BooksTitleStaxParser extends SvjStaxParser {
     private static final String BOOKS = "books";
     private static final String BOOK = "book";
     private static final String SIZE = "size";
+    private static final String LANG = "lang";
+    private static final String SERIAL_INDEX = "serialIndex";
+    private static final String SERIAL_NAME = "serialName";
+    private static final String LIB_ID = "libId";
+    private static final String ANNOTATION = "annotation";
+    private static final String ARCHIVE_NAME = "archiveName";
+    private static final String BOOK_TITLE = "bookTitle";
+    private static final String FILE_NAME = "fileName";
+    private static final String AUTHOR = "author";
+    private static final String GENRE = "genre";
 
     private static final QName FIRST    = new QName("first");
     private static final QName MIDDLE  = new QName("middle");
@@ -57,19 +69,20 @@ public class BooksTitleStaxParser extends SvjStaxParser {
      * @return
      * @throws WEditException
      */
-    public Collection<LibInfo> read (String fileName, String code) throws WEditException
+    public Collection<BookTitle> read (String fileName, String code) throws WEditException
     {
-        String          tagName, id, name, libDir;
+        BookTitle       bookTitle = new BookTitle();;
+        Author          author;
+        String          tagName, str, name, libDir;
         XMLEvent        event;
         StartElement    startElement;
         EndElement      endElement;
         Attribute       attr;
         boolean         bWork;
-        LibInfo         libInfo;
-        XMLEventReader eventReader;
+        XMLEventReader  eventReader;
 
 
-        Collection<LibInfo> result = new ArrayList<>();
+        Collection<BookTitle> result = new ArrayList<>();
         tagName = null;
 
         try
@@ -94,30 +107,77 @@ public class BooksTitleStaxParser extends SvjStaxParser {
                     tagName      = startElement.getName().getLocalPart();
                     //Log.file.debug ( "----- tagName = {}", tagName );
 
-                    if ( tagName.equals(LIB) )
-                    {
-                        // ID
-                        attr    = startElement.getAttributeByName ( ID );
-                        if ( attr == null )
-                            throw new WEditException ("Отсутствует ID библиотеки.");
-                        id = attr.getValue();
-                        // name
-                        attr    = startElement.getAttributeByName ( NAME );
-                        if ( attr == null )
-                            throw new WEditException ("Отсутствует имя библиотеки.");
-                        name = attr.getValue();
-                        attr    = startElement.getAttributeByName ( LIB_DIR );
-                        if ( attr == null ) {
-                            throw new WEditException ("Отсутствует директория библиотеки.");
-                        }
-                        libDir = attr.getValue();
+                    switch (tagName) {
+                        case BOOK:
+                            bookTitle = new BookTitle();
+                            break;
 
-                        libInfo = new LibInfo(id, libDir, name);
-                        result.add(libInfo);
+                        case SIZE:
+                            bookTitle.setBookSize(getText ( eventReader ));
+                            break;
 
-                        continue;
+                        case LANG:
+                            bookTitle.setLang(getText ( eventReader ));
+                            break;
+
+                        case SERIAL_INDEX:
+                            bookTitle.setSerialIndex(getText ( eventReader ));
+                            break;
+
+                        case SERIAL_NAME:
+                            bookTitle.setSerialName(getText ( eventReader ));
+                            break;
+
+                        case ANNOTATION:
+                            bookTitle.setAnnotation(getText ( eventReader ));
+                            break;
+
+                        case ARCHIVE_NAME:
+                            bookTitle.setArchiveName(getText ( eventReader ));
+                            break;
+
+                        case BOOK_TITLE:
+                            bookTitle.setBookTitle(getText ( eventReader ));
+                            break;
+
+                        case FILE_NAME:
+                            bookTitle.setFileName(getText ( eventReader ));
+                            break;
+
+                        case GENRE:
+                            str = getText ( eventReader );
+                            if (str != null) {
+                                String[] sg = str.split(SLCons.GENRE_SEP);
+                                for (String s1 : sg) {
+                                    bookTitle.addGenre(s1);
+                                }
+                            }
+                            break;
+
+                        case LIB_ID:
+                            str = getText ( eventReader );
+                            bookTitle.setLibId(str);
+                            if (bookTitle.getLibId() == 0) {
+                                Log.file.error("Str to Long error for str '{}'", str);
+                            }
+                            break;
+
+                        case AUTHOR:
+                            author = new Author();
+                            attr    = startElement.getAttributeByName ( FIRST );
+                            if ( attr != null ) author.setFirstName(attr.getValue());
+                            attr    = startElement.getAttributeByName ( MIDDLE );
+                            if ( attr != null ) author.setMiddleName(attr.getValue());
+                            attr    = startElement.getAttributeByName ( LAST );
+                            if ( attr != null ) author.setLastName(attr.getValue());
+                            bookTitle.addAuthor(author);
+                            break;
+
+                        default:
+                            Log.file.error("Unknown tag '{}' when parse '{}'", tagName, fileName);
                     }
 
+                    result.add(bookTitle);
                 }
 
                 if ( event.isEndElement() )
@@ -125,19 +185,18 @@ public class BooksTitleStaxParser extends SvjStaxParser {
                     endElement  = event.asEndElement();
                     tagName     = endElement.getName().getLocalPart();
 
-                    if ( tagName.equals(LIBS) )
+                    if ( tagName.equals(BOOKS) )
                     {
                         bWork = false;
                     }
                 }
             }
 
-        } catch ( WEditException ex ) {
-            Log.file.error ("error. tagName = " + tagName, ex);
-            throw ex;
+        //} catch ( WEditException ex ) {
+        //    throw ex;
         } catch ( Exception e ) {
-            Log.file.error ("err",e);
-            throw new RuntimeException ( "Системная ошибка чтения автора книги", e );
+            Log.file.error ("error. tagName = " + tagName + "; current bookTitle = " + bookTitle, e);
+            throw new WEditException ( "Системная ошибка чтения файла информации о загруженных книгах (" + fileName + ")", e );
         }
         return result;
     }

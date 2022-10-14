@@ -316,6 +316,22 @@ public class Convert
         return result;
     }
 
+    public static long str2long ( String strLong, long defaultValue )
+    {
+        long     result;
+
+        result   = defaultValue;
+        if ( (strLong == null) || (strLong.length() == 0) )  return result;
+
+        try
+        {
+            result = Long.parseLong ( strLong );
+        } catch ( Exception e )            {
+            result  = defaultValue;
+        }
+        return result;
+    }
+
     public static Double getDouble ( String strValue, double defaultValue )
     {
         Double     result;
@@ -463,7 +479,7 @@ public class Convert
         return result;
     }
 
-    public static String collectionToStr ( Collection array, char sep)
+    public static String collectionToStr ( Collection array, String sep)
     {
         String          result;
         StringBuilder   sb;

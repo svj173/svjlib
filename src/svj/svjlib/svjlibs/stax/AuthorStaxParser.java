@@ -8,6 +8,7 @@ import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.events.*;
 
 /**
+ * Парсит блок автора в xml-текстовом куске заголовка книги формата FB2.
  * <BR/>
  */
 public class AuthorStaxParser extends SvjStaxParser {
@@ -48,21 +49,21 @@ public class AuthorStaxParser extends SvjStaxParser {
                     if ( tagName.equals(FIRST) )
                     {
                         value    = getText ( eventReader );
-                        if (value != null)  result.setFirstName(value);
+                        if (value != null)  result.setFirstName(replaceName(value));
                         continue;
                     }
 
                     if ( tagName.equals(MIDDLE) )
                     {
                         value    = getText ( eventReader );
-                        if (value != null)  result.setMiddleName(value);
+                        if (value != null)  result.setMiddleName(replaceName(value));
                         continue;
                     }
 
                     if ( tagName.equals(LAST) )
                     {
                         value    = getText ( eventReader );
-                        if (value != null)  result.setLastName(value);
+                        if (value != null)  result.setLastName(replaceName(value));
                         continue;
                     }
 
@@ -88,6 +89,22 @@ public class AuthorStaxParser extends SvjStaxParser {
             throw new RuntimeException ( "Системная ошибка чтения автора книги", e );
         }
         return result;
+    }
+
+    /**
+     * Удалем символы, которые недопустимы внутри XML-атрибутов
+     * @param value
+     * @return
+     */
+    private String replaceName(String value) {
+        if (value == null) return value;
+
+        value = value.replace('\'', '.');
+        value = value.replace('\"', '.');
+        value = value.replace('<', '.');
+        value = value.replace('>', '.');
+        value = value.replace('/', '.');
+        return null;
     }
 
 }

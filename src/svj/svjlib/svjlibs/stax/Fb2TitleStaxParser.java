@@ -103,17 +103,7 @@ public class Fb2TitleStaxParser extends SvjStaxParser {
                         // Аннотация   - AnnotationStaxParser
                         value = annotationParser.read(eventReader);
                         result.setAnnotation(value);
-                        Log.file.info("ANNOTATION = '{}'", value);
-                        /*
-                        value    = getText ( eventReader );
-                        if (value != null) {
-                            value = value.replace("<p>", " ");
-                            value = value.replace("</p>", "\n");
-                            value = value.replace("<empty-line/>", "\n");
-                            result.setAnnotation(value);
-                        }
-                        Log.file.info("ANNOTATION 2 = '{}'", value);
-                        */
+                        //Log.file.info("ANNOTATION = '{}'", value);
                         continue;
                     }
 

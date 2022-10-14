@@ -2,6 +2,7 @@ package svj.svjlib.obj;
 
 import svj.svjlib.WCons;
 import svj.svjlib.svjlibs.obj.Author;
+import svj.svjlib.tools.Convert;
 
 import javax.swing.*;
 
@@ -105,6 +106,10 @@ public class BookTitle {
         this.libId = libId;
     }
 
+    public void setLibId(String libIdStr) {
+        this.libId = Convert.str2long(libIdStr, 0);
+    }
+
     public String getArchiveName() {
         return archiveName;
     }
@@ -161,6 +166,10 @@ public class BookTitle {
         this.serialIndex = serialIndex;
     }
 
+    public void setSerialIndex(String serialIndexStr) {
+        this.serialIndex = Convert.getInt(serialIndexStr, 0);
+    }
+
     public Collection<String> getGenres() {
         return genres;
     }
@@ -179,6 +188,10 @@ public class BookTitle {
 
     public void setBookSize(long bookSize) {
         this.bookSize = bookSize;
+    }
+
+    public void setBookSize(String bookSizeStr) {
+        this.bookSize = Convert.str2long(bookSizeStr, 0);
     }
 
     public String getLang() {
