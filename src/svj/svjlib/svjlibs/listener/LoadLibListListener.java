@@ -12,6 +12,7 @@ import svj.svjlib.obj.ResponseObject;
 import svj.svjlib.svjlibs.SLCons;
 import svj.svjlib.svjlibs.obj.LibInfo;
 import svj.svjlib.svjlibs.obj.LoadLibInfo;
+import svj.svjlib.tools.Convert;
 import svj.svjlib.tools.DialogTools;
 
 import javax.swing.*;
@@ -72,10 +73,16 @@ public class LoadLibListListener implements ActionListener {
             // Par.BOOKS - список всех книг - туда добавить если есть данные
 
             try {
+                long startTime = System.currentTimeMillis();
                 // сам процесс чтения
                 // - Здесь необходим бегунок с процентом рабоыт - по кол-ву файлов в библиотеке
                 ResponseObject response = processLoad(libDir, libName);
                 Collection<BookTitle> result = (Collection<BookTitle>) response.getObject();
+
+                Log.file.info("book size = {}", result.size());
+
+                long totalTime = System.currentTimeMillis() - startTime;
+                Log.file.info("total time = {}", Convert.sec2str(totalTime, Convert.Format.HH_MM_SS));
 
                 //Log.file.info("books = {}", DumpTools.printBookTitles(result));
 
@@ -86,7 +93,7 @@ public class LoadLibListListener implements ActionListener {
                 showTotalProcessDialog(libInfo);
 
             } catch (Exception e) {
-                Log.l.error("libDir = " + libDir, e);
+                Log.file.error("libDir = " + libDir, e);
                 DialogTools.showError("Ошибка загрузки библиотеки '" + libDir + "' :\n " + e.getMessage() + "\n",
                         "Ошибка загрузки");
             }

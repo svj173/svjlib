@@ -100,8 +100,8 @@ public class LoadLibWorker extends SwingWorker<ResponseObject, Void> {
         if (list != null) {
             msg = "list size = " + list.length;
             // todo
-            //maxCount = list.length;    // 14 часов будет парсится библиотека
-            maxCount = 2;
+            maxCount = list.length;    // 14 часов будет парсится библиотека
+            //maxCount = 2;
         } else {
             msg = "list files is Null";
             maxCount = 0;

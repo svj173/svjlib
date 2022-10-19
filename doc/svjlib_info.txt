@@ -181,5 +181,9 @@ svjlib
 2) http://www.fictionbook.org/index.php/%D0%96%D0%B0%D0%BD%D1%80%D1%8B_FictionBook_2.1
 - гораздо меньше чем в coollib.net
 
+Фильтр на загрузку библиотек
+1) ru
+2) и чтобы genre - не - fragment
+
 
 
