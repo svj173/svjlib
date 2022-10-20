@@ -104,7 +104,7 @@ public class AuthorStaxParser extends SvjStaxParser {
         value = value.replace('<', '.');
         value = value.replace('>', '.');
         value = value.replace('/', '.');
-        return null;
+        return value;
     }
 
 }

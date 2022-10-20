@@ -397,6 +397,12 @@ public enum Genre {
     outdated("Устаревшие материалы", GlobalGenre.Other),
     fanfiction("Фанфик", GlobalGenre.Other),
 
+    // есть такие жанры, но не нашел их описания, поэтому добавил сюда
+    foreign_home("foreign_home", GlobalGenre.Other),
+    foreign_psychology("foreign_psychology", GlobalGenre.Other),
+    upbringing_book("upbringing_book", GlobalGenre.Other),
+    geography_book("geography_book", GlobalGenre.Other),
+
 
     // Психология и психиатрия
     sci_hypnosis("Гипноз, внушение и самовнушение", GlobalGenre.Psychology),
@@ -406,6 +412,8 @@ public enum Genre {
     sci_tech_ergonomics("Психология труда, инженерная психология и эргономика", GlobalGenre.Psychology),
     psy_theraphy("Психотерапия и консультирование", GlobalGenre.Psychology),
     psy_sex_and_family("Секс и семейная психология", GlobalGenre.Psychology),
+    psy_personal("Персональная психология", GlobalGenre.Psychology),
+    psy_social("Соционика (?)", GlobalGenre.Psychology),
 
 
     // Религия и духовность
@@ -438,21 +446,186 @@ public enum Genre {
     ref_encyc("Энциклопедии", GlobalGenre.Guide),
 
 
-    /*
-Античная литература (antique_ant) - 446
-Древневосточная литература (antique_east) - 534 [1]
-Древнеевропейская литература (antique_european) - 605
-
-Древнерусская литература (antique_russian) - 170
-Старинная литература (antique) - 538
-     */
     // Старинное
-    sf_history("Альтернативная история", GlobalGenre.Antique),
+    antique_ant("Античная литература", GlobalGenre.Antique),
+    antique_east("Древневосточная литература", GlobalGenre.Antique),
+    antique_european("Древнеевропейская литература", GlobalGenre.Antique),
+    antique_russian("Древнерусская литература", GlobalGenre.Antique),
+    antique("Старинная литература", GlobalGenre.Antique),
 
 
+    // Техника - 33
+    sci_tech_rockets("Авиация, ракетная и космическая техника", GlobalGenre.Technical),
+    sci_tech_robot("Автоматизация, робототехника, мехатроника", GlobalGenre.Technical),
+    auto_business("Автостроение, автодело, тракторная техника", GlobalGenre.Technical),
+    sci_aerodynamics("Аэро-, газо- и гидродинамика", GlobalGenre.Technical),
+    sci_tech_protection("Безопасность жизнедеятельности и охрана труда", GlobalGenre.Technical),
+    sci_tech_hydraulics("Гидравлика, пневматика", GlobalGenre.Technical),
+    sci_tech_machine_parts("Детали машин", GlobalGenre.Technical),
+    sci_tech_reliability("Диагностика, неразрушающий контроль и надежность", GlobalGenre.Technical),
+    equ_history("История техники", GlobalGenre.Technical),
+    sci_engineering("Конструирование, изобретательство, рационализаторство", GlobalGenre.Technical),
+    sci_tech_materials("Материаловедение, конструкционные и прочие материалы", GlobalGenre.Technical),
+    sci_tech_machinery("Машиностроение и металлообработка", GlobalGenre.Technical),
+    sci_metal("Металлургия", GlobalGenre.Technical),
+    sci_tech_metrology("Метрология, стандартизация и сертификация", GlobalGenre.Technical),
+    sci_tech_mech("Механика", GlobalGenre.Technical),
+    sci_tech_nano("Наноматериалы и нанотехнологии", GlobalGenre.Technical),
+    sci_tech_drawing("Начертательная геометрия, инженерная графика, черчение", GlobalGenre.Technical),
+    sci_tech_oil("Нефтегазовая и угольная промышленности", GlobalGenre.Technical),
+    sci_tech_standards("Нормативно-техническая документация", GlobalGenre.Technical),
+    sci_tech_print("Полиграфическое и упаковочное производство", GlobalGenre.Technical),
+    sci_instrumentation("Приборостроение", GlobalGenre.Technical),
+    sci_radio("Радиоэлектроника, радиотехника, связь", GlobalGenre.Technical),
+    sci_tech_assembling("Сборка, неразъемное соединение", GlobalGenre.Technical),
+    sci_tech_sopromat("Строительная механика и сопромат", GlobalGenre.Technical),
+    sci_build("Строительство и монтажные работы", GlobalGenre.Technical),
+    sci_fleet("Судостроение, флот", GlobalGenre.Technical),
+    sci_tech_theormech("Теория механизмов и машин", GlobalGenre.Technical),
+    sci_thermodynamics("Термодинамика, теплопередача, теплотехника", GlobalGenre.Technical),
+    sci_tech("Технические науки", GlobalGenre.Technical),
+    sci_transport("Транспорт и спецтехника", GlobalGenre.Technical),
+    sci_tech_chem("Химическая и нефтехимическая промышленности", GlobalGenre.Technical),
+    sci_electronics("Электроника, микроэлектроника, схемотехника", GlobalGenre.Technical),
+    sci_energy("Энергетика, электротехника", GlobalGenre.Technical),
+
+
+    // Учебники и пособия
+    sci_thesis("Диссертации, дипломные, курсовые и прочие работы", GlobalGenre.SchoolBook),
+    sci_textbook_su("Советские учебники и пособия", GlobalGenre.SchoolBook),
+    sci_abstract("Статьи и рефераты", GlobalGenre.SchoolBook),
+    tbg_higher("Учебники и пособия ВУЗов", GlobalGenre.SchoolBook),
+    tbg_secondary("Учебники и пособия для среднего и специального образования", GlobalGenre.SchoolBook),
+    sci_textbook("Учебники и пособия: прочее", GlobalGenre.SchoolBook),
+    tbg_school("Школьные учебники и пособия", GlobalGenre.SchoolBook),
+    sci_crib("Шпаргалки", GlobalGenre.SchoolBook),
+
+
+    // Фантастика
     sf_history("Альтернативная история", GlobalGenre.Fantastic),
-    sf_action("Боевая Фантастика", GlobalGenre.Fantastic),
-    sf_epic("Эпическая Фантастика", GlobalGenre.Fantastic),
+    dystopian("Антиутопия", GlobalGenre.Fantastic),
+    sf_action("Боевая фантастика", GlobalGenre.Fantastic),
+    sf_heroic("Героическая фантастика", GlobalGenre.Fantastic),
+    sf_detective("Детективная фантастика", GlobalGenre.Fantastic),
+    foreign_sf("Зарубежная фантастика", GlobalGenre.Fantastic),
+    sf_irony("Ироническая фантастика", GlobalGenre.Fantastic),
+    sf_cyberpunk("Киберпанк", GlobalGenre.Fantastic),
+    sf_space("Космическая фантастика", GlobalGenre.Fantastic),
+    sf_space_opera("Космоопера", GlobalGenre.Fantastic),
+    sf_litrpg("ЛитРПГ", GlobalGenre.Fantastic),
+    sf_mystic("Мистика", GlobalGenre.Fantastic),
+    sf("Научная Фантастика", GlobalGenre.Fantastic),
+    nsf("Ненаучная Фантастика", GlobalGenre.Fantastic),
+    sf_paleontological("Палеонтологическая фантастика", GlobalGenre.Fantastic),
+    popadanec("Попаданцы", GlobalGenre.Fantastic),
+    sf_postapocalyptic("Постапокалипсис", GlobalGenre.Fantastic),
+    sf_realrpg("РеалРПГ", GlobalGenre.Fantastic),
+    sf_rus("Российская фантастика", GlobalGenre.Fantastic),
+    sf_su("Советская фантастика", GlobalGenre.Fantastic),
+    sf_social("Социальная фантастика", GlobalGenre.Fantastic),
+    sf_stimpank("Стимпанк", GlobalGenre.Fantastic),
+    sf_horror("Ужасы", GlobalGenre.Fantastic),
+    sf_etc("Фантастика: прочее", GlobalGenre.Fantastic),
+    hronoopera("Хроноопера", GlobalGenre.Fantastic),
+    sf_epic("Эпическая фантастика", GlobalGenre.Fantastic),
+    sf_humor("Юмористическая фантастика", GlobalGenre.Fantastic),
+
+
+    // Фольклор
+    epic("Былины", GlobalGenre.Folklore),
+    riddles("Загадки", GlobalGenre.Folklore),
+    antique_myths("Мифы. Легенды. Эпос", GlobalGenre.Folklore),
+    folk_songs("Народные песни", GlobalGenre.Folklore),
+    folk_traditions("Народные приметы, обряды, традиции", GlobalGenre.Folklore),
+    folk_tale("Народные сказки", GlobalGenre.Folklore),
+    proverbs("Пословицы, поговорки", GlobalGenre.Folklore),
+    folklore_rus("Русский фольклор", GlobalGenre.Folklore),
+    folklore("Фольклор: прочее", GlobalGenre.Folklore),
+    limerick("Частушки, прибаутки, потешки", GlobalGenre.Folklore),
+
+
+    // Формы произведений
+    autor_collection("Авторские сборники, собрания сочинений", GlobalGenre.StoryForm),
+    periodic("Газеты и журналы", GlobalGenre.StoryForm),
+    compilation("Компиляции", GlobalGenre.StoryForm),
+    postcards("Наборы открыток, календари", GlobalGenre.StoryForm),
+    story("Новелла", GlobalGenre.StoryForm),
+    notes("Партитуры", GlobalGenre.StoryForm),
+    great_story("Повесть", GlobalGenre.StoryForm),
+    short_story("Рассказ", GlobalGenre.StoryForm),
+    roman("Роман", GlobalGenre.StoryForm),
+    collection("Сборники, альманахи, антологии", GlobalGenre.StoryForm),
+    article("Статья", GlobalGenre.StoryForm),
+    essay("Эссе, очерк, этюд, набросок", GlobalGenre.StoryForm),
+    essays("Эссе", GlobalGenre.StoryForm),
+
+
+    // Фэнтези - 22
+    fantasy_fight("Боевое фэнтези", GlobalGenre.Fantasy),
+    fantasy_heroic("Героическое фэнтези", GlobalGenre.Fantasy),
+    sf_fantasy_city("Городское фэнтези", GlobalGenre.Fantasy),
+    gothic_novel("Готический роман", GlobalGenre.Fantasy),
+    foreign_fantasy("Зарубежное фэнтези", GlobalGenre.Fantasy),
+    sf_fantasy_irony("Ироническое фэнтези", GlobalGenre.Fantasy),
+    historical_fantasy("Историческое фэнтези", GlobalGenre.Fantasy),
+    magician_book("Магическое фэнтези", GlobalGenre.Fantasy),
+    vampire_book("О вампирах", GlobalGenre.Fantasy),
+    dragon_fantasy("О драконах", GlobalGenre.Fantasy),
+    adventure_fantasy("Приключенческое фэнтези", GlobalGenre.Fantasy),
+    fantasy_rus("Российское фэнтези", GlobalGenre.Fantasy),
+    fairy_fantasy("Сказочная фантастика", GlobalGenre.Fantasy),
+    russian_fantasy("Славянское фэнтези", GlobalGenre.Fantasy),
+    modern_tale("Современная сказка", GlobalGenre.Fantasy),
+    fantasy_dark("Темное фэнтези", GlobalGenre.Fantasy),
+    sf_technofantasy("Технофэнтези", GlobalGenre.Fantasy),
+    fantasy_wuxia("Уся", GlobalGenre.Fantasy),
+    sf_fantasy("Фэнтези: прочее", GlobalGenre.Fantasy),
+    fantasy_epic("Эпическое фэнтези", GlobalGenre.Fantasy),
+    erotic_fantasy("Эротическое фэнтези", GlobalGenre.Fantasy),
+    humor_fantasy("Юмористическое фэнтези", GlobalGenre.Fantasy),
+
+
+    // Хобби и ремесла - 27
+    auto_regulations("Авто-, мото- и велотранспорт, ПДД", GlobalGenre.Hobby),
+    home_aquarium("Аквариумистика", GlobalGenre.Hobby),
+    home_mountain("Альпинизм и скалолазание", GlobalGenre.Hobby),
+    publishing("Библиотечное и редакционно-издательское дело", GlobalGenre.Hobby),
+    home_winemaking("Виноделие, спиртные напитки", GlobalGenre.Hobby),
+    home_livestock("Животноводство и птицеводство", GlobalGenre.Hobby),
+    home_furniture("Изготовление и ремонт мебели", GlobalGenre.Hobby),
+    home_inventory("Инвентарь, инструменты", GlobalGenre.Hobby),
+    home_building("Индивидуальное строительство и ремонт", GlobalGenre.Hobby),
+    home_bookmaking("Книгоделие", GlobalGenre.Hobby),
+    home_collecting("Коллекционирование", GlobalGenre.Hobby),
+    home_modelling("Моделизм и диорамостроение", GlobalGenre.Hobby),
+    home_marine("Морское дело, парусный спорт", GlobalGenre.Hobby),
+    home_hunt("Охота и охотоведение", GlobalGenre.Hobby),
+    home_writing_art("Писательское искусство", GlobalGenre.Hobby),
+    home_beekeeping("Пчеловодство", GlobalGenre.Hobby),
+    home_woodwork("Работа по дереву", GlobalGenre.Hobby),
+    home_metalwork("Работа по металлу", GlobalGenre.Hobby),
+    home_handiwork("Рукоделие", GlobalGenre.Hobby),
+    home_fishing("Рыболовство и рыбоводство", GlobalGenre.Hobby),
+    home_garden("Сад и огород", GlobalGenre.Hobby),
+    home_mushrooms("Сбор и выращивание грибов", GlobalGenre.Hobby),
+    home_diy("Сделай сам", GlobalGenre.Hobby),
+    home_tourism("Туризм", GlobalGenre.Hobby),
+    home_sport("Физкультура и спорт", GlobalGenre.Hobby),
+    home_crafts("Хобби и ремесла: прочее", GlobalGenre.Hobby),
+    home_floriculture("Цветоводство и комнатное садоводство", GlobalGenre.Hobby),
+
+
+    // Юмор
+    humor_anecdote("Анекдоты", GlobalGenre.Humor),
+    humor_tales("Байки", GlobalGenre.Humor),
+    humor_parody("Пародии, шаржи, эпиграммы, карикатуры", GlobalGenre.Humor),
+    humor_satire("Сатира", GlobalGenre.Humor),
+    humor("Юмор: прочее", GlobalGenre.Humor),
+    humor_prose("Юмористическая проза", GlobalGenre.Humor),
+    humor_verse("Юмористические стихи", GlobalGenre.Humor),
+
+    // Неизвестный жанр или отсутствует
+    unknown("Неизвестный", GlobalGenre.Unknown),
     ;
 
     private final GlobalGenre globalGenre; // enum - Детективы, Фантастика...
@@ -464,6 +637,15 @@ public enum Genre {
         this.globalGenre = globalGenre;
     }
 
+    public static Genre getGenre(String genre) {
+        if (genre != null) {
+            for (Genre g: values()) {
+                if (genre.equals(g.getTitle())) return g;
+            }
+        }
+        return null;
+    }
+
     public String getTitle() {
         return title;
     }
@@ -472,132 +654,4 @@ public enum Genre {
         return globalGenre;
     }
 
-    /*
-
-sf_heroic               Героическая фантастика
-sf_detective            Детективная Фантастика
-sf_cyberpunk            Киберпанк
-sf_space                Космическая Фантастика
-sf_social               Социальная фантастика
-sf_horror               Ужасы и Мистика
-sf_humor                Юмористическая фантастика
-sf_fantasy              Фэнтези
-sf                      Научная Фантастика
-child_sf                Детская Фантастика
-
-det_classic             Классический Детектив
-det_police              Полицейский Детектив
-det_action              Боевики
-det_irony               Иронический Детектив
-det_history             Исторический Детектив
-det_espionage           Шпионский Детектив
-det_crime               Криминальный Детектив
-det_political           Политический Детектив
-det_maniac              Маньяки
-det_hard                Крутой Детектив
-thriller                Триллеры
-detective               Детектив
-sf_detective            Детективная Фантастика
-
-child_det               Детские Остросюжетные
-love_detective          Остросюжетные Любовные Романы
-prose                   Проза
-prose_classic           Классическая Проза
-prose_history           Историческая Проза
-prose_contemporary      Современная Проза
-prose_counter           Контркультура
-prose_rus_classic       Русская Классика
-prose_su_classics       Советская Классика
-humor_prose             Юмористическая Проза
-child_prose             Детская Проза
-love                    Любовные романы
-love_contemporary       Современные Любовные Романы
-love_history            Исторические Любовные Романы
-love_detective          Остросюжетные Любовные Романы
-love_short              Короткие Любовные Романы
-love_erotica            Эротика
-adv_western             Вестерны
-adv_history             Исторические Приключения
-adv_indian              Приключения: Индейцы
-adv_maritime            Морские Приключения
-adv_geo                 Путешествия и География
-adv_animal              Природа и Животные
-adventure               Приключения: Прочее
-child_adv               Детские Приключения
-children                Детское
-child_tale              Сказки
-child_verse             Детские Стихи
-child_prose             Детская Проза
-child_sf                Детская Фантастика
-child_det               Детские Остросюжетные
-child_adv               Детские Приключения
-child_education         Детская Образовательная литература
-children                Детское: Прочее
-poetry                  Поэзия
-dramaturgy              Драматургия
-humor_verse             Юмористические Стихи
-child_verse             Детские Стихи
-antique_ant             Античная Литература
-antique_european        Европейская Старинная Литература
-antique_russian         Древнерусская Литература
-antique_east            Древневосточная Литература
-antique_myths           Мифы. Легенды. Эпос
-antique                 Старинная Литература: Прочее
-sci_history             История
-sci_psychology          Психология
-sci_culture             Культурология
-sci_religion            Религиоведение
-sci_philosophy          Философия
-sci_politics            Политика
-sci_business            Деловая литература
-sci_juris               Юриспруденция
-sci_linguistic          Языкознание
-sci_medicine            Медицина
-sci_phys                Физика
-sci_math                Математика
-sci_chem                Химия
-sci_biology             Биология
-sci_tech                Технические
-science                 Научно-образовательная: Прочее
-adv_animal              Природа и Животные
-comp_www                Интернет
-comp_programming        Программирование
-comp_hard               Компьютерное Железо
-comp_soft               Программы
-comp_db                 Базы Данных
-comp_osnet              ОС и Сети
-computers               Компьютеры: Прочее
-ref_encyc               Энциклопедии
-ref_dict                Словари
-ref_ref                 Справочники
-ref_guide               Руководства
-reference               Справочная Литература: Прочее
-nonf_biography          Биографии и Мемуары
-nonf_publicism          Публицистика
-nonf_criticism          Критика
-nonfiction              Документальное: Прочее
-design                  Искусство, Дизайн
-adv_animal              Природа и Животные
-religion                Религия
-religion_rel            Религия
-religion_esoterics      Эзотерика
-religion_self           Самосовершенствование
-religion                Религия и духовность: Прочее
-sci_religion            Религиоведение
-humor_anecdote          Анекдоты
-humor_prose             Юмористическая Проза
-humor_verse             Юмористические Стихи
-humor                   Юмор: Прочее
-home_cooking            Кулинария
-home_pets               Домашние Животные
-home_crafts             Хобби, Ремесла
-home_entertain          Развлечения
-home_health             Здоровье
-home_garden             Сад и Огород
-home_diy                Сделай Сам
-home_sport              Спорт
-home_sex                Эротика, Секс
-home                    Дом и Семья: Прочее
-
-     */
 }

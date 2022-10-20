@@ -7,6 +7,8 @@ import svj.svjlib.obj.BookTitle;
 import svj.svjlib.svjlibs.SLCons;
 import svj.svjlib.svjlibs.SLPar;
 import svj.svjlib.svjlibs.obj.Author;
+import svj.svjlib.svjlibs.obj.Genre;
+import svj.svjlib.svjlibs.obj.GlobalGenre;
 import svj.svjlib.svjlibs.stax.BooksTitleStaxParser;
 import svj.svjlib.tools.Convert;
 import svj.svjlib.tools.FileTools;
@@ -33,8 +35,12 @@ import java.util.*;
 public class BooksManager extends XmlHandler{
 
     private final Collection<BookTitle> books = new ArrayList<>();
+    // мапы по жанрам
+    private final Map<GlobalGenre,Map<Genre, Collection<BookTitle>>> bookMap = new HashMap<>();
 
-    // todo - мапы по жанрам
+    // массив не найденных жанров
+    private final Collection<String> wrongGenre = new ArrayList<>();
+
 
     public void addBook(BookTitle book) {
         if (book != null) {
@@ -153,5 +159,51 @@ public class BooksManager extends XmlHandler{
 
     public int bookSize() {
         return books.size();
+    }
+
+    public void addBookToGenreMap(String genre, BookTitle bookTitle) {
+        Genre g;
+        if (genre == null) {
+            g = Genre.unknown;
+        } else {
+            // ищем такой жанр у себя
+            try {
+                g = Genre.valueOf(genre);
+            } catch (Exception e) {
+                // неизветсный жанр
+                /*
+                if (!wrongGenre.contains(genre)) {
+                    wrongGenre.add(genre);
+                }
+                */
+                g = Genre.unknown;
+            }
+        }
+
+        // берем Глобальный жанр
+        GlobalGenre gg = g.getGlobalGenre();
+
+        Map<Genre, Collection<BookTitle>> ggMap = bookMap.get(gg);
+        if (ggMap == null) {
+            ggMap = new HashMap<Genre, Collection<BookTitle>>();
+            bookMap.put(gg, ggMap);
+        }
+
+        Collection<BookTitle> list = ggMap.get(g);
+        if (list == null) {
+            list = new ArrayList<>();
+            ggMap.put(g, list);
+        }
+
+        list.add(bookTitle);
+
+    }
+
+    public Map<GlobalGenre, Map<Genre, Collection<BookTitle>>> getBookMap() {
+        return bookMap;
+    }
+
+    public Collection<String> getWrongGenre() {
+        return wrongGenre;
     }
 }

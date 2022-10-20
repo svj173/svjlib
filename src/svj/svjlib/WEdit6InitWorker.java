@@ -66,23 +66,26 @@ public class WEdit6InitWorker    extends SwingWorker<BookTitles,String>
             // - если нет библиотек - пустой список
             Collection<LibInfo> libs = SLCons.LIBS_MANAGER.loadLibs();
 
-            publish("Всего используется библиотек : " + libs.size());
-            //Thread.sleep(2000);
+            if (libs != null) {
 
-            for (LibInfo lib : libs) {
-                publish("-- Загружаем библиотеку : " + lib.getName());
-                // загружаем инфу о книгах указанной библиотеки
-                ic = SLCons.BOOKS_MANAGERS.loadBooksInfo(lib.getId());
-                publish("---- Книг : " + ic);
+                publish("Всего используется библиотек : " + libs.size());
+                //Thread.sleep(2000);
+
+                for (LibInfo lib : libs) {
+                    publish("-- Загружаем библиотеку : " + lib.getName());
+                    // загружаем инфу о книгах указанной библиотеки
+                    ic = SLCons.BOOKS_MANAGERS.loadBooksInfo(lib.getId());
+                    publish("---- Книг : " + ic);
+                }
+
+                publish("Финиш");
+                //Thread.sleep(5000);
+
+                // Итоговый диалог. Скачано:
+                // - всего библиотек
+                // - всего книг
+                showTotalProcessDialog(SLCons.LIBS_MANAGER.libSize(), SLCons.BOOKS_MANAGERS.bookSize());
             }
-
-            publish("Финиш");
-            //Thread.sleep(5000);
-
-            // Итоговый диалог. Скачано:
-            // - всего библиотек
-            // - всего книг
-            showTotalProcessDialog(SLCons.LIBS_MANAGER.libSize(), SLCons.BOOKS_MANAGERS.bookSize());
 
         } catch (WEditException we) {
             throw we;

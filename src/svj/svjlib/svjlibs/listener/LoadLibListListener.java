@@ -82,7 +82,7 @@ public class LoadLibListListener implements ActionListener {
                 Log.file.info("book size = {}", result.size());
 
                 long totalTime = System.currentTimeMillis() - startTime;
-                Log.file.info("total time = {}", Convert.sec2str(totalTime, Convert.Format.HH_MM_SS));
+                Log.file.info("total time (HH_MM_SS) = {}", Convert.sec2str(totalTime / 1000, Convert.Format.HH_MM_SS));
 
                 //Log.file.info("books = {}", DumpTools.printBookTitles(result));
 

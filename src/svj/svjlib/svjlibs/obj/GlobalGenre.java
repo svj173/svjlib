@@ -40,9 +40,16 @@ public enum GlobalGenre {
     Religion("Религия и духовность"),
     Guide("Справочная литература"),
     Antique("Старинное"),
-
-
+    Technical("Техника"),
+    SchoolBook("Учебники и пособия"),
     Fantastic("Фантастика"),
+    Folklore("Фольклор"),
+    StoryForm("Формы произведений"),
+    Fantasy("Фэнтези"),
+    Hobby("Хобби и ремесла"),
+    Humor("Юмор"),
+
+    Unknown("Неизвестный"),
     ;
 
     private final String title;

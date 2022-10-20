@@ -1,0 +1,80 @@
+
+wrongGenre = [samizdat, economics, cinema_theatre, foreign_business, psy_alassic, foreign_edu, foreign_desc,
+psy_generic, sociology_book, foreign_action, foreign_publicism, narrative, city_fantasy, art, comp_all,
+психология, pedagogy_book, literature_su_classics, literature_short, romance_historical, romance_sf,
+entert_humor, sport, literature_poetry, literature, literature_political, sf_cyber_punk,
+chris_pravoslavie, chris_orthodoxy, foreign_religion, music_dancing, unrecognised, proce,
+nonfiction_politics, people, romance_fantasy, literature_books, literature_history, det_all,
+love_all, sf_all, foreign_story, religion_all, folklore_all, foreign_humor, health_sex, prose_all,
+foreign_comp, Классическая проза, Современная Проза, N/K, aphorism_quote, litrpg, nonf_all,
+foreign_poetry, AU, General, Adventure, Религия, sf_litRPG, slash, ЛитРПГ, Фэнтези, sketch,
+Альтернативная медицина, prose_history            , Autobiografia, adv_all, home_all, Action,
+POV, Angst, Romance, poetry_all, humor_all,
+                    Романтика
+                ,
+                    Юмор
+                , thriller_mystery, teens_history, child_history, child_9, histor_military, biography, prose_contemporary       , sf_litrp, geo_guide, Фантастика, Стёб, Попаданцы, this is science, fantasy_alt_hist, business, biz_beogr, literature_war, professional_law, horror_occult, horror, horror_fantasy, horror_vampires, biogr_professionals, travel, science_earth, literature_adv, nonfiction_sociology,
+                    Джен
+                ,
+                    Экшн (action)
+                ,
+                    Пародия
+                ,
+                    Стёб
+                , prose_root, sf_history_avant, Humor, Policier, Maigret, literature_classics, romance,
+romance_multicultural, fanficion, science_medicine, prose_su_classic, Православие, Мистика,
+Мифические существа, Постапокалиптика, Action , Dystopian, Boys , Juvenile Fiction, экономика дара,
+устойчивое развитие, альтернативная энергетика, сельское хозяйство, экология, анархия, анархизм, утопия,
+fantasy, Боевое фэнтези,
+                    Ангст
+                ,
+                    Драма
+                ,
+                    Фантастика
+                ,
+                    Психология
+                ,
+                    Философия
+                ,
+                    POV
+                ,
+                    AU
+                ,
+                    Попаданцы
+                ,
+                    Исторические эпохи
+                , child_characters,
+                    Повседневность
+                , f, f_fantasy,
+                    Фэнтези
+                ,
+                    Мистика
+                ,
+                    Даркфик
+                ,
+                    Мифические существа
+                , child_4, dramaturgy_all, religion_spirituality, religion_east, religion_buddhism,
+                    Флафф
+                ,
+                    Учебные заведения
+                ,
+                    Первый раз
+                , исторический детектив, Исторические любовные романы, 1979, История,
+sf, sci_history История, Романы, Комедия, biogr_historical, religion_occult, travel_guidebook_series, travel_asia,
+history_ancient, science_archaeology, science_history_philosophy, biz_economics, biogr_leaders, other_all,
+sf_writing, sf_fantasy               , prose_teen,
+                    Дружба
+                , Самосовершенствование, Darkfic, Drama, ref_all, Фентъзи, History, Biography, Physics,
+Unified Field Theories, Biography , Physicists, Relativity, Science , Science, Relativity (Physics),
+foreign_novel, Economics, Публицистика: прочее, Экономика,
+                    Songfic
+                , Юмор, Драма, Психология, Повседневность, Учебные заведения, Проза, architecture, ci_history, Эзотерика, Боевая фантастика,
+                    Hurt/comfort
+                ,
+                    Эксперимент
+                , greate_story, literature_fairy, Medical, Fiction, Suspense, Thrillers, Suspense Fiction, Fiction - General, Black Humor (Literature), American First Novelists, American Mystery , Fiction - Espionage, Assassins, Physicians, Organized Crime, юмористическая проза, Путеводители, travel_europe, nonfiction_philosophy, 105, biz_management, russian, Fantasy, Parody, child_all, Биографии и мемуары, adventure                ,
+                    Детектив
+                , military_all, sci_physchem, sf,sf_horror,sf_epic, literature_essay, science_biolog, outdoors_fauna, biz_accounting, health, health_alt_medicine, health_self_help, health_psy, health_nutrition, Expeditions , London, Literary Criticism, Detectives - England - London, Europe - Great Britain - General, Mystery , England, 19th century, Whicher; Jonathan, Law Enforcement, Wiltshire, History: World, Case studies, True Crime, Murder, Murder - England - Wiltshire - History - 19th century, Europe, Espionage, Murder - General, Great Britain, Detectives, literature_rus_classsic, biogr_arts, history_usa, literature_sea, femslash, literature_drama, women_single, Comedy, Crossover, Романтика, PWP, Первый раз, Дружба, teens_literature, prose_contemporary , пїЅпїЅпїЅпїЅпїЅ, поэзия, accounting	Р‘СѓС…СѓС‡РµС‚,, nonfiction_social_sci, nonfiction_social_work, romance_contemporary, romance_romantic_suspense, публицистика, sci_biology , Даркфик, long_story, Детектив, Философия, Hurt/comfort, Ангст, Экшн (action), tech_all, Журналы, literature_western, Казки, literature_women, SF, Математика, языкознание, child_nature, история, horror_usa, nonfiction_law, child_animals, outdoors_nature_writing, travel_africa, travel_lat_am, travel_spec, outdoors_conservation, Публицистика, Христианство, Detective, Пародия, Эксперимент, Эротическое фэнтези, Любовное фэнтези, fiction, Исторические эпохи, ю, Недвижимость, Антиутопия, thriller_police, family_pregnancy, family_health, family_parenting, poetry                   , rel_boddizm, современная проза, (network_literature, Science Fiction, Науково- практичний коментар, Lang:fr, Фанфик, НФ, newspapers, nonfiction_edu, nonfiction_folklor, literature_british, Современная проза, science_psy, Любовь/Ненависть, поезія, novel, popadantsy-v-magicheskie-miry, popadantsy, action, Prose, Історія, Приключенческое фэнтези, outdoors_hunt_fish, outdoors_travel, health_men, health_women, family_relations, health_rel, teens_health, teens_social, Пропущенная сцена, biogr_sports, sci_social_studies), Интернет, medicine, Экономика, геополитика, literature_antology, home_garden              , prose_classic , literature_world, Флафф, saga, ref_books, hand-book, фэнтези, adv_history              , detective                , sci_orgchem, performance, /sf_action, nonfiction_true_accounts,
+    sci_philosophy
+   , sci_philology , Иронический детектив, sf_fantasy_city,sf_horror]
+

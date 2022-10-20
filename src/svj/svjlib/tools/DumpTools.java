@@ -64,6 +64,24 @@ public class DumpTools
         return result;
     }
 
+    public static String printBytes (byte[] array, char ch )
+    {
+        String result = "Null";
+        StringBuilder sb = new StringBuilder( 128 );
+        if ( ( array == null ) || ( array.length == 0 ) ) return result;
+
+        for ( byte anArray : array )
+        {
+            //result = result + array[i] + ch + " ";
+            sb.append ( anArray );
+            sb.append ( ch );
+        }
+        // удалить последнюю запятую (символ CH)
+        result = sb.toString();
+        //result = result.substring ( 0, result.length() - 2 );
+        return result;
+    }
+
     public static String printMap (Map array, String separator )
     {
         StringBuilder sb;

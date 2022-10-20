@@ -3,6 +3,7 @@ package svj.svjlib.svjlibs.stax;
 import svj.svjlib.Log;
 import svj.svjlib.exc.WEditException;
 import svj.svjlib.obj.BookTitle;
+import svj.svjlib.svjlibs.SLCons;
 import svj.svjlib.svjlibs.obj.Author;
 import svj.svjlib.tools.Convert;
 
@@ -34,9 +35,16 @@ public class Fb2TitleStaxParser extends SvjStaxParser {
     private static final String AUTHOR = "author";
 
 
+    /**
+     *
+     * @param text
+     * @param code  Кодировка текста. Может быть null
+     * @return
+     * @throws WEditException
+     */
     public BookTitle read (String text, String code) throws WEditException
     {
-        String          tagName, attrName, attrValue, value;
+        String          tagName, value;
         XMLEvent event;
         StartElement startElement;
         Attribute attr;
@@ -53,7 +61,12 @@ public class Fb2TitleStaxParser extends SvjStaxParser {
 
         try
         {
-            InputStream is = new ByteArrayInputStream(text.getBytes(code));
+            InputStream is;
+
+            if (code == null)
+                is = new ByteArrayInputStream(text.getBytes());
+            else
+                is = new ByteArrayInputStream(text.getBytes(code));
 
             XMLInputFactory inputFactory = XMLInputFactory.newInstance();
             eventReader  = inputFactory.createXMLEventReader(is);
@@ -121,6 +134,9 @@ public class Fb2TitleStaxParser extends SvjStaxParser {
                         // Жанр книги. Могут быть несколько
                         value    = getText ( eventReader );
                         result.addGenre(value);
+
+                        // привязать книгу к мапу жанров
+                        SLCons.BOOKS_MANAGERS.addBookToGenreMap(value, result);
 
                         continue;
                     }

@@ -108,6 +108,9 @@ public class BooksTitleStaxParser extends SvjStaxParser {
                     //Log.file.debug ( "----- tagName = {}", tagName );
 
                     switch (tagName) {
+                        case BOOKS:
+                            break;
+
                         case BOOK:
                             bookTitle = new BookTitle();
                             break;

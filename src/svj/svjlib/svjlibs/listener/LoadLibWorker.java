@@ -12,6 +12,7 @@ import svj.svjlib.svjlibs.stax.Fb2TitleStaxParser;
 import javax.swing.*;
 
 import java.io.File;
+import java.io.UnsupportedEncodingException;
 import java.util.*;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
@@ -68,6 +69,7 @@ public class LoadLibWorker extends SwingWorker<ResponseObject, Void> {
 
         Log.file.info("loadLibInfo = {}", loadLibInfo);
         Log.file.info("libInfo = {}", libInfo);
+        Log.file.info("wrongGenre = {}", SLCons.BOOKS_MANAGERS.getWrongGenre());
 
 
         // Добавить новую библиотеку - libInfo
@@ -227,30 +229,39 @@ public class LoadLibWorker extends SwingWorker<ResponseObject, Void> {
                 String text = new String(bytes, 0, offset);
                 //Log.file.info("text.size = {}", bytes.length);
 
-                int istart = text.indexOf("encoding=\"");
-                istart = istart + "encoding=\"".length();
-                int iend = text.indexOf("\"", istart + 1);
-                //Log.file.info("- istart = {}; iend = {}", istart, iend);
-                if (iend - istart > 20) {
-                    //Log.file.info("++++++ Code format error = {}", iend - istart);
-                    loadLibInfo.incBadCodeText();
-                } else {
-                    String code = text.substring(istart, iend);
-                    //Log.file.info("        Code format = '{}'", code);
-                    text = new String(bytes, 0, offset, code);
-                    //Log.file.info("FB2 title = {}", text);
-                    //
-                    BookTitle bookTitle = parseFb2(text, code);
-                    if (bookTitle != null) {
-                        // директория библиотеки
-                        bookTitle.setLibId(libInfo.getId());
-                        // имя зип-файла, содержащего в себе зип-файлы книг
-                        bookTitle.setArchiveName(zipFileName);
-                        // имя зип-файла архива книги
-                        bookTitle.setFileName(zipEntry.getName());
-                        bookTitle.setBookSize(entry.getSize() * 3);
-                        bookList.add(bookTitle);
+                // выделяем кодировку текста - может отсутствовать
+                String textCode = getTextCode(text);
+
+                //Log.file.info("        Code format = '{}'", code);
+                if (textCode != null) {
+                    try {
+                        // если кодирвока задана - переделываем весь еткст заново -  в укзаннйо кодировке
+                        text = new String(bytes, 0, offset, textCode);
+                    } catch (UnsupportedEncodingException e) {
+                        // здесь вылетает
+                        // java.io.UnsupportedEncodingException: rsion=
+                        // - Неверная кодировка символов = 'rsion='
+                        Log.file.error("new String(bytes, 0, offset, code) Error. offset = " + offset
+                                + "; textCode = '" + textCode + "'");
+                        throw e;
                     }
+                }
+
+                // некоторые глобальные изменения в тексте
+                text = handleText(text);
+
+                //Log.file.info("FB2 title = {}", text);
+                //
+                BookTitle bookTitle = parseFb2(text, textCode);
+                if (bookTitle != null) {
+                    // директория библиотеки
+                    bookTitle.setLibId(libInfo.getId());
+                    // имя зип-файла, содержащего в себе зип-файлы книг
+                    bookTitle.setArchiveName(zipFileName);
+                    // имя зип-файла архива книги
+                    bookTitle.setFileName(zipEntry.getName());
+                    bookTitle.setBookSize(entry.getSize() * 3);
+                    bookList.add(bookTitle);
                 }
 
                 zin.closeEntry();
@@ -265,9 +276,40 @@ public class LoadLibWorker extends SwingWorker<ResponseObject, Void> {
 
     }
 
+    private String handleText(String text) {
+        text = text.replace('«', '"');
+        text = text.replace('»', '"');
+        return text;
+    }
+
+    private String getTextCode(String text) {
+
+        String code = null;
+
+        int istart = text.indexOf("encoding=\"");
+        if (istart < 0) {
+            // нет описания кодировки
+        } else {
+
+            istart = istart + "encoding=\"".length();
+            int iend = text.indexOf("\"", istart + 1);
+            //Log.file.info("- istart = {}; iend = {}", istart, iend);
+
+            if (iend - istart > 20) {
+                //Log.file.info("++++++ Code format error = {}", iend - istart);
+                loadLibInfo.incBadCodeText();
+            } else {
+                code = text.substring(istart, iend);
+            }
+        }
+
+        return code;
+    }
+
     /**
      *
      * @param text  Кусок заголовка FB2 до  заключительного тега "/description"
+     * @param code  Кодировка текста. Может быть null
      * @return  Инфа о книге - титл, автор, анотация, язык книги, серия и пр.
      */
     private BookTitle parseFb2(String text, String code) {
