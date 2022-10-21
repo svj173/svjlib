@@ -3,9 +3,7 @@ package svj.svjlib.svjlibs.stax;
 
 import svj.svjlib.Log;
 import svj.svjlib.exc.WEditException;
-import svj.svjlib.svjlibs.obj.ConfigParam;
 
-import javax.xml.namespace.QName;
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.events.Characters;
 import javax.xml.stream.events.XMLEvent;
@@ -18,16 +16,46 @@ import javax.xml.stream.events.XMLEvent;
  */
 public class SvjStaxParser
 {
-    protected static final QName NAME         = new QName("name");
-    protected static final QName TYPE         = new QName( ConfigParam.TYPE);
+    //protected static final QName NAME         = new QName("name");
+    //protected static final QName TYPE         = new QName( ConfigParam.TYPE);
+
+    /**
+     * Удаляем символы, которые недопустимы внутри XML-атрибутов
+     * Т.е. в конструкицях типа <author name="hdjakhdj"
+     * @param value
+     * @return
+     */
+    protected String replaceName(String value) {
+        if (value == null) return value;
+
+        value = value.replace('\'', '.');
+        value = value.replace('\"', '.');
+        value = value.replace('<', '.');
+        value = value.replace('>', '.');
+        value = value.replace('/', '.');
+        if (value.isEmpty()) value = "xxx";
+        return value;
+    }
+
+    /**
+     * Удаляем символы, которые недопустимы внутри текста XML-тегов.
+     * Т.е. в конструкицях типа <author>dfksdhfksjldgjsld</author>
+     */
+    protected String processWrongSymbol(String text) {
+        if (text == null) return "";
+
+        text = text.replace('<', '.');
+        text = text.replace('>', '.');
+        if (text.isEmpty()) text = "XXX";
+        return text;
+    }
+
 
     protected String getText (XMLEventReader eventReader ) throws WEditException
     {
-        String result;
-        XMLEvent event;
+        String result = null;
+        XMLEvent event = null;
         Characters characters;
-
-        result = null;
 
         try
         {
@@ -62,7 +90,7 @@ public class SvjStaxParser
             // Иначе - это тег закрытия - при отсутствии данных - например: <object_class></object_class>
 
         } catch ( Exception e )        {
-            Log.file.error ( "error. result = " + result, e);
+            Log.file.error ( "error. event = " + event, e);
             throw new  WEditException (  e, "Ошибка получения текстовых данных тега :\n", e );
         }
 

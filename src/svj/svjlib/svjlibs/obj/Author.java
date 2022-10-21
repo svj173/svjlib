@@ -66,4 +66,21 @@ public class Author {
         return sb.toString();
     }
 
+    public String getSimple() {
+        StringBuilder sb = new StringBuilder(128);
+
+        if (getLastName() != null) {
+            sb.append(getLastName());
+            sb.append(" ");
+        }
+        if (getMiddleName() != null) {
+            sb.append(getMiddleName());
+            sb.append(" ");
+        }
+        if (getFirstName() != null) {
+            sb.append(getFirstName());
+        }
+
+        return sb.toString();
+    }
 }

@@ -101,8 +101,8 @@ public class LoadLibWorker extends SwingWorker<ResponseObject, Void> {
 
         if (list != null) {
             msg = "list size = " + list.length;
-            // todo
-            maxCount = list.length;    // 14 часов будет парсится библиотека
+            //todo
+            maxCount = list.length;    // 2 часа будет парсится библиотека
             //maxCount = 2;
         } else {
             msg = "list files is Null";
@@ -123,6 +123,7 @@ public class LoadLibWorker extends SwingWorker<ResponseObject, Void> {
 
                 ic++;
                 if (ic > maxCount) break;
+                //if (countBooks > 20) break;
 
                 if (isZip(fileName)) {
                     // todo Но это может быть и файл книги - толкьо упакованный
@@ -183,6 +184,7 @@ public class LoadLibWorker extends SwingWorker<ResponseObject, Void> {
                 }
 
                 countBooks++;
+                //if (countBooks > 20) break;
                 totalBooksValue.setText(Integer.toString(countBooks));
             }
         } catch (Exception e) {

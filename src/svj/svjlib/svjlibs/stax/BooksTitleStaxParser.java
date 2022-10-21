@@ -195,8 +195,8 @@ public class BooksTitleStaxParser extends SvjStaxParser {
                 }
             }
 
-        //} catch ( WEditException ex ) {
-        //    throw ex;
+        } catch ( WEditException ex ) {
+            throw ex;
         } catch ( Exception e ) {
             Log.file.error ("error. tagName = " + tagName + "; current bookTitle = " + bookTitle, e);
             throw new WEditException ( "Системная ошибка чтения файла информации о загруженных книгах (" + fileName + ")", e );

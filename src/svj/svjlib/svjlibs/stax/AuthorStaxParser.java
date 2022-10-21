@@ -91,20 +91,4 @@ public class AuthorStaxParser extends SvjStaxParser {
         return result;
     }
 
-    /**
-     * Удалем символы, которые недопустимы внутри XML-атрибутов
-     * @param value
-     * @return
-     */
-    private String replaceName(String value) {
-        if (value == null) return value;
-
-        value = value.replace('\'', '.');
-        value = value.replace('\"', '.');
-        value = value.replace('<', '.');
-        value = value.replace('>', '.');
-        value = value.replace('/', '.');
-        return value;
-    }
-
 }

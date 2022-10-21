@@ -3,6 +3,7 @@ package svj.svjlib;
 import svj.svjlib.exc.WEditException;
 import svj.svjlib.gui.dialog.WDialog;
 import svj.svjlib.obj.BookTitles;
+import svj.svjlib.tools.DialogTools;
 import svj.svjlib.tools.GuiTools;
 
 import javax.swing.*;
@@ -110,6 +111,7 @@ public class WEdit6InitDialog  extends WDialog<Void,BookTitles>
         } catch ( Exception e )        {
             result = null;
             Log.l.error ( "error", e );
+            DialogTools.showError(Par.GM.getFrame(), e.getMessage(), "Ошибка инициализации");
         }
         return result;
     }

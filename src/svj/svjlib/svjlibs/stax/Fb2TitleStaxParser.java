@@ -115,6 +115,7 @@ public class Fb2TitleStaxParser extends SvjStaxParser {
                     {
                         // Аннотация   - AnnotationStaxParser
                         value = annotationParser.read(eventReader);
+                        value = processWrongSymbol(value);
                         result.setAnnotation(value);
                         //Log.file.info("ANNOTATION = '{}'", value);
                         continue;
@@ -124,6 +125,7 @@ public class Fb2TitleStaxParser extends SvjStaxParser {
                     {
                         // Название книги
                         value    = getText ( eventReader );
+                        value = processWrongSymbol(value);
                         result.setBookTitle(value);
 
                         continue;
@@ -160,7 +162,7 @@ public class Fb2TitleStaxParser extends SvjStaxParser {
 
                     if ( tagName.equals(TITLE_INFO) )
                     {
-                        // конец рабоыт парсера
+                        // конец работы парсера
                         bWork = false;
                     }
                 }

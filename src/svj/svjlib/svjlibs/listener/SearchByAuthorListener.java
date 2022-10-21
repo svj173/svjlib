@@ -1,16 +1,29 @@
 package svj.svjlib.svjlibs.listener;
 
+import svj.svjlib.Log;
 import svj.svjlib.gui.dialog.WidgetsDialog;
 import svj.svjlib.gui.widget.StringFieldWidget;
 import svj.svjlib.obj.BookTitle;
 import svj.svjlib.svjlibs.SLCons;
 import svj.svjlib.svjlibs.obj.Author;
+import svj.svjlib.tools.DialogTools;
+import svj.svjlib.tools.DumpTools;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.*;
 
 /**
+ *
+ * Поиск - с бегунком
+ *
+ * Поиск книг - поля
+ * - Автор
+ * - Название
+ * - язык книги
+ * - Название серии
+ * ...
+ * Причем, если текст поиска наичнается с большйо буквы, то ищем как startWith, иначе - contain
  * <BR/>
  */
 public class SearchByAuthorListener implements ActionListener {
@@ -20,7 +33,10 @@ public class SearchByAuthorListener implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent event) {
 
-        authorWidget = new StringFieldWidget("Имя автора", "Если начинается с прописной буквы - то ищется начало", false);
+        authorWidget = new StringFieldWidget("Имя автора", "", false);
+
+        String toolTip = "Если начинается с прописной буквы - то ищется начало, иначе - вхождение";
+        authorWidget.setToolTip(toolTip);
 
         // todo Либо сразу открывает диалог BookListDialog
         // - и там есть и виджет поиска и Экспорт отмеченных.
@@ -49,6 +65,8 @@ public class SearchByAuthorListener implements ActionListener {
                 byFirst = true;
             }
 
+            Log.l.info("Search author text = '{}'; byFirst = {}", author, byFirst);
+
             Collection<BookTitle> result = new ArrayList<>();
 
             int ic = 0;
@@ -56,17 +74,32 @@ public class SearchByAuthorListener implements ActionListener {
                 if (findBook(book.getAuthors(), author, byFirst)) {
                     result.add(book);
                     ic++;
+                    // todo
                     if (ic > 100) break;
                 }
             }
 
+            Log.l.info("Search author text = '{}'; find size = {}", author, result.size());
+
             // открываем диалог со списком найденных книг
+            DialogTools.showMessage("Автор: " + author, DumpTools.printBookTitles(result));
         }
     }
 
+    // todo здесь лучше Автора сразу приводить к полной строке - ФИО и с ней уже работать - чем анализирвоать возможность пропусков.
     private boolean findBook(Collection<Author> authors, String authorName, boolean byFirst) {
         boolean b;
+        String str;
         for (Author author : authors) {
+            str = author.getSimple();
+            if (byFirst) {
+                b = str.startsWith(authorName);
+                if (b) return true;
+            } else {
+                b = str.contains(authorName);
+                if (b) return true;
+            }
+            /*
             if (author.getLastName() != null) {
                 if (byFirst) {
                     b = author.getLastName().startsWith(authorName);
@@ -97,6 +130,7 @@ public class SearchByAuthorListener implements ActionListener {
                     }
                 }
             }
+            */
         }
         return false;
     }
