@@ -5,9 +5,8 @@ import svj.svjlib.gui.dialog.WidgetsDialog;
 import svj.svjlib.gui.widget.StringFieldWidget;
 import svj.svjlib.obj.BookTitle;
 import svj.svjlib.svjlibs.SLCons;
+import svj.svjlib.svjlibs.dialog.BookListDialog;
 import svj.svjlib.svjlibs.obj.Author;
-import svj.svjlib.tools.DialogTools;
-import svj.svjlib.tools.DumpTools;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -53,51 +52,66 @@ public class SearchByAuthorListener implements ActionListener {
         if (dialog.isOK()) {
 
             // - Из диалога
-            String author = authorWidget.getValue();
+            String authorStr = authorWidget.getValue();
 
             boolean byFirst = false;
 
             // выясняем режим поиска - вхождение или начало
-            String firstSymbol = author.substring(0,1);
+            String firstSymbol = authorStr.substring(0,1);
             String str = firstSymbol.toUpperCase();
             if (str.equals(firstSymbol)) {
                 // это большая буква
                 byFirst = true;
             }
 
-            Log.l.info("Search author text = '{}'; byFirst = {}", author, byFirst);
+            Log.l.info("Search author text = '{}'; byFirst = {}", authorStr, byFirst);
 
-            Collection<BookTitle> result = new ArrayList<>();
+            // todo сортировка по алфавиту авторов
+            Map<Author, Collection<BookTitle>> result = new HashMap<>();
 
             int ic = 0;
+            Author author;
             for (BookTitle book : SLCons.BOOKS_MANAGERS.getBooks()) {
-                if (findBook(book.getAuthors(), author, byFirst)) {
-                    result.add(book);
-                    ic++;
-                    // todo
-                    if (ic > 100) break;
+                author = findBook(book.getAuthors(), authorStr, byFirst);
+                if (author != null) {
+                    addBook(result, author, book);
+                    // todo  ограничение на кол-во авторов
+                    if (result.size() > 50) break;
                 }
             }
 
-            Log.l.info("Search author text = '{}'; find size = {}", author, result.size());
+            Log.l.info("Search author text = '{}'; find size = {}", authorStr, result.size());
 
             // открываем диалог со списком найденных книг
-            DialogTools.showMessage("Автор: " + author, DumpTools.printBookTitles(result));
+            // - список - Автор - кол-во книг
+            BookListDialog bookListDialog = new BookListDialog();
+            bookListDialog.init(result);
+            bookListDialog.showDialog();
+            //DialogTools.showMessage("Автор: " + authorStr, DumpTools.printBookTitles(result));
         }
     }
 
+    private void addBook(Map<Author, Collection<BookTitle>> result, Author author, BookTitle book) {
+        Collection<BookTitle> bookList = result.get(author);
+        if (bookList == null) {
+            bookList = new ArrayList<>();
+            result.put(author, bookList);
+        }
+        bookList.add(book);
+    }
+
     // todo здесь лучше Автора сразу приводить к полной строке - ФИО и с ней уже работать - чем анализирвоать возможность пропусков.
-    private boolean findBook(Collection<Author> authors, String authorName, boolean byFirst) {
+    private Author findBook(Collection<Author> authors, String authorName, boolean byFirst) {
         boolean b;
         String str;
         for (Author author : authors) {
             str = author.getSimple();
             if (byFirst) {
                 b = str.startsWith(authorName);
-                if (b) return true;
+                if (b) return author;
             } else {
                 b = str.contains(authorName);
-                if (b) return true;
+                if (b) return author;
             }
             /*
             if (author.getLastName() != null) {
@@ -132,6 +146,6 @@ public class SearchByAuthorListener implements ActionListener {
             }
             */
         }
-        return false;
+        return null;
     }
 }

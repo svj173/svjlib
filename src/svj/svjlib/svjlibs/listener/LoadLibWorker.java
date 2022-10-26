@@ -102,8 +102,8 @@ public class LoadLibWorker extends SwingWorker<ResponseObject, Void> {
         if (list != null) {
             msg = "list size = " + list.length;
             //todo
-            maxCount = list.length;    // 2 часа будет парсится библиотека
-            //maxCount = 2;
+            //maxCount = list.length;    // 2 часа будет парсится библиотека
+            maxCount = 2;
         } else {
             msg = "list files is Null";
             maxCount = 0;
@@ -270,7 +270,7 @@ public class LoadLibWorker extends SwingWorker<ResponseObject, Void> {
             }
         } catch (Exception e) {
             loadLibInfo.incParseError();
-            Log.file.error("Error in zipEntry = '" + zipEntry + "'; entryName = " + name, e);
+            Log.file.error("Error in zip-archive = '" + zipFileName + "'; zipFile = " + name, e);
 
         //} finally {
             //Utils.close(zin);
@@ -279,8 +279,14 @@ public class LoadLibWorker extends SwingWorker<ResponseObject, Void> {
     }
 
     private String handleText(String text) {
+        // скобочки внутри Аннотаций
         text = text.replace('«', '"');
         text = text.replace('»', '"');
+        text = text.replace("<<<</", " ");
+
+        // фрагменты внутри названий книг
+        text = text.replace("&lt;", "\'");
+        text = text.replace("&gt;", "\'");
         return text;
     }
 

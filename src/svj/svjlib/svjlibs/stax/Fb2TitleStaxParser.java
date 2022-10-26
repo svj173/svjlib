@@ -33,6 +33,7 @@ public class Fb2TitleStaxParser extends SvjStaxParser {
     private static final String SEQUENCE = "sequence";
     private static final String ANNOTATION = "annotation";
     private static final String AUTHOR = "author";
+    private static final String DATE = "date";
 
 
     /**
@@ -107,6 +108,15 @@ public class Fb2TitleStaxParser extends SvjStaxParser {
                         // Язык книги
                         value    = getText ( eventReader );
                         result.setLang(value);
+
+                        continue;
+                    }
+
+                    if ( tagName.equals(DATE) )
+                    {
+                        // Язык книги
+                        value    = getText ( eventReader );
+                        result.setDate(value);
 
                         continue;
                     }

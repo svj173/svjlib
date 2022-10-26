@@ -44,6 +44,7 @@ public class BookTitle {
     private Collection<String> genres = new ArrayList<>();
 
     private String lang;
+    private String date;
 
     // титульная картинка книги если есть  -- идет полсе тега /description - надо ли это?
     private Icon titleIcon;
@@ -66,6 +67,12 @@ public class BookTitle {
         }
 
         sb.append(getLang());
+        sb.append(WCons.SEP_SPACE);
+
+        sb.append("date:");
+        String text = getDate();
+        if (text == null) text = "";
+        sb.append(text);
         sb.append(WCons.SEP_SPACE);
 
         sb.append("size:");
@@ -210,6 +217,14 @@ public class BookTitle {
         authors.add(author);
     }
 
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
     @Override
     public String toString() {
         return "BookTitle{" +
@@ -217,6 +232,7 @@ public class BookTitle {
                 ", archiveName='" + archiveName + '\'' +
                 ", fileName='" + fileName + '\'' +
                 ", bookTitle='" + bookTitle + '\'' +
+                ", date='" + date + '\'' +
                 ", authors=" + authors +
                 ", annotation.size='" + (annotation != null ? annotation.length() : "null") + '\'' +
                 ", serialName='" + serialName + '\'' +
