@@ -69,11 +69,11 @@ public class BookTitle {
         sb.append(getLang());
         sb.append(WCons.SEP_SPACE);
 
-        sb.append("date:");
-        String text = getDate();
-        if (text == null) text = "";
-        sb.append(text);
-        sb.append(WCons.SEP_SPACE);
+        if (getDate() != null) {
+            sb.append("date:");
+            sb.append(getDate());
+            sb.append(WCons.SEP_SPACE);
+        }
 
         sb.append("size:");
         sb.append(getBookSize());
@@ -100,7 +100,6 @@ public class BookTitle {
         sb.append(getArchiveName());
         sb.append(WCons.SEP_1);
         sb.append(getFileName());
-        sb.append(WCons.SEP_1);
 
         return sb.toString();
     }

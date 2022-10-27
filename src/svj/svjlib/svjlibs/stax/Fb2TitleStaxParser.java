@@ -92,7 +92,9 @@ public class Fb2TitleStaxParser extends SvjStaxParser {
                         attr    = startElement.getAttributeByName ( NAME );
                         if ( attr == null )
                             throw new WEditException ("Отсутствует имя Серии.");
-                        result.setSerialName(attr.getValue());
+                        value = attr.getValue();
+                        value = processWrongSymbol(value);
+                        result.setSerialName(value);
                         attr    = startElement.getAttributeByName ( NUMBER );
                         if ( attr != null ) {
                             result.setSerialIndex(Convert.getInt(attr.getValue(), 0));

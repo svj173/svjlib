@@ -70,13 +70,20 @@ public class WEdit6InitWorker    extends SwingWorker<BookTitles,String>
 
                 publish("Всего используется библиотек : " + libs.size());
                 //Thread.sleep(2000);
+                Log.file.info("libs size = {}", libs.size());
+
+                Log.file.info("start books = {}", SLCons.BOOKS_MANAGERS.bookSize());
+
 
                 for (LibInfo lib : libs) {
+                    Log.file.info("load libs = {}", lib);
                     publish("-- Загружаем библиотеку : " + lib.getName());
-                    // загружаем инфу о книгах указанной библиотеки
+                    // загружаем инфу о книгах указанной библиотеки - каталог книг
                     ic = SLCons.BOOKS_MANAGERS.loadBooksInfo(lib.getId());
                     publish("---- Книг : " + ic);
                 }
+
+                Log.file.info("total books = {}", SLCons.BOOKS_MANAGERS.bookSize());
 
                 publish("Финиш");
                 //Thread.sleep(5000);

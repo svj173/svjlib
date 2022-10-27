@@ -21,6 +21,7 @@ import java.util.zip.ZipInputStream;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 /**
+ * Загрузка данных по новой библиотеке. Берем заголовки зипованных книг, парсим их и заносим в свой каталог.
  * <BR/>
  */
 public class LoadLibWorker extends SwingWorker<ResponseObject, Void> {
@@ -102,8 +103,8 @@ public class LoadLibWorker extends SwingWorker<ResponseObject, Void> {
         if (list != null) {
             msg = "list size = " + list.length;
             //todo
-            //maxCount = list.length;    // 2 часа будет парсится библиотека
-            maxCount = 2;
+            maxCount = list.length;    // 2 часа будет парсится библиотека
+            //maxCount = 2;
         } else {
             msg = "list files is Null";
             maxCount = 0;
@@ -258,9 +259,9 @@ public class LoadLibWorker extends SwingWorker<ResponseObject, Void> {
                 if (bookTitle != null) {
                     // директория библиотеки
                     bookTitle.setLibId(libInfo.getId());
-                    // имя зип-файла, содержащего в себе зип-файлы книг
+                    // имя зип-архива, содержащего в себе зип-файлы книг
                     bookTitle.setArchiveName(zipFileName);
-                    // имя зип-файла архива книги
+                    // имя зип-файла этой книги
                     bookTitle.setFileName(zipEntry.getName());
                     bookTitle.setBookSize(entry.getSize() * 3);
                     bookList.add(bookTitle);

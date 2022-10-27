@@ -26,7 +26,7 @@ public class BookListDialog extends WDialog<Map<Author, Collection<BookTitle>>, 
 
         authorListPanel = createAuthorListPanel();
 
-        addToWest(authorListPanel);
+        addToWest(new JScrollPane(authorListPanel));
 
         WPanel centerPanel = new WPanel();
         centerPanel.setLayout(new BorderLayout());

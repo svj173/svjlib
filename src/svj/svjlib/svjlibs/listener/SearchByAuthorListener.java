@@ -7,6 +7,7 @@ import svj.svjlib.obj.BookTitle;
 import svj.svjlib.svjlibs.SLCons;
 import svj.svjlib.svjlibs.dialog.BookListDialog;
 import svj.svjlib.svjlibs.obj.Author;
+import svj.svjlib.tools.DumpTools;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -31,6 +32,8 @@ public class SearchByAuthorListener implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent event) {
+
+        Log.l.info("Start Search author");
 
         authorWidget = new StringFieldWidget("Имя автора", "", false);
 
@@ -67,7 +70,8 @@ public class SearchByAuthorListener implements ActionListener {
             Log.l.info("Search author text = '{}'; byFirst = {}", authorStr, byFirst);
 
             // todo сортировка по алфавиту авторов
-            Map<Author, Collection<BookTitle>> result = new HashMap<>();
+            //Map<Author, Collection<BookTitle>> result = new HashMap<>();
+            Map<Author, Collection<BookTitle>> result = new TreeMap<>();
 
             int ic = 0;
             Author author;
@@ -81,6 +85,7 @@ public class SearchByAuthorListener implements ActionListener {
             }
 
             Log.l.info("Search author text = '{}'; find size = {}", authorStr, result.size());
+            Log.l.info("result = {}", DumpTools.printMap(result, null));
 
             // открываем диалог со списком найденных книг
             // - список - Автор - кол-во книг

@@ -33,19 +33,22 @@ public class SvjStaxParser
         value = value.replace('<', '.');
         value = value.replace('>', '.');
         value = value.replace('/', '.');
+        value = value.replace('&', '.');
         if (value.isEmpty()) value = "xxx";
         return value;
     }
 
     /**
      * Удаляем символы, которые недопустимы внутри текста XML-тегов.
-     * Т.е. в конструкицях типа <author>dfksdhfksjldgjsld</author>
+     * Т.е. в конструкциях типа <author>dfksdhfksjldgjsld</author>,
+     * аанотации, название серии
      */
     protected String processWrongSymbol(String text) {
         if (text == null) return "";
 
         text = text.replace('<', '.');
         text = text.replace('>', '.');
+        text = text.replace('&', '.');
         if (text.isEmpty()) text = "XXX";
         return text;
     }

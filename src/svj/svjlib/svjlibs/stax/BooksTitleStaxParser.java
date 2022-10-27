@@ -27,6 +27,7 @@ public class BooksTitleStaxParser extends SvjStaxParser {
     private static final String BOOK = "book";
     private static final String SIZE = "size";
     private static final String LANG = "lang";
+    private static final String DATE = "date";
     private static final String SERIAL_INDEX = "serialIndex";
     private static final String SERIAL_NAME = "serialName";
     private static final String LIB_ID = "libId";
@@ -123,6 +124,10 @@ public class BooksTitleStaxParser extends SvjStaxParser {
                             bookTitle.setLang(getText ( eventReader ));
                             break;
 
+                        case DATE:
+                            bookTitle.setDate(getText ( eventReader ));
+                            break;
+
                         case SERIAL_INDEX:
                             bookTitle.setSerialIndex(getText ( eventReader ));
                             break;
@@ -179,8 +184,6 @@ public class BooksTitleStaxParser extends SvjStaxParser {
                         default:
                             Log.file.error("Unknown tag '{}' when parse '{}'", tagName, fileName);
                     }
-
-                    result.add(bookTitle);
                 }
 
                 if ( event.isEndElement() )
@@ -188,9 +191,14 @@ public class BooksTitleStaxParser extends SvjStaxParser {
                     endElement  = event.asEndElement();
                     tagName     = endElement.getName().getLocalPart();
 
-                    if ( tagName.equals(BOOKS) )
-                    {
-                        bWork = false;
+                    switch (tagName) {
+                        case BOOKS:
+                            bWork = false;
+                            break;
+
+                        case BOOK:
+                            result.add(bookTitle);
+                            break;
                     }
                 }
             }

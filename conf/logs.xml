@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
 
-    <property name="logDir" value="${env:module.home}/log"/>
+    <!--property name="logDir" value="${env:module.home}/log"/-->
+    <property name="logDir" value="/var/log/svjlib"/>
     <property name="maxFileSize" value="5MB"/>
     <property name="maxHistory" value="7"/>
 

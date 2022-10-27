@@ -1,9 +1,11 @@
 package svj.svjlib.svjlibs.obj;
 
+import svj.svjlib.tools.Utils;
+
 /**
  * <BR/>
  */
-public class Author {
+public class Author implements Comparable<Author>{
 
     private String firstName;
     private String middleName;
@@ -83,4 +85,38 @@ public class Author {
 
         return sb.toString();
     }
+
+    @Override
+    public int compareTo(Author author) {
+
+        int iLastName, iMiddleName;
+
+        if ( author == null )  return 1;
+
+        // 0 - если оба null
+        iLastName   = Utils.compareToWithNull ( getLastName(), author.getLastName() );
+
+        if ( iLastName == 0 )
+        {
+            iMiddleName   = Utils.compareToWithNull ( getMiddleName(), author.getMiddleName() );
+            if ( iMiddleName == 0 )
+                return Utils.compareToWithNull ( getFirstName(), author.getFirstName() );
+            else
+                return iMiddleName;
+        }
+        else
+            return iLastName;
+
+    }
+
+    public boolean equals(Object obj) {
+        if ( obj == null )  return false;
+        if ( obj instanceof Author )
+        {
+            Author author = (Author) obj;
+            return compareTo ( author ) == 0;
+        }
+        return false;
+    }
+
 }

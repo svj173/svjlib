@@ -1,5 +1,6 @@
 package svj.svjlib.svjlibs.manager;
 
+import svj.svjlib.Log;
 import svj.svjlib.Par;
 import svj.svjlib.WCons;
 import svj.svjlib.exc.WEditException;
@@ -92,6 +93,7 @@ public class BooksManager extends XmlHandler{
 
             sb.append(setTag(prefixSp, "size", bookInfo.getBookSize()));
             sb.append(setTag(prefixSp, "lang", bookInfo.getLang()));
+            sb.append(setTag(prefixSp, "date", bookInfo.getDate()));
             sb.append(setTag(prefixSp, "serialIndex", bookInfo.getSerialIndex()));
             sb.append(setTag(prefixSp, "serialName", bookInfo.getSerialName()));
             sb.append(setTag(prefixSp, "libId", bookInfo.getLibId()));
@@ -137,14 +139,18 @@ public class BooksManager extends XmlHandler{
     }
 
     public int loadBooksInfo(Long libId) throws WEditException {
+        Log.file.info("start books size = {}", books.size());
         // создаем имя полное файла
         String fileName = getBookFileName(libId);
+        Log.file.info("books info fileName = {}", fileName);
 
         // парсим файл
         BooksTitleStaxParser parser = new BooksTitleStaxParser();
         Collection<BookTitle> booksList = parser.read(fileName, WCons.CODE_PAGE);
 
         books.addAll(booksList);
+
+        Log.file.info("finish books size = {}", books.size());
 
         return booksList.size();
 
