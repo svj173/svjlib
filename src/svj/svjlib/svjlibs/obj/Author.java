@@ -75,12 +75,12 @@ public class Author implements Comparable<Author>{
             sb.append(getLastName());
             sb.append(" ");
         }
-        if (getMiddleName() != null) {
-            sb.append(getMiddleName());
-            sb.append(" ");
-        }
         if (getFirstName() != null) {
             sb.append(getFirstName());
+            sb.append(" ");
+        }
+        if (getMiddleName() != null) {
+            sb.append(getMiddleName());
         }
 
         return sb.toString();

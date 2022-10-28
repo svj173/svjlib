@@ -3,8 +3,11 @@ package svj.svjlib.svjlibs.dialog;
 import svj.svjlib.Par;
 import svj.svjlib.exc.WEditException;
 import svj.svjlib.gui.dialog.WDialog;
+import svj.svjlib.gui.label.WLabel;
 import svj.svjlib.gui.panel.WPanel;
+import svj.svjlib.gui.table.TableModelTest;
 import svj.svjlib.obj.BookTitle;
+import svj.svjlib.svjlibs.listener.AuthorListMouseListener;
 import svj.svjlib.svjlibs.obj.Author;
 
 import javax.swing.*;
@@ -18,11 +21,14 @@ import java.util.*;
 public class BookListDialog extends WDialog<Map<Author, Collection<BookTitle>>, Void> {
 
     private final WPanel authorListPanel;
-    private final WPanel bookListPanel;
+    private final TableModelTest bookListPanel;
     private final WPanel bookInfoPanel;
 
     public BookListDialog() {
         super(Par.GM.getFrame(), "Книги (не более 50 авторов)");
+
+        // в первую очередь
+        bookListPanel = createBookListPanel();
 
         authorListPanel = createAuthorListPanel();
 
@@ -31,16 +37,21 @@ public class BookListDialog extends WDialog<Map<Author, Collection<BookTitle>>, 
         WPanel centerPanel = new WPanel();
         centerPanel.setLayout(new BorderLayout());
 
-        bookListPanel = createBookListPanel();
         bookInfoPanel = createBookInfoPanel();
 
-        centerPanel.add(BorderLayout.CENTER, bookListPanel);
-        centerPanel.add(BorderLayout.SOUTH, bookInfoPanel);
+        Box contents = new Box(BoxLayout.Y_AXIS);
+      		contents.add(new JScrollPane(bookListPanel));
+      		contents.add(new JScrollPane(bookInfoPanel));
+
+
+
+        centerPanel.add(BorderLayout.CENTER, contents);
+        //centerPanel.add(BorderLayout.SOUTH, bookInfoPanel);
 
     }
 
-    private WPanel createBookListPanel() {
-        WPanel panel = new WPanel();
+    private TableModelTest createBookListPanel() {
+        TableModelTest panel = new TableModelTest();
 
         return panel;
     }
@@ -57,9 +68,12 @@ public class BookListDialog extends WDialog<Map<Author, Collection<BookTitle>>, 
         // левая панель - список авторов (simpleName) и кол-во книг у них
         if (initObject == null) return;
 
+        WLabel label;
         for (Map.Entry<Author, Collection<BookTitle>> entry : initObject.entrySet()) {
-            authorListPanel.add(new JLabel(entry.getKey().getSimple()));
-            authorListPanel.add(new JLabel(Integer.toString(entry.getValue().size())));
+            label = new WLabel(entry.getKey().getSimple(), entry.getKey());
+            authorListPanel.add(label);
+            label = new WLabel(Integer.toString(entry.getValue().size()), entry.getKey());
+            authorListPanel.add(label);
         }
 
         // - панель в центре вверху - список книг выраного автора
@@ -70,6 +84,8 @@ public class BookListDialog extends WDialog<Map<Author, Collection<BookTitle>>, 
         // - по умочланию экспортирует в рабочую директорию Редактора, в поддиректорию books - в алфавитном порядке
 
         // панель в центре внизу - подробно про автора - анотация,
+
+        // Формирование интерфейса
 
     }
 
@@ -86,6 +102,10 @@ public class BookListDialog extends WDialog<Map<Author, Collection<BookTitle>>, 
         panel.add(new JLabel("Всего файлов"));
         panel.add(new JLabel(Integer.toString(bookSize)));
         */
+
+        AuthorListMouseListener action = new AuthorListMouseListener(panel, bookListPanel);
+        panel.addMouseListener(action);
+
 
         return panel;
     }
