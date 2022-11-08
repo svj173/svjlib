@@ -4,12 +4,14 @@ import svj.svjlib.Log;
 import svj.svjlib.gui.label.WLabel;
 import svj.svjlib.gui.panel.WPanel;
 import svj.svjlib.gui.table.TableModelTest;
+import svj.svjlib.svjlibs.obj.Author;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 /**
+ * Выводит спсиок  книг указанного автора - в списке найденных результатов - в виде таблицы.
  * <BR/>
  */
 public class AuthorListMouseListener implements MouseListener {
@@ -34,11 +36,11 @@ MouseEvent.getLocationOnScreen().
     @Override
     public void mouseClicked(MouseEvent event) {
 
-        Point screenPoint = event.getLocationOnScreen();
-        Log.l.info("screenPoint = {}", screenPoint);
+        //Point screenPoint = event.getLocationOnScreen();
+        //Log.l.info("screenPoint = {}", screenPoint);
 
         Point point = event.getPoint();
-        Log.l.info("point = {}", point);
+        //Log.l.info("point = {}", point);
 
         Component c;
         //c = panel.getComponentAt(screenPoint);
@@ -51,10 +53,11 @@ MouseEvent.getLocationOnScreen().
         if (c instanceof WLabel) {
 
             WLabel label = (WLabel) c;
-            Object obj = label.getObject();
-            //DialogTools.showMessage("Выбран автор", obj);
+            Author author = (Author) label.getObject();
+            Log.l.info("select author = {}", author);
+            //DialogTools.showMessage("Выбран автор", author);
             // инициализация страницы с книгами  - получить спсико книг для автора
-            bookListPanel.init();
+            bookListPanel.initData(author);
         }
 
         //SwingUtilities.convertPointToScreen();

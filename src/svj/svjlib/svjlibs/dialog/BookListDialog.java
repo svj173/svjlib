@@ -20,44 +20,47 @@ import java.util.*;
  */
 public class BookListDialog extends WDialog<Map<Author, Collection<BookTitle>>, Void> {
 
+    // сиксок найденных авторов и кол-во их книг - левай панель
     private final WPanel authorListPanel;
+    // список книг выбранного автора
     private final TableModelTest bookListPanel;
-    private final WPanel bookInfoPanel;
+    // аннотация выбраннйо книги
+    private final JLabel bookInfoPanel;
 
     public BookListDialog() {
         super(Par.GM.getFrame(), "Книги (не более 50 авторов)");
 
         // в первую очередь
-        bookListPanel = createBookListPanel();
+        bookInfoPanel = createBookInfoPanel();
+        bookListPanel = new TableModelTest(bookInfoPanel);
 
         authorListPanel = createAuthorListPanel();
 
         addToWest(new JScrollPane(authorListPanel));
 
-        WPanel centerPanel = new WPanel();
-        centerPanel.setLayout(new BorderLayout());
+        //WPanel centerPanel = new WPanel();
+        //centerPanel.setLayout(new BorderLayout());
 
-        bookInfoPanel = createBookInfoPanel();
 
         Box contents = new Box(BoxLayout.Y_AXIS);
-      		contents.add(new JScrollPane(bookListPanel));
-      		contents.add(new JScrollPane(bookInfoPanel));
+      	//contents.add(new JScrollPane(bookListPanel));
+      	contents.add(bookListPanel);
+      	contents.add(new JScrollPane(bookInfoPanel));
 
 
 
-        centerPanel.add(BorderLayout.CENTER, contents);
+        //centerPanel.add(BorderLayout.CENTER, contents);
         //centerPanel.add(BorderLayout.SOUTH, bookInfoPanel);
 
+        //addToCenter(new JScrollPane(authorListPanel));
+        addToCenter(contents);
+
+
     }
 
-    private TableModelTest createBookListPanel() {
-        TableModelTest panel = new TableModelTest();
 
-        return panel;
-    }
-
-    private WPanel createBookInfoPanel() {
-        WPanel panel = new WPanel();
+    private JLabel createBookInfoPanel() {
+        JLabel panel = new JLabel();
 
         return panel;
     }
@@ -75,6 +78,7 @@ public class BookListDialog extends WDialog<Map<Author, Collection<BookTitle>>, 
             label = new WLabel(Integer.toString(entry.getValue().size()), entry.getKey());
             authorListPanel.add(label);
         }
+        bookListPanel.setAuthorList(initObject);
 
         // - панель в центре вверху - список книг выраного автора
         // todo Формируем таблицу с галочками в первой позиции и с возможностью натсройки полей

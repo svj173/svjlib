@@ -231,3 +231,11 @@ bel      be    Белорусский
 
 в стиле Роберта Адама <a l:href="#note1" type="note">[1]</a>
 
+
+Есть вид
+<sequence name="Волкодав и его мир">
+ <sequence name="Волкодав" number="1"/>
+</sequence>
+
+
+
