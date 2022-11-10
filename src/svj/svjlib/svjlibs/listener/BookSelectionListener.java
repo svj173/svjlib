@@ -36,7 +36,7 @@ public class BookSelectionListener implements ListSelectionListener {
                 result = book.getAnnotation() + "\n\n- file: " + book.getFileName();
                 break;
             } else {
-                result = "Выбран не BookTitle";   // !!! - почемуто здеь
+                result = "Выбран не BookTitle: " + value.getClass() + " (" + value + ")";   // !!! - почемуто здеь
             }
             //result = result + value;
             /*
@@ -45,7 +45,7 @@ public class BookSelectionListener implements ListSelectionListener {
             }
             */
         }
-        if (result == null || result.isEmpty())  result = "Аннотация оистутсвует";
+        if (result == null || result.isEmpty())  result = "Аннотация отсутствует";
         bookInfoPanel.setText(result);
 
     }

@@ -3,7 +3,6 @@ package svj.svjlib.svjlibs.listener;
 import svj.svjlib.Log;
 import svj.svjlib.gui.label.WLabel;
 import svj.svjlib.gui.panel.WPanel;
-import svj.svjlib.gui.table.TableModelTest;
 import svj.svjlib.svjlibs.obj.Author;
 
 import java.awt.*;
@@ -17,9 +16,9 @@ import java.awt.event.MouseListener;
 public class AuthorListMouseListener implements MouseListener {
 
     private final WPanel panel;
-    private final TableModelTest bookListPanel;
+    private final WPanel bookListPanel;
 
-    public AuthorListMouseListener(WPanel panel, TableModelTest bookListPanel) {
+    public AuthorListMouseListener(WPanel panel, WPanel bookListPanel) {
 
         this.panel = panel;
         this.bookListPanel = bookListPanel;

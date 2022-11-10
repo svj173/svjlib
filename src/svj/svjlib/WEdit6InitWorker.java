@@ -74,13 +74,16 @@ public class WEdit6InitWorker    extends SwingWorker<BookTitles,String>
 
                 Log.file.info("start books = {}", SLCons.BOOKS_MANAGERS.bookSize());
 
-
+                long startTime, workTime;
                 for (LibInfo lib : libs) {
+                    startTime = System.currentTimeMillis();
                     Log.file.info("load libs = {}", lib);
                     publish("-- Загружаем библиотеку : " + lib.getName());
                     // загружаем инфу о книгах указанной библиотеки - каталог книг
                     ic = SLCons.BOOKS_MANAGERS.loadBooksInfo(lib.getId());
                     publish("---- Книг : " + ic);
+                    workTime = (System.currentTimeMillis() - startTime) / 1000;
+                    publish("---- Время, в сек : " + workTime);
                 }
 
                 Log.file.info("total books = {}", SLCons.BOOKS_MANAGERS.bookSize());

@@ -522,6 +522,16 @@ public class GuiTools
                 screenSize.height / 2 - (dlg.getSize().height / 2));
     }
 
+    public static void setFrameScreenCenterPosition ( Frame frame )
+    {
+        if (frame == null)             return;
+
+        Toolkit kit = Toolkit.getDefaultToolkit();
+        Dimension screenSize = kit.getScreenSize();
+        frame.setLocation(screenSize.width / 2 - (frame.getSize().width / 2),
+                screenSize.height / 2 - (frame.getSize().height / 2));
+    }
+
     public static void setDialogScreenCenterPosition ( JDialog dlg, Container container )
     {
         if (dlg == null)             return;

@@ -1,7 +1,9 @@
 package svj.svjlib.obj;
 
+import svj.svjlib.GCons;
 import svj.svjlib.WCons;
 import svj.svjlib.svjlibs.obj.Author;
+import svj.svjlib.svjlibs.table.BookField;
 import svj.svjlib.tools.Convert;
 
 import javax.swing.*;
@@ -102,6 +104,28 @@ public class BookTitle {
         sb.append(getFileName());
 
         return sb.toString();
+    }
+
+    public Object getValue(IWidthField field) {
+        if (!(field instanceof BookField)) {
+            return GCons.UNKNOWN_TABLE_VALUE;
+        }
+        switch ((BookField) field) {
+            case NAME:
+                return getBookTitle();
+            case SERIAL:
+                return getSerialName();
+            case INDEX:
+                return getSerialIndex();
+            case SIZE:
+                return getBookSize();
+            case DATE:
+                return getDate();
+            case LANG:
+                return getLang();
+            default:
+                return GCons.UNKNOWN_TABLE_VALUE;
+        }
     }
 
     public long getLibId() {

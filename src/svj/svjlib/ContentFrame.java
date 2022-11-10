@@ -4,9 +4,11 @@ import svj.svjlib.gui.WComponent;
 import svj.svjlib.gui.listener.WEditWindowAdapter;
 import svj.svjlib.gui.menu.WEMenuBar;
 import svj.svjlib.gui.panel.ServicePanel;
-import svj.svjlib.obj.BookTitles;
+import svj.svjlib.svjlibs.SLCons;
 
 import javax.swing.*;
+
+import java.awt.*;
 
 /**
  * Главный фрейм
@@ -14,8 +16,12 @@ import javax.swing.*;
  */
 public class ContentFrame extends JFrame implements WComponent {
 
+    // иконки
     private WEMenuBar       menuBar;
+
+    // панель дял служебных сообщений - memoryLabel, statusMsg, javaVersion
     private ServicePanel servicePanel;
+
 
     public ContentFrame() {
         // todo + version / build / create date
@@ -26,6 +32,16 @@ public class ContentFrame extends JFrame implements WComponent {
         setLocation ( 200, 100 );
         setDefaultCloseOperation ( WindowConstants.EXIT_ON_CLOSE );
 
+        Dimension   d;
+        int         x, y;
+        d   = Toolkit.getDefaultToolkit().getScreenSize();
+        x   = d.width - (d.width / 3);
+        y   = d.height - 100;
+        setSize ( x,y );
+        Dimension size  = new Dimension ( x,y );
+        setPreferredSize(size);
+
+
         // иконка
         //Image icon = GuiTools.createImage ( "img/editor/we6_title.png" );
         //if ( icon != null )  setIconImage ( icon );
@@ -33,18 +49,7 @@ public class ContentFrame extends JFrame implements WComponent {
         // Вешаем листенер на крестик фрейма
         addWindowListener ( new WEditWindowAdapter() );
 
-        /*
-        // Установить размер - если размер не был взят из сохраняемых параметров при загрузке книги.
-        Dimension d   = Toolkit.getDefaultToolkit().getScreenSize();
-        x   = d.width / 2;
-        y   = d.height - 100;
-        //Dimension size  = new Dimension ( x,y );
-        setSize ( x,y );
-        //getContentPane().setPreferredSize ( size );
-        */
-
-
-        // todo создаем все ГУИ элементы
+        // создаем все ГУИ элементы
 
         // 1. тулбар
         menuBar = new WEMenuBar();
@@ -56,9 +61,12 @@ public class ContentFrame extends JFrame implements WComponent {
 
     }
 
-    public void init (BookTitles bookTitles)
+    public void init ()
     {
         Log.l.debug ( "ContentFrame.init: Start." );
+
+        // Добавляем ГУИ индививдуальные элементы
+        SLCons.SL_GUI_MANAGER.initFrame(this);
 
         // todo Добавляем инфу о книга
 

@@ -4,6 +4,7 @@ import svj.svjlib.obj.BookTitles;
 import svj.svjlib.svjlibs.SLCons;
 import svj.svjlib.svjlibs.SLPar;
 import svj.svjlib.tools.DialogTools;
+import svj.svjlib.tools.GuiTools;
 
 import java.awt.*;
 import java.io.File;
@@ -35,7 +36,7 @@ public class SvjLib implements Runnable {
             // Установить имя потока, в котoром будет крутиться EmsGUI приложение
             Thread.currentThread().setName("main");
 
-            // todo запускаем процесс чтения конфига - если он есть
+            // запускаем процесс чтения конфига - если он есть
             WEdit6InitDialog initDialog = new WEdit6InitDialog ( "Инициализация" );
             initDialog.showDialog();
 
@@ -45,11 +46,11 @@ public class SvjLib implements Runnable {
             Log.l.debug ( "SvjLib.run: run init SvjLib." );
 
 
-            Par.GM.getFrame().init(bookTitles);
+            Par.GM.getFrame().init();
             Par.GM.getFrame().pack();
 
             // центрируем Фрейм
-            //GuiTools.setDialogScreenCenterPosition ( Par.GM.getFrame() );
+            GuiTools.setFrameScreenCenterPosition ( Par.GM.getFrame() );
 
             // Флаг что редактор поднят
             //Par.WEDIT_STARTED = true;
@@ -100,6 +101,7 @@ public class SvjLib implements Runnable {
         } catch ( Throwable e ) {
             // Обработать  ошибку и закрыть.
             str = "SVJLib.main ERROR: " + e.getMessage();
+            Log.l.error(str, e);
             System.err.println ( str );
             e.printStackTrace();
             System.exit ( 12 );

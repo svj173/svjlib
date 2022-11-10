@@ -1,5 +1,6 @@
 package svj.svjlib.svjlibs;
 
+import svj.svjlib.ContentFrame;
 import svj.svjlib.obj.BookTitles;
 
 /**
@@ -16,4 +17,5 @@ public class SLPar {
     // ---------------- Динамические параметры ---------------
 
     public static String CONF_DIR = null;
+
 }

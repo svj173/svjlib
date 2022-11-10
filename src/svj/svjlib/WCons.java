@@ -156,4 +156,6 @@ public interface WCons
     // Временные интервалы
     int ONE_SECOND = 1000;
 
+    String DD_MM_YYYY_HH_MM_SS = "dd.MM.yyyy HH:mm:ss"; ///
+
 }
