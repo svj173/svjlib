@@ -26,7 +26,11 @@ public class SvjStaxParser
      * @return
      */
     protected String replaceName(String value) {
+
         if (value == null) return value;
+
+        value = value.trim();
+        if (value.isEmpty()) value = "xxx";
 
         value = value.replace('\'', '.');
         value = value.replace('\"', '.');
@@ -34,7 +38,6 @@ public class SvjStaxParser
         value = value.replace('>', '.');
         value = value.replace('/', '.');
         value = value.replace('&', '.');
-        if (value.isEmpty()) value = "xxx";
         return value;
     }
 
@@ -97,6 +100,8 @@ public class SvjStaxParser
             throw new  WEditException (  e, "Ошибка получения текстовых данных тега :\n", e );
         }
 
+        if (result != null)  result = result.trim();
+        
         return result;
     }
 

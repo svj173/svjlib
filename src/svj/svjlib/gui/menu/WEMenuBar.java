@@ -32,10 +32,8 @@ public class WEMenuBar extends JMenuBar
         menu    = SLTools.createLibMenu();
         add ( menu );
 
-        menu    = SLTools.createSearchMenu();
-        add ( menu );
-
-
+        //menu    = SLTools.createSearchMenu();
+        //add ( menu );
 
 
 
@@ -146,19 +144,12 @@ public class WEMenuBar extends JMenuBar
             @Override
             public void actionPerformed ( ActionEvent event )
             {
-                DialogTools.showMessage ( "Об авторе", "Сергей Афанасьев\n- s_afa@yahoo.com\n- http://samlib.ru/a/afanasxew_s/" );
+                DialogTools.showMessage ( "Об авторе",
+                        "Сергей Афанасьев\n- s_afa@yahoo.com\n- https://www.litres.ru/sergey-afanasev-23644756"
+                                + "\n- http://samlib.ru/a/afanasxew_s/" );
             }
         } );
         helpMenu.add ( menuItem );
-        /*
-        JComponent  jmenu;
-        jmenu    = getMenu ( FunctionId.CHANGE_TOOL_BAR_ICON_SIZE );
-        if ( jmenu != null )
-        {
-            jmenu.setComponentOrientation ( ComponentOrientation.RIGHT_TO_LEFT );
-            menu.add ( jmenu );
-        }
-        */
     }
 
     /**

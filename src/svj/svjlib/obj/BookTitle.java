@@ -7,6 +7,7 @@ import svj.svjlib.svjlibs.table.BookField;
 import svj.svjlib.svjlibs.tools.SLTools;
 import svj.svjlib.tools.Convert;
 import svj.svjlib.tools.StringTools;
+import svj.svjlib.tools.Utils;
 
 import javax.swing.*;
 
@@ -25,7 +26,7 @@ import java.util.*;
  * - Размер - ? - как из зип получить реальный размер без распаковки?
  * <BR/>
  */
-public class BookTitle {
+public class BookTitle implements Comparable<BookTitle> {
 
     // ИД библиотеки
     private long libId;
@@ -67,6 +68,17 @@ public class BookTitle {
             sb.append(author.getLastName());
             sb.append(WCons.SEP_SPACE);
             sb.append(author.getFirstName());
+        }
+        return sb.toString();
+    }
+
+    public String getFirstAuthor() {
+        StringBuilder sb = new StringBuilder(128);
+
+        if (authors.size() > 0) {
+            List<Author> l = new ArrayList<>(authors);
+            Author author = l.get(0);
+            sb.append(author.getSimple());
         }
         return sb.toString();
     }
@@ -155,7 +167,7 @@ public class BookTitle {
             sb.append(WCons.END_LINE);
         }
 
-        sb.append("Размер (примерный): ");
+        sb.append("Размер: ");
         sb.append(getBookSize());
         sb.append(WCons.END_LINE);
 
@@ -198,6 +210,8 @@ public class BookTitle {
         switch ((BookField) field) {
             case NAME:
                 return getBookTitle();
+            case AUTHOR:
+                return getFirstAuthor();
             case GENRE:
                 return getGenresStr();
             case SERIAL:
@@ -357,4 +371,23 @@ public class BookTitle {
                 ", bookSize=" + bookSize +
                 '}';
     }
+
+    @Override
+    public int compareTo(BookTitle bookTitle) {
+
+        if ( bookTitle == null )  return 1;
+
+        return Utils.compareToWithNull ( getBookTitle(), bookTitle.getBookTitle() );
+    }
+
+    public boolean equals(Object obj) {
+        if ( obj == null )  return false;
+        if ( obj instanceof BookTitle )
+        {
+            BookTitle bookTitle = (BookTitle) obj;
+            return compareTo ( bookTitle ) == 0;
+        }
+        return false;
+    }
+
 }

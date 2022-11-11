@@ -91,7 +91,28 @@ public class BooksPanel extends WPanel {
     }
 
     // выбран автор
-    public void initData(Object obj) {
+    public void initData(Collection<BookTitle> bookList) {
+        if (bookList == null)  {
+            DialogTools.showError("Не задано Название", "Ошибка");
+            return;
+        }
+
+
+        //topPanel.setText();
+
+        // заносим книги выбранного атвора в таблицу
+        ATableModel<BookTitle, BookField> model = bookTablePanel.getTableModel();
+        Vector<BookTitle> v = new Vector<>();
+        v.addAll(bookList);
+        model.setData(v);  // Vector<BookTitle
+        model.fireTableDataChanged();
+
+        bookTablePanel.getTable().repaint();
+        bookTablePanel.getTable().revalidate();
+    }
+
+    // выбран автор
+    public void initAuthorData(Object obj) {
         if (obj == null)  {
             DialogTools.showError("Не задан Автор", "Ошибка");
             return;

@@ -6,6 +6,7 @@ import svj.svjlib.gui.panel.SimpleEditablePanel;
 import svj.svjlib.gui.panel.WPanel;
 import svj.svjlib.gui.tabs.TabsPanel;
 import svj.svjlib.svjlibs.panel.AuthorListPanel;
+import svj.svjlib.svjlibs.panel.BookNamesListPanel;
 
 import javax.swing.*;
 
@@ -102,18 +103,8 @@ public class SlGuiManager {
      * @param name
      * @return
      */
-    private EditablePanel createBookNamesPanel(String name) {
-        SimpleEditablePanel result = new SimpleEditablePanel();
-
-        result.setName ( name );
-        result.setId ( name );
-
-        result.setLayout ( new BorderLayout(5,5) );
-
-        // три вертикальных панели
-        // - Кнопки Поиска, Экспорта - Список книг выбранного жанра (по авторам)
-
-        return result;
+    private WPanel createBookNamesPanel(String name) {
+        return new BookNamesListPanel();
     }
 
 

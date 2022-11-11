@@ -11,6 +11,7 @@ import java.util.*;
 public enum BookField implements IWidthField {
 
     NAME("Наименование", String.class, 255, 0.3f),
+    AUTHOR("Автор", String.class, 255, 0.3f),
     GENRE("Жанр", String.class, 255, 0.3f),
     SERIAL("Серия", String.class, 255, 0.2f),
     INDEX("Индекс в серии", Integer.class, 255, 0.2f),

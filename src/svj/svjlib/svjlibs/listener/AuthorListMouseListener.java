@@ -56,7 +56,7 @@ MouseEvent.getLocationOnScreen().
             Log.l.info("select author = {}", author);
             //DialogTools.showMessage("Выбран автор", author);
             // инициализация страницы с книгами  - получить спсико книг для автора
-            bookListPanel.initData(author);
+            bookListPanel.initAuthorData(author);
         }
 
         //SwingUtilities.convertPointToScreen();
