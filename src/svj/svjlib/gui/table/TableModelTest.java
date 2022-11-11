@@ -2,7 +2,6 @@ package svj.svjlib.gui.table;
 
 import svj.svjlib.gui.panel.WPanel;
 import svj.svjlib.obj.BookTitle;
-import svj.svjlib.svjlibs.listener.BookSelectionListener;
 import svj.svjlib.svjlibs.obj.Author;
 
 import javax.swing.*;
@@ -14,6 +13,7 @@ import java.util.*;
 /**
  * <BR/>
  */
+@Deprecated
 public class TableModelTest extends WPanel {
 
     private DefaultTableModel tableModel;
@@ -24,37 +24,20 @@ public class TableModelTest extends WPanel {
     private JLabel topLabel = new JLabel();
 	private JLabel bookInfoPanel;
 
-	public TableModelTest(JLabel bookInfoPanel) {
+	public TableModelTest(JTextArea bookInfoPanel) {
 
     	setLayout(new BorderLayout());
 
     	add(topLabel, BorderLayout.NORTH);
 
-
+		/*
 
         // Создание стандартной модели
       		tableModel = new DefaultTableModel();
 
-      		// Определение стоблцов
-        // Заголовки столбцов
-		/*
-				columnsHeader.add("Название");
-		columnsHeader.add("Серия");
-		columnsHeader.add("Индекс в серии");
-		columnsHeader.add("Язык");
-		columnsHeader.add("Дата написания");
-		columnsHeader.add("Размер книги");
-
-		 */
         	Object[] columnsHeader = new String[] {"Наименование", "Серия", "Индекс в серии", "Язык", "Дата написания", "Размер книги"};
       		tableModel.setColumnIdentifiers(columnsHeader);
 
-      		/*
-      		// Наполнение модели данными
-      		for (int i = 0; i < array.length; i++) {
-				tableModel.addRow(array[i]);          // addRow(Vector<?> rowData)
-			}
-		    */
       		// Создание таблицы на основании модели данных
       		table = new JTable(tableModel);
 
@@ -63,7 +46,7 @@ public class TableModelTest extends WPanel {
 
 		ListSelectionModel selModel = table.getSelectionModel();
 		selModel.addListSelectionListener(new BookSelectionListener(table, bookInfoPanel));
-
+		*/
     }
 
 	public void initData(Author author) {

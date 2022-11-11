@@ -25,13 +25,13 @@ public class BookListDialog extends WDialog<Map<Author, Collection<BookTitle>>, 
     // список книг выбранного автора
     private final TableModelTest bookListPanel;
     // аннотация выбраннйо книги
-    private final JLabel bookInfoPanel;
+    private final JTextArea bookInfoPanel;
 
     public BookListDialog() {
         super(Par.GM.getFrame(), "Книги (не более 50 авторов)");
 
         // в первую очередь
-        bookInfoPanel = createBookInfoPanel();
+        bookInfoPanel = new JTextArea();
         bookListPanel = new TableModelTest(bookInfoPanel);
 
         authorListPanel = createAuthorListPanel();

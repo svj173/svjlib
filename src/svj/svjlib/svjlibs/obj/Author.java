@@ -7,8 +7,10 @@ import svj.svjlib.tools.Utils;
  */
 public class Author implements Comparable<Author>{
 
+    // имя
     private String firstName;
     private String middleName;
+    // фамилия
     private String lastName;
 
     public void setFirstName(String firstName) {

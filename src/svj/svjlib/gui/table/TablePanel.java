@@ -58,6 +58,8 @@ public abstract class TablePanel<F extends IName, D, M extends ATableModel<D, F>
         setName(tabName);
         this.tabName = tabName;
 
+        setLayout(new BorderLayout());
+
         if (tableModel != null) {
             // Создать обьекты Table и TableModel
             initTable(tableModel);
@@ -303,7 +305,7 @@ public abstract class TablePanel<F extends IName, D, M extends ATableModel<D, F>
     }
 
     /* Занести используемые колонки - с диалога изменения колонок. */
-    public void setFields(Vector<F> fields) throws WEditException {
+    public void setFields(Vector<F> fields)  {
         M tableModel1;
         RowSorter sorter;
 
@@ -311,7 +313,7 @@ public abstract class TablePanel<F extends IName, D, M extends ATableModel<D, F>
 
         // убить сортировку
         sorter = getTable().getRowSorter();
-        sorter.setSortKeys(null);
+        if (sorter != null)    sorter.setSortKeys(null);
 
         tableModel1.setColumnFields(fields);
         updateFields();
@@ -470,7 +472,13 @@ public abstract class TablePanel<F extends IName, D, M extends ATableModel<D, F>
         JTableHeader header = mainTable.getTableHeader();
         final TableCellRenderer tcrOs = header.getDefaultRenderer();
     //    header.setDefaultRenderer(new TableHeaderCellRenderer(tcrOs));
+
+        header.setBackground(WCons.GREEN_2);
+
         mainTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
+
+        RowSorter<TableModel> sorter = new TableRowSorter<>(tableModel);
+        mainTable.setRowSorter(sorter);
 
     //    mainTable.addMouseListener(new SimpleTableReselectListener(mainTable));
 
@@ -479,7 +487,7 @@ public abstract class TablePanel<F extends IName, D, M extends ATableModel<D, F>
 
         // в том классе ничего не делается
         //header.getColumnModel().addColumnModelListener ( new ColumnChangeListener(mainTable) );
-        //add ( mainTable );
+        add ( new JScrollPane(mainTable), BorderLayout.CENTER );
 
         // режим изменения ширины всех колонок в случае изменения ширины одной колонки - см. programmer_guid
         //mainTable.setAutoResizeMode ( JTable.AUTO_RESIZE_OFF );

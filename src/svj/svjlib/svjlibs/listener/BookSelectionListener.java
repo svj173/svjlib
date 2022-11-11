@@ -1,11 +1,11 @@
 package svj.svjlib.svjlibs.listener;
 
 import svj.svjlib.obj.BookTitle;
+import svj.svjlib.svjlibs.table.BookTablePanel;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import javax.swing.table.TableModel;
 
 /**
  * Акция на выделении книги в таблице - выводит внизу аннотацию книги и другую инфу
@@ -13,11 +13,11 @@ import javax.swing.table.TableModel;
  */
 public class BookSelectionListener implements ListSelectionListener {
 
-    private JTable table;
-    private JLabel bookInfoPanel;
+    private BookTablePanel bookTablePanel;
+    private JTextArea bookInfoPanel;
 
-    public BookSelectionListener(JTable table, JLabel bookInfoPanel) {
-        this.table = table;
+    public BookSelectionListener(BookTablePanel bookTablePanel, JTextArea bookInfoPanel) {
+        this.bookTablePanel = bookTablePanel;
         this.bookInfoPanel = bookInfoPanel;
 
     }
@@ -25,27 +25,18 @@ public class BookSelectionListener implements ListSelectionListener {
     @Override
     public void valueChanged(ListSelectionEvent event) {
 
-        String result = "22";
-        int[] selectedRows = table.getSelectedRows();
-        for (int i = 0; i < selectedRows.length; i++) {
-            int selIndex = selectedRows[i];
-            TableModel model = table.getModel();
-            Object value = model.getValueAt(selIndex, 0);
-            if (value instanceof BookTitle) {
-                BookTitle book = (BookTitle) value;
-                result = book.getAnnotation() + "\n\n- file: " + book.getFileName();
-                break;
-            } else {
-                result = "Выбран не BookTitle: " + value.getClass() + " (" + value + ")";   // !!! - почемуто здеь
-            }
-            //result = result + value;
-            /*
-            if (i != selectedRows.length —1){
-                result += ", ";
-            }
-            */
+        String result;
+
+        BookTitle book = bookTablePanel.getSelectedItem();
+        //result = book.getAnnotation() + "\n\n- file: " + book.getFileName() + "\n";
+        if (book == null) {
+            result = "";
+        } else {
+            result = book.fullInfo();
         }
-        if (result == null || result.isEmpty())  result = "Аннотация отсутствует";
+
+        //if (StringTools.isEmpty(result))  result = "Аннотация отсутствует";
+
         bookInfoPanel.setText(result);
 
     }

@@ -63,18 +63,18 @@ public interface WCons
     Color TREE_BACKGROUND_COLOR = Color.WHITE;
 
     /* Светло-красный. Исп в подсветке критических алертов. */
-    Color RED_1 = Color.decode ( "#FF0033" );
+    Color RED_1 = new Color ( 0xFF0033 );
     /* Оранжевый. Исп в подсветке мажорных алертов. */
-    Color RED_2 = Color.decode ( "#FF9933" );
+    Color RED_2 = new Color ( 0xFF9933 );
     /* Жёлтый. Исп в подсветке мажорных алертов. */
-    Color RED_3 = Color.decode ( "#FFFF00" );
+    Color RED_3 = new Color ( 0xFFFF00 );
 
     /* Серо-синий. Исп в заголовке контекстного меню. */
-    Color BLUE_1 = Color.decode ( "#7090AE" );
+    Color BLUE_1 = new Color ( 0x7090AE );
     /* Светло-голубой - как в выбранном табике */
-    Color BLUE_2 = Color.decode ( "#C8DDF2" );
+    Color BLUE_2 = new Color ( 0xC8DDF2 );
     /* Светло-голубой - как в выбранной строке таблицы */
-    Color BLUE_3 = Color.decode ( "#B8CFE5" );
+    Color BLUE_3 = new Color ( 0xB8CFE5 );
     /* Ярко-голубой */
     Color BLUE_4 = new Color ( 0x12A4F8 );
 
@@ -100,11 +100,11 @@ public interface WCons
     //Color GRAY_2 = Color.LIGHT_GRAY;  // 192, 192, 192   ->C0C0C0
 
     /* Серо-зеленый. Цвет шапки таблицы. */
-    Color GREEN_1 = Color.decode ( "#70AE70" );
+    Color GREEN_1 = new Color ( 0x70AE70 );
     /* Ярко зелёный - Clear События*/
-    Color GREEN_2 = Color.decode ( "#00ff00" );
+    Color GREEN_2 = new Color ( 0x00ff00 );
     /* Темно-зеленый. Цвет метки в тексте. */
-    Color GREEN_3 = Color.decode ( "#009900" );
+    Color GREEN_3 = new Color ( 0x009900 );
 
     /* фон апплет панели c текстом - светло серо сине зеленый */
     Color APPLET_FON = new Color ( 0x98D1DC );
@@ -127,10 +127,10 @@ public interface WCons
 
 
     /* Цвет текстового поля для отображения процесса работы - светлофиолетовый */
-    Color TEXT_AREA = Color.decode("#AAAAFF");
+    Color TEXT_AREA = new Color(0xAAAAFF);
 
     /* Светло-серый - Цвет фона кнопок по умолчанию */
-    Color DEFAULT_BUTTON = Color.decode ( "#EEEEEE" );
+    Color DEFAULT_BUTTON = new Color ( 0xEEEEEE );
 
     Font    TEXT_FONT_1             = new Font("Monospaced", Font.BOLD, 14 );
     Font    ERROR_FONT              = new Font("Monospaced", Font.BOLD, 14 );

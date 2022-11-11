@@ -650,6 +650,15 @@ public enum Genre {
         return title;
     }
 
+    public static String getTitle(String name) {
+        try {
+            Genre genre = valueOf(name);
+            return genre.getTitle();
+        } catch (Exception e) {
+            return name + " (?)";
+        }
+    }
+
     public GlobalGenre getGlobalGenre() {
         return globalGenre;
     }

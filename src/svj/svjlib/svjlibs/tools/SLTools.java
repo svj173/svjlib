@@ -5,11 +5,32 @@ import svj.svjlib.gui.menu.WEMenuItem;
 import svj.svjlib.svjlibs.listener.LoadLibListListener;
 import svj.svjlib.svjlibs.listener.SearchByAuthorListener;
 import svj.svjlib.svjlibs.listener.ViewLibsListListener;
+import svj.svjlib.svjlibs.obj.Genre;
+
+import java.util.*;
 
 /**
  * <BR/>
  */
 public class SLTools {
+
+    public static String getGenresAsStr (Collection<String> list)
+    {
+        String result;
+        StringBuilder sb = new StringBuilder( 128 );
+        if ( list == null  ) return "";
+        if ( list.isEmpty()  ) return "";
+
+        for ( String name : list )
+        {
+            sb.append ( Genre.getTitle(name) );
+            sb.append ( ", " );
+        }
+        // удалить последнюю запятую и пробел
+        result = sb.toString();
+        result = result.substring ( 0, result.length() - 2 );
+        return result;
+    }
 
     public static WEMenu createLibMenu() {
         WEMenu     result;

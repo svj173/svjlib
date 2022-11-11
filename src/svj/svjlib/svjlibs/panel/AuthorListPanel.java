@@ -7,6 +7,7 @@ import svj.svjlib.gui.listener.ReloadActionListener;
 import svj.svjlib.gui.panel.ReloadPanel;
 import svj.svjlib.gui.panel.WPanel;
 import svj.svjlib.gui.widget.StringFieldWidget;
+import svj.svjlib.listener.WKeyAdapter;
 import svj.svjlib.obj.BookTitle;
 import svj.svjlib.svjlibs.SLCons;
 import svj.svjlib.svjlibs.listener.AuthorListMouseListener;
@@ -86,6 +87,11 @@ public class AuthorListPanel extends ReloadPanel {
         WButton reloadButton = GuiTools.createButton ( "Обновить", null, "reload.png" );
         reloadButton.setActionCommand ( "reload" );
         reloadButton.addActionListener ( new ReloadActionListener(this));
+        // привзяка к Enter
+        //reloadButton.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), "pressed");
+        //reloadButton.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0, true), "released");
+        reloadButton.addKeyListener(new WKeyAdapter(this));
+
         authorFilterPanel.add ( reloadButton );
 
         // список авторов
@@ -136,6 +142,8 @@ public class AuthorListPanel extends ReloadPanel {
 
         // Обновляем список авторов
         initAuthors(result);
+
+        // Очищаем список книг
     }
 
     private boolean checkLang(String lang, BookTitle book) {
@@ -186,8 +194,9 @@ public class AuthorListPanel extends ReloadPanel {
 
         // левая панель - список авторов (simpleName) и кол-во книг у них
 
-        // todo - очистить старые данные
-        //authorListPanel.clear();
+        // - очистить старые данные по авторам
+        authorListPanel.removeAll();
+
         if (initObject == null) return;
 
         WLabel label;
@@ -198,6 +207,9 @@ public class AuthorListPanel extends ReloadPanel {
             authorListPanel.add(label);
         }
         bookListPanel.setAuthorList(initObject);
+
+        authorListPanel.repaint();
+        authorListPanel.revalidate();
 
         // - панель в центре вверху - список книг выраного автора
         // todo Формируем таблицу с галочками в первой позиции и с возможностью натсройки полей

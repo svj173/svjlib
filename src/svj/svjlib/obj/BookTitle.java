@@ -4,7 +4,9 @@ import svj.svjlib.GCons;
 import svj.svjlib.WCons;
 import svj.svjlib.svjlibs.obj.Author;
 import svj.svjlib.svjlibs.table.BookField;
+import svj.svjlib.svjlibs.tools.SLTools;
 import svj.svjlib.tools.Convert;
+import svj.svjlib.tools.StringTools;
 
 import javax.swing.*;
 
@@ -106,6 +108,74 @@ public class BookTitle {
         return sb.toString();
     }
 
+    public String fullInfo() {
+        StringBuilder sb = new StringBuilder(128);
+        sb.append(bookTitle);
+        sb.append(WCons.END_LINE);
+        sb.append(WCons.END_LINE);
+
+        if (authors.size() > 0)  {
+            sb.append("Автор: ");
+            List<Author> l = new ArrayList<>(authors);
+            Author author = l.get(0);
+            sb.append(author.getSimple());
+            sb.append(WCons.END_LINE);
+        }
+
+        if (! StringTools.isEmpty(getAnnotation())) {
+            sb.append(WCons.END_LINE);
+            sb.append("Аннотация: ");
+            sb.append(getAnnotation());
+            sb.append(WCons.END_LINE);
+            sb.append(WCons.END_LINE);
+        }
+
+        sb.append("Язык: ");
+        sb.append(getLang());
+        sb.append(WCons.END_LINE);
+
+        if (getDate() != null) {
+            sb.append("Дата: ");
+            sb.append(getDate());
+            sb.append(WCons.END_LINE);
+        }
+
+        sb.append("Размер (примерный): ");
+        sb.append(getBookSize());
+        sb.append(WCons.END_LINE);
+
+        if (getSerialName() != null) {
+            sb.append("Серия: ");
+            sb.append(getSerialName());
+            sb.append(" - ");
+            sb.append(getSerialIndex());
+            sb.append(WCons.END_LINE);
+        }
+
+        if (genres.size() > 0) {
+            sb.append("Жанр: ");
+            sb.append(SLTools.getGenresAsStr(getGenres()));
+            sb.append(WCons.END_LINE);
+        }
+
+        sb.append(WCons.END_LINE);
+
+        sb.append("ИД библиотеки: ");
+        sb.append(getLibId());
+        sb.append(WCons.END_LINE);
+
+        sb.append("Имя файла архива: ");
+        sb.append(getArchiveName());
+        sb.append(WCons.END_LINE);
+
+        sb.append("Имя файла книги в архиве: ");
+        sb.append(getFileName());
+        sb.append(WCons.END_LINE);
+
+        return sb.toString();
+    }
+
+    // для отображения в таблице списка книг
     public Object getValue(IWidthField field) {
         if (!(field instanceof BookField)) {
             return GCons.UNKNOWN_TABLE_VALUE;
@@ -113,6 +183,8 @@ public class BookTitle {
         switch ((BookField) field) {
             case NAME:
                 return getBookTitle();
+            case GENRE:
+                return getGenresStr();
             case SERIAL:
                 return getSerialName();
             case INDEX:
@@ -202,6 +274,10 @@ public class BookTitle {
 
     public Collection<String> getGenres() {
         return genres;
+    }
+
+    public String getGenresStr() {
+        return SLTools.getGenresAsStr(getGenres());
     }
 
     public Icon getTitleIcon() {
