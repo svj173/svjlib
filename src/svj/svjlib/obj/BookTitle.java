@@ -56,6 +56,21 @@ public class BookTitle {
     // если есть аткая возможность - иначе приблизительный пересчет из ZIP размера.
     private long bookSize;
 
+    public String getSimpleInfo() {
+        StringBuilder sb = new StringBuilder(128);
+        sb.append(bookTitle);
+        sb.append(WCons.SEP_1);
+
+        if (authors.size() > 0) {
+            List<Author> l = new ArrayList<>(authors);
+            Author author = l.get(0);
+            sb.append(author.getLastName());
+            sb.append(WCons.SEP_SPACE);
+            sb.append(author.getFirstName());
+        }
+        return sb.toString();
+    }
+
     public String info() {
         StringBuilder sb = new StringBuilder(128);
         sb.append(bookTitle);

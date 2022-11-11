@@ -33,10 +33,11 @@ public class LoadLibWorker extends SwingWorker<ResponseObject, Void> {
 
     private Fb2TitleStaxParser bookParser = new Fb2TitleStaxParser();
 
-    //private  final String libDirPath;
     private  final LibInfo libInfo;
 
+    // отчет о загрузке: всего архивных зип-файлов, пока еше загружено, всего книг
     private     JLabel totalZipValue, loadZipValue, totalBooksValue;
+    // счетчик загружаемых книг
     private int countBooks = 0;
 
 
@@ -263,7 +264,9 @@ public class LoadLibWorker extends SwingWorker<ResponseObject, Void> {
                     bookTitle.setArchiveName(zipFileName);
                     // имя зип-файла этой книги
                     bookTitle.setFileName(zipEntry.getName());
-                    bookTitle.setBookSize(entry.getSize() * 3);
+                    // показалось что неверные значения размера и надо умножать на 3. но вроде все правильно оказалось.
+                    //bookTitle.setBookSize(entry.getSize() * 3);
+                    bookTitle.setBookSize(entry.getSize());
                     bookList.add(bookTitle);
                 }
 

@@ -41,6 +41,11 @@ public class LibsManager {
         }
     }
 
+    public LibInfo getLib(Long id)
+    {
+        return libs.get(id);
+    }
+
     public void checkLib(LibInfo libInfo) throws WEditException {
         if (libInfo == null) {
             String errMsg = "Не задана библиотека";

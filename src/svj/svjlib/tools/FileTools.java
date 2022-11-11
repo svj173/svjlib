@@ -508,6 +508,11 @@ public class FileTools
         return selectFileName ( frame, currentDirectory, null );
     }
 
+    public static synchronized boolean createFolder ( String folder ) {
+        File file = new File(folder);
+        return createFolder(file);
+    }
+
     public static synchronized boolean createFolder ( final File folder )
     {
         if ( !folder.exists () && createFolder ( folder.getParentFile () ) )
