@@ -7,6 +7,7 @@ import svj.svjlib.gui.table.ATableModel;
 import svj.svjlib.obj.BookTitle;
 import svj.svjlib.svjlibs.listener.BookSelectionListener;
 import svj.svjlib.svjlibs.listener.ExportBookListener;
+import svj.svjlib.svjlibs.listener.ExportRemoteBookListener;
 import svj.svjlib.svjlibs.obj.Author;
 import svj.svjlib.svjlibs.table.BookField;
 import svj.svjlib.svjlibs.table.BookTablePanel;
@@ -75,7 +76,7 @@ public class BooksPanel extends WPanel {
         // кнопка Экспорт-внешний
         WButton exportButton2 = GuiTools.createButton ( "Экспорт-внешний", null, "export.png" );
         //reloadButton.setActionCommand ( "reload" );
-        //reloadButton.addActionListener ( new ReloadActionListener(this));
+        exportButton2.addActionListener ( new ExportRemoteBookListener(bookTablePanel));
         buttonPanel.add ( exportButton2 );
 
         bookInfo.setText("Поле для аннотаций\n\n");
