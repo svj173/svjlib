@@ -24,6 +24,9 @@ public class ExportRemoteBookListener implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent event) {
+
+        // Взять данные для контакта
+        
     }
 
 }
