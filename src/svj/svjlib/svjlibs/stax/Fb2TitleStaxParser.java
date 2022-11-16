@@ -78,6 +78,7 @@ public class Fb2TitleStaxParser extends SvjStaxParser {
             {
                 if ( ! eventReader.hasNext() ) return result;
 
+                // при XML косяках здесь вылетает RuntimeException
                 event = eventReader.nextEvent();
 
                 if ( event.isStartElement() )
@@ -90,14 +91,16 @@ public class Fb2TitleStaxParser extends SvjStaxParser {
                     {
                         // Серия
                         attr    = startElement.getAttributeByName ( NAME );
-                        if ( attr == null )
-                            throw new WEditException ("Отсутствует имя Серии.");
-                        value = attr.getValue();
-                        value = processWrongSymbol(value);
-                        result.setSerialName(value);
-                        attr    = startElement.getAttributeByName ( NUMBER );
-                        if ( attr != null ) {
-                            result.setSerialIndex(Convert.getInt(attr.getValue(), 0));
+                        if ( attr == null ) {
+                            Log.file.debug("Отсутствует имя Серии.");
+                        } else {
+                            value = attr.getValue();
+                            value = processWrongSymbol(value);
+                            result.setSerialName(value);
+                            attr = startElement.getAttributeByName(NUMBER);
+                            if (attr != null) {
+                                result.setSerialIndex(Convert.getInt(attr.getValue(), 0));
+                            }
                         }
 
                         //attrValue    = getText ( eventReader );
@@ -181,11 +184,16 @@ public class Fb2TitleStaxParser extends SvjStaxParser {
             }
 
         } catch ( WEditException ex ) {
-            Log.file.error ( "error. tagName = " + tagName, ex);
-            throw ex;
-        } catch ( Exception e ) {
-            Log.file.error ("err",e);
-            throw new RuntimeException ( "Системная ошибка чтения заголовка книги", e );
+            Log.file.error ( "error. tagName = '{}'", tagName);
+            // Если ошибки в определении серии - игнорируем их.
+            if (tagName.equals(SEQUENCE)) {
+                Log.file.error ( "Wrong sequence");
+            } else {
+                throw ex;
+            }
+        } catch ( Throwable e ) {
+            Log.file.error ("Throwable",e);
+            throw new WEditException ( "Системная ошибка чтения заголовка книги: " + e.getMessage(), e );
         }
         return result;
     }

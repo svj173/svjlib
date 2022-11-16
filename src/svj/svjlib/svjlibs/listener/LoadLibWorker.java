@@ -256,7 +256,7 @@ public class LoadLibWorker extends SwingWorker<ResponseObject, Void> {
 
                 //Log.file.info("FB2 title = {}", text);
                 //
-                BookTitle bookTitle = parseFb2(text, textCode);
+                BookTitle bookTitle = parseFb2(text, textCode, zipFileName, name);
                 if (bookTitle != null) {
                     // директория библиотеки
                     bookTitle.setLibId(libInfo.getId());
@@ -284,8 +284,8 @@ public class LoadLibWorker extends SwingWorker<ResponseObject, Void> {
 
     private String handleText(String text) {
         // скобочки внутри Аннотаций
-        text = text.replace('«', '"');
-        text = text.replace('»', '"');
+        text = text.replace('«', '\'');
+        text = text.replace('»', '\'');
         text = text.replace("<<<</", " ");
 
         // фрагменты внутри названий книг
@@ -324,15 +324,20 @@ public class LoadLibWorker extends SwingWorker<ResponseObject, Void> {
      * @param code  Кодировка текста. Может быть null
      * @return  Инфа о книге - титл, автор, анотация, язык книги, серия и пр.
      */
-    private BookTitle parseFb2(String text, String code) {
+    private BookTitle parseFb2(String text, String code, String zipFileName, String fileName) {
         BookTitle result = null;
 
         // читаем заголовок FB2 - своим парсером
         try {
             result = bookParser.read(text, code);
             loadLibInfo.incBook();
-        } catch (WEditException e) {
-            Log.file.error("text = " + text, e);
+        } catch (Throwable e) {
+            Log.file.error("error = {}; textCode = '{}'; zipFileName = {}; fileName = {}",
+                    e.getMessage(), code, zipFileName, fileName);
+            if (! e.getMessage().contains("Content is not allowed in prolog")) {
+                // это utf-16, и здесь выводится вся книжка целиком - т.к. title-info - не ловится
+                Log.file.error(" --- text = {}", text);
+            }
             loadLibInfo.incParseError();
         }
 

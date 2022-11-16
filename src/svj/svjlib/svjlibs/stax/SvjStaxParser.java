@@ -21,7 +21,7 @@ public class SvjStaxParser
 
     /**
      * Удаляем символы, которые недопустимы внутри XML-атрибутов
-     * Т.е. в конструкицях типа <author name="hdjakhdj"
+     * Т.е. в конструкицях типа <author name="hdja/khdj"
      * @param value
      * @return
      */
@@ -30,14 +30,14 @@ public class SvjStaxParser
         if (value == null) return value;
 
         value = value.trim();
-        if (value.isEmpty()) value = "xxx";
-
-        value = value.replace('\'', '.');
-        value = value.replace('\"', '.');
-        value = value.replace('<', '.');
-        value = value.replace('>', '.');
-        value = value.replace('/', '.');
-        value = value.replace('&', '.');
+        if (! value.isEmpty()) {
+            value = value.replace('\'', '.');
+            value = value.replace('\"', '.');
+            value = value.replace('<', '.');
+            value = value.replace('>', '.');
+            value = value.replace('/', '.');
+            value = value.replace('&', '.');
+        }
         return value;
     }
 
