@@ -9,6 +9,7 @@ import svj.svjlib.svjlibs.listener.BookSelectionListener;
 import svj.svjlib.svjlibs.listener.ExportBookListener;
 import svj.svjlib.svjlibs.listener.ExportRemoteBookListener;
 import svj.svjlib.svjlibs.obj.Author;
+import svj.svjlib.svjlibs.obj.Genre;
 import svj.svjlib.svjlibs.table.BookField;
 import svj.svjlib.svjlibs.table.BookTablePanel;
 import svj.svjlib.tools.DialogTools;
@@ -20,10 +21,10 @@ import java.awt.*;
 import java.util.*;
 
 /**
- * 3) BooksPanel
- * - список книг (таблица)
- * - аннотация выбранной книги
- * - кнпоки: Экспорт, Экспор удаленный
+ * BooksPanel
+ * <BR/> - список книг (таблица)
+ * <BR/> - аннотация выбранной книги
+ * <BR/> - кнопки: Экспорт, Экспорт удаленный
  * <BR/>
  */
 public class BooksPanel extends WPanel {
@@ -146,6 +147,10 @@ public class BooksPanel extends WPanel {
         ATableModel<BookTitle, BookField> model = bookTablePanel.getTableModel();
         model.clear();
         model.fireTableDataChanged();
+    }
+
+    public void initGenreData(Genre genre) {
+        throw new RuntimeException("Не реализован");
     }
 
 }

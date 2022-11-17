@@ -19,7 +19,7 @@ import java.util.*;
 
 /**
  * 3) Полученыне данные - BookTitle
- * - метсоположение - fb2-27-439041-446105-RUSSIAN.zip / 442687.fb2.zip
+ * - местоположение - fb2-27-439041-446105-RUSSIAN.zip / 442687.fb2.zip
  * - Навзание книги
  * - Автор
  * - Серия
@@ -37,7 +37,7 @@ public class BooksManager extends XmlHandler{
 
     private final Collection<BookTitle> books = new ArrayList<>();
     // мапы по жанрам
-    private final Map<GlobalGenre,Map<Genre, Collection<BookTitle>>> bookMap = new HashMap<>();
+    private final Map<GlobalGenre, Map<Genre, Collection<BookTitle>>> bookMap = new HashMap<>();
 
     // массив не найденных жанров
     private final Collection<String> wrongGenre = new ArrayList<>();
@@ -140,7 +140,7 @@ public class BooksManager extends XmlHandler{
 
     public int loadBooksInfo(Long libId) throws WEditException {
         Log.file.info("start books size = {}", books.size());
-        // создаем имя полное файла
+        // создаем  полное имя файла
         String fileName = getBookFileName(libId);
         Log.file.info("books info fileName = {}", fileName);
 
@@ -150,7 +150,17 @@ public class BooksManager extends XmlHandler{
 
         books.addAll(booksList);
 
+        // bookMap
+        Collection<String> genres;
+        for (BookTitle book : books) {
+            genres = book.getGenres();
+            for (String genre: genres) {
+                addBookToGenreMap(genre, book);
+            }
+        }
+
         Log.file.info("finish books size = {}", books.size());
+        Log.file.info("finish bookMap size = {}", getBookMap().size());
 
         return booksList.size();
 
@@ -202,7 +212,6 @@ public class BooksManager extends XmlHandler{
         }
 
         list.add(bookTitle);
-
     }
 
     public Map<GlobalGenre, Map<Genre, Collection<BookTitle>>> getBookMap() {
@@ -211,5 +220,18 @@ public class BooksManager extends XmlHandler{
 
     public Collection<String> getWrongGenre() {
         return wrongGenre;
+    }
+
+    public String getBooksInfo() {
+        StringBuilder sb = new StringBuilder(128);
+
+        sb.append("Всего книг : ");
+        sb.append(getBooks().size());
+        sb.append(WCons.END_LINE);
+        sb.append("Всего жанров : ");
+        sb.append(getBookMap().keySet().size());
+        sb.append(WCons.END_LINE);
+
+        return sb.toString();
     }
 }

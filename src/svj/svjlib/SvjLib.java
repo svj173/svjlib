@@ -1,6 +1,5 @@
 package svj.svjlib;
 
-import svj.svjlib.obj.BookTitles;
 import svj.svjlib.svjlibs.SLCons;
 import svj.svjlib.svjlibs.SLPar;
 import svj.svjlib.tools.DialogTools;
@@ -40,8 +39,10 @@ public class SvjLib implements Runnable {
             WEdit6InitDialog initDialog = new WEdit6InitDialog ( "Инициализация" );
             initDialog.showDialog();
 
-            // получить распарсенную инфу о книгах - если етсь аткой файл
-            BookTitles bookTitles    = initDialog.getResult();
+            // получить распарсенную инфу о книгах - если етсь аткой файл. елси работа еще идет,
+            // в этом вызове возникнет пауза.
+            // здесь результат нам не нужен, т.к. он занесся по ходу работы
+            initDialog.getResult();
 
             Log.l.debug ( "SvjLib.run: run init SvjLib." );
 

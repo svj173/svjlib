@@ -16,7 +16,7 @@ import java.io.InputStream;
 import java.util.*;
 
 /**
- * Парсим файл библиотек
+ * Парсим файл инфы о книгах библиотек
  *
  * <BR/>
  */

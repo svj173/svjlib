@@ -31,7 +31,7 @@ import java.util.*;
  */
 public class AuthorListPanel extends ReloadPanel {
 
-    // сиксок найденных авторов и кол-во их книг - левай панель
+    // список найденных авторов и кол-во их книг - левая панель
     private  WPanel authorListPanel;
     // список книг выбранного автора
     private  final BooksPanel bookListPanel = new BooksPanel();

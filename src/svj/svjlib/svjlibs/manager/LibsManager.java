@@ -2,6 +2,7 @@ package svj.svjlib.svjlibs.manager;
 
 import svj.svjlib.Log;
 import svj.svjlib.Par;
+import svj.svjlib.WCons;
 import svj.svjlib.exc.WEditException;
 import svj.svjlib.svjlibs.SLCons;
 import svj.svjlib.svjlibs.SLPar;
@@ -170,5 +171,26 @@ public class LibsManager {
 
     public int libSize() {
         return libs.size();
+    }
+
+    public String getLibsInfo() {
+        StringBuilder sb = new StringBuilder(128);
+        sb.append("Всего библиотек: ");
+        sb.append(libs.size());
+        sb.append(WCons.END_LINE);
+        sb.append(WCons.END_LINE);
+
+        int ic = 1;
+        for (LibInfo lib : libs.values()) {
+            sb.append(ic);
+            sb.append(")");
+            sb.append(WCons.END_LINE);
+            sb.append("  ");
+            sb.append(lib.getName());
+            sb.append(" -- ");
+            sb.append(lib.getLibDir());
+            sb.append(WCons.END_LINE);
+        }
+        return sb.toString();
     }
 }

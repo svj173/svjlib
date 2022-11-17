@@ -7,7 +7,11 @@ import javax.swing.*;
  */
 public class WLabel extends JLabel {
 
-    private Object object;
+    private Object object = null;
+
+    public WLabel(String text) {
+        super(text);
+    }
 
     public WLabel(String text, Object object) {
         super(text);

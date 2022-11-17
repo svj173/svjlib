@@ -3,23 +3,24 @@ package svj.svjlib.svjlibs.listener;
 import svj.svjlib.Log;
 import svj.svjlib.gui.label.WLabel;
 import svj.svjlib.gui.panel.WPanel;
-import svj.svjlib.svjlibs.obj.Author;
+import svj.svjlib.obj.BookTitle;
 import svj.svjlib.svjlibs.panel.BooksPanel;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.*;
 
 /**
  * Выводит спсиок  книг указанного автора - в списке найденных результатов - в виде таблицы.
  * <BR/>
  */
-public class AuthorListMouseListener implements MouseListener {
+public class GenreListMouseListener implements MouseListener {
 
     private final WPanel panel;
     private final BooksPanel bookListPanel;
 
-    public AuthorListMouseListener(WPanel panel, BooksPanel bookListPanel) {
+    public GenreListMouseListener(WPanel panel, BooksPanel bookListPanel) {
 
         this.panel = panel;
         this.bookListPanel = bookListPanel;
@@ -53,11 +54,11 @@ MouseEvent.getLocationOnScreen().
         if (c instanceof WLabel) {
 
             WLabel label = (WLabel) c;
-            Author author = (Author) label.getObject();
-            Log.l.info("select author = {}", author);
+            Collection<BookTitle> bookList = (Collection<BookTitle>) label.getObject();
+            //Log.l.info("select genre = {}", genre);
             //DialogTools.showMessage("Выбран автор", author);
             // инициализация страницы с книгами  - получить спсико книг для автора
-            bookListPanel.initAuthorData(author);
+            bookListPanel.initData(bookList);
         }
 
         //SwingUtilities.convertPointToScreen();

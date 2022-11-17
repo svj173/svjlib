@@ -7,7 +7,6 @@ import svj.svjlib.gui.label.WLabel;
 import svj.svjlib.gui.panel.WPanel;
 import svj.svjlib.gui.table.TableModelTest;
 import svj.svjlib.obj.BookTitle;
-import svj.svjlib.svjlibs.listener.AuthorListMouseListener;
 import svj.svjlib.svjlibs.obj.Author;
 
 import javax.swing.*;
@@ -107,8 +106,8 @@ public class BookListDialog extends WDialog<Map<Author, Collection<BookTitle>>, 
         panel.add(new JLabel(Integer.toString(bookSize)));
         */
 
-        AuthorListMouseListener action = new AuthorListMouseListener(panel, bookListPanel);
-        panel.addMouseListener(action);
+        //AuthorListMouseListener action = new AuthorListMouseListener(panel, bookListPanel);
+        //panel.addMouseListener(action);
 
 
         return panel;

@@ -2,7 +2,6 @@ package svj.svjlib;
 
 import svj.svjlib.exc.WEditException;
 import svj.svjlib.gui.dialog.WDialog;
-import svj.svjlib.obj.BookTitles;
 import svj.svjlib.tools.DialogTools;
 import svj.svjlib.tools.GuiTools;
 
@@ -16,7 +15,7 @@ import java.awt.*;
  * <BR/> User: svj
  * <BR/> Date: 21.09.22 19:08
  */
-public class WEdit6InitDialog  extends WDialog<Void,BookTitles>
+public class WEdit6InitDialog  extends WDialog<Void,Void>
 {
     private final JTextArea textPanel;
     private WEdit6InitWorker  swingWorker;
@@ -102,18 +101,16 @@ public class WEdit6InitDialog  extends WDialog<Void,BookTitles>
     }
 
     @Override
-    public BookTitles getResult () throws WEditException
+    public Void getResult () throws WEditException
     {
-        BookTitles result;
         try
         {
-            result = swingWorker.get();
+            swingWorker.get();
         } catch ( Exception e )        {
-            result = null;
             Log.l.error ( "error", e );
             DialogTools.showError(Par.GM.getFrame(), e.getMessage(), "Ошибка инициализации");
         }
-        return result;
+        return null;
     }
 
     protected void createDialogSize ()

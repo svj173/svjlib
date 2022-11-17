@@ -45,4 +45,12 @@ public class LibInfo {
         return name;
     }
 
+    @Override
+    public String toString() {
+        return "LibInfo{" +
+                "id=" + id +
+                ", libDir='" + libDir + '\'' +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }

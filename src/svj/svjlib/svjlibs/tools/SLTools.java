@@ -2,9 +2,7 @@ package svj.svjlib.svjlibs.tools;
 
 import svj.svjlib.gui.menu.WEMenu;
 import svj.svjlib.gui.menu.WEMenuItem;
-import svj.svjlib.svjlibs.listener.LoadLibListListener;
-import svj.svjlib.svjlibs.listener.SearchByAuthorListener;
-import svj.svjlib.svjlibs.listener.ViewLibsListListener;
+import svj.svjlib.svjlibs.listener.*;
 import svj.svjlib.svjlibs.obj.Genre;
 
 import java.util.*;
@@ -49,6 +47,7 @@ public class SLTools {
         return result;
     }
 
+    /*
     public static WEMenu createSearchMenu() {
         WEMenu     result;
         WEMenuItem menu;
@@ -57,6 +56,20 @@ public class SLTools {
 
         menu    = new WEMenuItem("По книг");
         menu.addActionListener(new SearchByAuthorListener());
+        result.add ( menu );
+
+
+        return result;
+    }
+*/
+    public static WEMenu createStatisticMenu() {
+        WEMenu     result;
+        WEMenuItem menu;
+
+        result  = new WEMenu ( "Статистика" );
+
+        menu    = new WEMenuItem("Количество книг");
+        menu.addActionListener(new StatisticListener());
         result.add ( menu );
 
         /*

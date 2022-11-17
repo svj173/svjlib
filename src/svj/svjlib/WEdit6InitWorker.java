@@ -2,7 +2,6 @@ package svj.svjlib;
 
 import svj.svjlib.exc.WEditException;
 import svj.svjlib.gui.panel.WPanel;
-import svj.svjlib.obj.BookTitles;
 import svj.svjlib.svjlibs.SLCons;
 import svj.svjlib.svjlibs.obj.LibInfo;
 import svj.svjlib.tools.DialogTools;
@@ -14,16 +13,16 @@ import java.util.List;
 import java.util.*;
 
 /**
- * - Void - the result type returned by this {@code SwingWorker's}  {@code doInBackground} and {@code get} methods
- * - String - the type used for carrying out intermediate results by this  {@code SwingWorker's} {@code publish} and {@code process} methods
+ * Старт Редактора.
+ * Если есть инфа о книгах - запускается xml-парсер и вытаскивает эти книги.
  * <BR/>
  * <BR/> User: svj
- * <BR/> Date: 21.09.22 19:00
+ * <BR/> Date: 21.09.2022 19:00
  */
-public class WEdit6InitWorker    extends SwingWorker<BookTitles,String>
+public class WEdit6InitWorker    extends SwingWorker<Void,String>
 {
     private final WEdit6InitDialog  dialog;
-    private BookTitles bookTitles;
+    //private BookTitles bookTitles;
 
 
     public WEdit6InitWorker ( WEdit6InitDialog dialog )
@@ -32,11 +31,10 @@ public class WEdit6InitWorker    extends SwingWorker<BookTitles,String>
     }
 
     @Override
-    protected BookTitles doInBackground () throws Exception
+    protected Void doInBackground () throws Exception
     {
         init();
-
-        return bookTitles;
+        return null;
     }
 
     private void init () throws WEditException

@@ -1,12 +1,11 @@
 package svj.svjlib.svjlibs.manager;
 
 import svj.svjlib.ContentFrame;
-import svj.svjlib.gui.panel.EditablePanel;
-import svj.svjlib.gui.panel.SimpleEditablePanel;
 import svj.svjlib.gui.panel.WPanel;
 import svj.svjlib.gui.tabs.TabsPanel;
 import svj.svjlib.svjlibs.panel.AuthorListPanel;
 import svj.svjlib.svjlibs.panel.BookNamesListPanel;
+import svj.svjlib.svjlibs.panel.GenreListPanel;
 
 import javax.swing.*;
 
@@ -64,17 +63,10 @@ public class SlGuiManager {
      * @param name
      * @return
      */
-    private EditablePanel createGenrePanel(String name) {
-        SimpleEditablePanel result = new SimpleEditablePanel();
-
-        result.setName ( name );
-        result.setId ( name );
-
-        result.setLayout ( new BorderLayout(5,5) );
-
+    private WPanel createGenrePanel(String name) {
         // две горизонтальынх панели - Список жанров - Список книг выбранного жанра (по авторам)
 
-        return result;
+        return new GenreListPanel();
     }
 
     /**

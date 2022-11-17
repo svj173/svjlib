@@ -52,8 +52,6 @@ public class WPanel   extends JPanel implements Comparable<WPanel>
 
     public void init () throws WEditException {}
 
-    public void initAuthorData(Object data) {}
-
     public String getTitle ()
     {
         return title;
