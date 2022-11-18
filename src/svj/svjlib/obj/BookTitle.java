@@ -5,9 +5,7 @@ import svj.svjlib.WCons;
 import svj.svjlib.svjlibs.obj.Author;
 import svj.svjlib.svjlibs.table.BookField;
 import svj.svjlib.svjlibs.tools.SLTools;
-import svj.svjlib.tools.Convert;
-import svj.svjlib.tools.StringTools;
-import svj.svjlib.tools.Utils;
+import svj.svjlib.tools.*;
 
 import javax.swing.*;
 
@@ -141,13 +139,12 @@ public class BookTitle implements Comparable<BookTitle> {
         sb.append(WCons.END_LINE);
         sb.append(WCons.END_LINE);
 
-        if (authors.size() > 0)  {
-            sb.append("Автор: ");
-            List<Author> l = new ArrayList<>(authors);
-            Author author = l.get(0);
+        sb.append("Автор: ");
+        for (Author author: authors) {
             sb.append(author.getSimple());
-            sb.append(WCons.END_LINE);
+            sb.append(", ");
         }
+        sb.append(WCons.END_LINE);
 
         if (! StringTools.isEmpty(getAnnotation())) {
             sb.append(WCons.END_LINE);

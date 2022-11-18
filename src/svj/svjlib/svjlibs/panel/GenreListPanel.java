@@ -1,5 +1,6 @@
 package svj.svjlib.svjlibs.panel;
 
+import svj.svjlib.WCons;
 import svj.svjlib.gui.label.WLabel;
 import svj.svjlib.gui.panel.WPanel;
 import svj.svjlib.obj.BookTitle;
@@ -25,7 +26,7 @@ import java.util.*;
 public class GenreListPanel extends WPanel {
 
     // список жанров и кол-во их книг - левая панель
-    private  WPanel genreListPanel;
+    //private  WPanel genreListPanel;
     // список книг выбранного ;fyhf
     private  final BooksPanel bookListPanel = new BooksPanel();
 
@@ -39,7 +40,7 @@ public class GenreListPanel extends WPanel {
         setLayout ( new BorderLayout(5,5) );
 
         // 1) Левая панель - список жанров
-        genreListPanel = createGenreListPanel();
+        JComponent genreListPanel = createGenreListPanel();
         add(new JScrollPane(genreListPanel), BorderLayout.WEST);
 
 
@@ -66,13 +67,45 @@ public class GenreListPanel extends WPanel {
         return null;
     }
 
-    private WPanel createGenreListPanel() {
-        WPanel panel = new WPanel();
+    private JComponent createGenreListPanel() {
+        //WPanel panel = new WPanel();
         WLabel label;
         Map<Genre, Collection<BookTitle>> maps;
+        String str;
+        Font font, font2;
 
-        panel.setLayout ( new GridLayout( 0, 2, 5, 5 ) );
+        //panel.setLayout ( new GridLayout( 0, 2, 5, 5 ) );
 
+        Box contents = new Box(BoxLayout.Y_AXIS);
+      	//contents.add(new JScrollPane(bookListPanel));
+      	//contents.add(bookListPanel);
+
+
+        // Наполнить панель данными
+        for (Map.Entry<GlobalGenre, Map<Genre, Collection<BookTitle>>> entry : SLCons.BOOKS_MANAGERS.getBookMap().entrySet()) {
+            label = new WLabel(entry.getKey().getTitle());
+            //label.setAlignmentX(Component.CENTER_ALIGNMENT);
+            label.setOpaque(true);
+            label.setForeground(WCons.BLUE_5);
+            contents.add(label);
+            // поджанры
+            maps = entry.getValue();
+            for (Map.Entry<Genre, Collection<BookTitle>> ent : maps.entrySet()) {
+                str = createGenreText(ent.getValue().size(), ent.getKey().getTitle());
+                label = new WLabel(str, ent.getValue());
+                //label.setFont(Font.MONOSPACED);
+                font = label.getFont();
+                font2 = new Font (Font.MONOSPACED, font.getStyle(), font.getSize());
+                label.setFont(font2);
+                contents.add(label);
+            }
+        }
+
+        // Пропуск внизу
+        contents.add(Box.createVerticalGlue());
+
+
+        /*
         // Наполнить панель данными
         for (Map.Entry<GlobalGenre, Map<Genre, Collection<BookTitle>>> entry : SLCons.BOOKS_MANAGERS.getBookMap().entrySet()) {
             label = new WLabel(entry.getKey().getTitle());
@@ -89,48 +122,28 @@ public class GenreListPanel extends WPanel {
                 panel.add(label);
             }
         }
+        */
 
-        GenreListMouseListener action = new GenreListMouseListener(panel, bookListPanel);
-        panel.addMouseListener(action);
+        GenreListMouseListener action = new GenreListMouseListener(contents, bookListPanel);
+        //GenreListMouseListener action = new GenreListMouseListener(panel, bookListPanel);
+        //panel.addMouseListener(action);
+        contents.addMouseListener(action);
 
         //panel.repaint();
         //panel.revalidate();
 
-        return panel;
+        return contents;
     }
 
-    public void initAuthors(Map<Author, Collection<BookTitle>> initObject)  {
+    private String createGenreText(int size, String title) {
 
-        // левая панель - список авторов (simpleName) и кол-во книг у них
+        String prefix = "          ";
+        String strSize = Integer.toString(size);
+        String str1 = prefix.substring(strSize.length());
 
-        // - очистить старые данные по авторам
-        genreListPanel.removeAll();
+        String result = str1 + strSize + "    " + title;
 
-        if (initObject == null) return;
-
-        WLabel label;
-        for (Map.Entry<Author, Collection<BookTitle>> entry : initObject.entrySet()) {
-            label = new WLabel(entry.getKey().getSimple(), entry.getKey());
-            genreListPanel.add(label);
-            label = new WLabel(Integer.toString(entry.getValue().size()), entry.getKey());
-            genreListPanel.add(label);
-        }
-        bookListPanel.setAuthorList(initObject);
-
-        genreListPanel.repaint();
-        genreListPanel.revalidate();
-
-        // - панель в центре вверху - список книг выраного автора
-        // todo Формируем таблицу с галочками в первой позиции и с возможностью натсройки полей
-        // - убирать лишние, переставлять местами, сортирвоки по полям.
-
-        // todo Кнопки - Выход, Экспорт отмеченных
-        // - по умочланию экспортирует в рабочую директорию Редактора, в поддиректорию books - в алфавитном порядке
-
-        // панель в центре внизу - подробно про автора - анотация,
-
-        // Формирование интерфейса
-
+        return result;
     }
 
 }

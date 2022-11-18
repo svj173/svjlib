@@ -35,7 +35,7 @@ public class ContentFrame extends JFrame implements WComponent {
         Dimension   d;
         int         x, y;
         d   = Toolkit.getDefaultToolkit().getScreenSize();
-        x   = d.width - (d.width / 3);
+        x   = d.width - (d.width / 4);
         y   = d.height - 100;
         setSize ( x,y );
         Dimension size  = new Dimension ( x,y );

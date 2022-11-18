@@ -105,15 +105,6 @@ public class LoadLibListListener implements ActionListener {
 
         panel.setLayout ( new GridLayout( 7, 2, 5, 5 ) );
 
-        /*
-- Директория
-- Всего архивных файлов:
-- Всего книг:
-Ошибки загрузки
-- Загрузки книг - подробный путь - диреткория, зип-архив книг, зип-файл книги
- Прочие ошибки - ?
-         */
-
         panel.add(new JLabel("Директория"));
         panel.add(new JLabel(libInfo.getLibDir()));
         panel.add(new JLabel("Всего архивных файлов"));

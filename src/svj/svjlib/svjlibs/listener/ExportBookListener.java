@@ -1,6 +1,7 @@
 package svj.svjlib.svjlibs.listener;
 
 import svj.svjlib.Log;
+import svj.svjlib.WCons;
 import svj.svjlib.exc.WEditException;
 import svj.svjlib.obj.BookTitle;
 import svj.svjlib.svjlibs.SLCons;
@@ -50,16 +51,14 @@ public class ExportBookListener implements ActionListener {
         StringBuilder sb = new StringBuilder();
 
         String authorDir;
-        Collection<String> dirs = new ArrayList<>();
         boolean ok;
 
         for (BookTitle book : books) {
 
             // Создаем путь до диреткории Автора
             authorDir = createAuthDir(exportDir, book);
-            //dirs.add(authorDir);
-            sb.append("\nДиректория автора: ");
-            sb.append(authorDir);
+            //sb.append("\nДиректория автора: ");
+            //sb.append(authorDir);
 
 
             // Прогоняем путь на предмет создания остутсвующих поддиректорий
@@ -67,6 +66,7 @@ public class ExportBookListener implements ActionListener {
             if (! ok) {
                 sb.append("\nERROR. Не создана директория: ");
                 sb.append(authorDir);
+                continue;
             }
 
             // Создаем имя для распакованной книги
@@ -82,6 +82,7 @@ public class ExportBookListener implements ActionListener {
                 sb.append(book.getBookTitle());
                 sb.append("'\n сохранена в : \n");
                 sb.append(resultFileName);
+                sb.append(WCons.END_LINE);
 
             } catch (Exception e) {
                 sb.append("\nERROR. Ошибка распаковки книги '");
@@ -169,6 +170,7 @@ public class ExportBookListener implements ActionListener {
     private void processZipArchive(String libDir, String archiveZipFileName,
                                    String bookZipFileName, String resultFileName) throws WEditException {
 
+        /* отладка
         StringBuilder sb = new StringBuilder(512);
         sb.append("libDir = ");
         sb.append(libDir);
@@ -176,6 +178,7 @@ public class ExportBookListener implements ActionListener {
         sb.append(archiveZipFileName);
         sb.append("\nbookZipFileName = ");
         sb.append(bookZipFileName);
+        */
 
         ZipEntry zipEntry;
         //long size, fullSize;
@@ -185,43 +188,24 @@ public class ExportBookListener implements ActionListener {
 
         try {
             ZipFile zf = new ZipFile(fullZipName);
-            sb.append("\n\nzipArch = ");
-            sb.append(zf);
+            //sb.append("\n\nzipArch = ");
+            //sb.append(zf);
 
             // берем зип-файл книги
             zipEntry = zf.getEntry(bookZipFileName);
-            sb.append("\n\nzipEntry = ");
-            sb.append(zipEntry);
+            //sb.append("\n\nzipEntry = ");
+            //sb.append(zipEntry);
 
             // распаковка
             processZipBook ( zf, zipEntry, archiveZipFileName, resultFileName);
 
-
-
-            /*
-            Enumeration en = zf.entries();
-            // Перебор зип-файлов в зип-архиве.
-            // - каждый зип-файл - это одна книга
-            while(en.hasMoreElements())
-            {
-                // запись в зип-архиве. по идее - зип-файл книги
-                zipEntry = (ZipEntry) en.nextElement();
-                //size = zipEntry.getCompressedSize();
-                //fullSize = zipEntry.getSize();     // то же что и getCompressedSize
-
-                //Log.file.info("size = {}; fullSize = {}; zipEntry = {}", size, fullSize, zipEntry);
-
-                // Обработка книг
-            //
-
-            }
-            */
         } catch (Exception e) {
             Log.file.error("fullZipName = " + fullZipName, e);
             throw new WEditException("Error read zipFile = " + fullZipName, e);
         }
 
-        DialogTools.showMessage("ZIP", sb);
+        // отладка
+        //DialogTools.showMessage("ZIP", sb);
     }
 
     private void processZipBook(ZipFile zf, ZipEntry zipEntry, String archiveZipFileName,

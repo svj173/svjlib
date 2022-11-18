@@ -1,7 +1,5 @@
 package svj.svjlib.svjlibs.obj;
 
-import svj.svjlib.tools.Utils;
-
 /**
  * <BR/>
  */
@@ -85,15 +83,19 @@ public class Author implements Comparable<Author>{
             sb.append(getMiddleName());
         }
 
-        return sb.toString();
+        return sb.toString().trim();
     }
 
     @Override
     public int compareTo(Author author) {
 
-        int iLastName, iMiddleName;
-
         if ( author == null )  return 1;
+
+        String a1 = getSimple();
+        String a2 = author.getSimple();
+
+        /*
+        int iLastName, iMiddleName;
 
         // 0 - если оба null
         iLastName   = Utils.compareToWithNull ( getLastName(), author.getLastName() );
@@ -108,7 +110,8 @@ public class Author implements Comparable<Author>{
         }
         else
             return iLastName;
-
+        */
+        return a1.compareTo(a2);
     }
 
     public boolean equals(Object obj) {

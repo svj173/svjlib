@@ -200,28 +200,30 @@ public class AuthorListPanel extends ReloadPanel {
         if (initObject == null) return;
 
         WLabel label;
+        /*
         for (Map.Entry<Author, Collection<BookTitle>> entry : initObject.entrySet()) {
             label = new WLabel(entry.getKey().getSimple(), entry.getKey());
             authorListPanel.add(label);
             label = new WLabel(Integer.toString(entry.getValue().size()), entry.getKey());
             authorListPanel.add(label);
         }
+        */
+        Collection<BookTitle> books;
+        // по ключу - чтобы в резалте авторы расположились по алфавиту
+        for (Author author : initObject.keySet()) {
+            books = initObject.get(author);
+            // имя автора
+            label = new WLabel(author.getSimple(), author);
+            authorListPanel.add(label);
+            // кол-во его книг
+            label = new WLabel(Integer.toString(books.size()), author);
+            authorListPanel.add(label);
+        }
+
         bookListPanel.setAuthorList(initObject);
 
         authorListPanel.repaint();
         authorListPanel.revalidate();
-
-        // - панель в центре вверху - список книг выраного автора
-        // todo Формируем таблицу с галочками в первой позиции и с возможностью натсройки полей
-        // - убирать лишние, переставлять местами, сортирвоки по полям.
-
-        // todo Кнопки - Выход, Экспорт отмеченных
-        // - по умочланию экспортирует в рабочую директорию Редактора, в поддиректорию books - в алфавитном порядке
-
-        // панель в центре внизу - подробно про автора - анотация,
-
-        // Формирование интерфейса
-
     }
 
 }

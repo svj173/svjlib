@@ -2,9 +2,10 @@ package svj.svjlib.svjlibs.listener;
 
 import svj.svjlib.Log;
 import svj.svjlib.gui.label.WLabel;
-import svj.svjlib.gui.panel.WPanel;
 import svj.svjlib.obj.BookTitle;
 import svj.svjlib.svjlibs.panel.BooksPanel;
+
+import javax.swing.*;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -17,10 +18,11 @@ import java.util.*;
  */
 public class GenreListMouseListener implements MouseListener {
 
-    private final WPanel panel;
+    //private final WPanel panel;
+    private final JComponent panel;
     private final BooksPanel bookListPanel;
 
-    public GenreListMouseListener(WPanel panel, BooksPanel bookListPanel) {
+    public GenreListMouseListener(JComponent panel, BooksPanel bookListPanel) {
 
         this.panel = panel;
         this.bookListPanel = bookListPanel;
@@ -59,6 +61,7 @@ MouseEvent.getLocationOnScreen().
             //DialogTools.showMessage("Выбран автор", author);
             // инициализация страницы с книгами  - получить спсико книг для автора
             bookListPanel.initData(bookList);
+            bookListPanel.setHeaderTitle(label.getText());
         }
 
         //SwingUtilities.convertPointToScreen();

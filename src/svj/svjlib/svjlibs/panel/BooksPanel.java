@@ -153,4 +153,8 @@ public class BooksPanel extends WPanel {
         throw new RuntimeException("Не реализован");
     }
 
+    public void setHeaderTitle(String text) {
+        topPanel.setText(text);
+    }
+
 }
