@@ -167,7 +167,7 @@ public class BooksManager extends XmlHandler{
     }
 
     public String getBookFileName(Long libId) {
-        return Par.USER_HOME_DIR + File.separator + SLCons.LIBS_DIR_NAME + File.separator + SLCons.BOOKS_FILE_NAME_PREFIX +
+        return Par.USER_HOME_DIR + File.separator + SLCons.CONFIG_DIR_NAME + File.separator + SLCons.BOOKS_FILE_NAME_PREFIX +
                         "_" + libId + ".xml";
     }
 

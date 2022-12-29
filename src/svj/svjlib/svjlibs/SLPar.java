@@ -1,6 +1,5 @@
 package svj.svjlib.svjlibs;
 
-import svj.svjlib.ContentFrame;
 import svj.svjlib.obj.BookTitles;
 
 /**
@@ -16,6 +15,13 @@ public class SLPar {
 
     // ---------------- Динамические параметры ---------------
 
+    // Директория для конфиг-файлов
     public static String CONF_DIR = null;
+
+    // Директория для экспорт-файлов. По умолчанию - CONF_DIR
+    public static String EXPORT_DIR = null;
+
+    // Директория для файлов с опсианием библиотек и книг. По умолчанию - CONF_DIR
+    public static String LIBS_INFO_DIR = null;
 
 }

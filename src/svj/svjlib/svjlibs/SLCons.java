@@ -15,19 +15,28 @@ public interface SLCons {
 
     // ---------------- Параметры ---------------
 
-    // директория для конфиг-файлов
-    String LIBS_DIR_NAME = "svjlib";
+    // Имя директории для конфиг-файлов
+    String CONFIG_DIR_NAME = "svjlib";
 
-    String DIR_PATH = Par.USER_HOME_DIR + File.separator + SLCons.LIBS_DIR_NAME;
+    // Полный путь до директории для конфиг-файлов
+    // todo - ??? - USER_HOME_DIR ведь определяется во вреям рабоыт программы - может не успеть определится.
+    // Брать все директории из DirTools ?
+    String DIR_PATH = Par.USER_HOME_DIR + File.separator + SLCons.CONFIG_DIR_NAME;
+
+    // Конфиг-файл. Изменять ни имя ни директорию нельзя. Это индивидуальный конфиг для пользователя
     String CONFIG_FILE = SLCons.DIR_PATH + File.separator + SLCons.CONFIG_FILE_NAME;
 
 
     // имена конфиг-файлов
     String CONFIG_FILE_NAME = "svjlib_conf.txt";
+
+    // Имя файла с опсианием загруженных библиотек (директории, название...)
     String LIBS_FILE_NAME = "libs.xml";
-    // каждая библиотека имеет свой файл книг - books_(libId).xml - ?
+
+    // Префикс имени библиотеки. Каждая библиотека имеет свой файл книг - books_(libId).xml
     String BOOKS_FILE_NAME_PREFIX = "books";
 
+    // Разделитель в списке Жанров книги
     String GENRE_SEP = ";";
 
     // ----------------- Обьекты ------------------------

@@ -134,7 +134,7 @@ public class LibsManager {
 
     public String getLibFileName() {
         if (libFilePath == null)
-            libFilePath = Par.USER_HOME_DIR + File.separator + SLCons.LIBS_DIR_NAME + File.separator + SLCons.LIBS_FILE_NAME;
+            libFilePath = Par.USER_HOME_DIR + File.separator + SLCons.CONFIG_DIR_NAME + File.separator + SLCons.LIBS_FILE_NAME;
         return libFilePath;
     }
 

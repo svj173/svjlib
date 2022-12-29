@@ -140,7 +140,18 @@ public class SvjLib implements Runnable {
         Log.l.debug ( "HOME = {}", str );
         if ( str != null ) {
             Par.USER_HOME_DIR  = str;
-            SLPar.CONF_DIR = Par.USER_HOME_DIR + File.separator + SLCons.LIBS_DIR_NAME;
+            SLPar.CONF_DIR = Par.USER_HOME_DIR + File.separator + SLCons.CONFIG_DIR_NAME;
+            // дефолтные значения
+            SLPar.EXPORT_DIR = SLPar.CONF_DIR;
+            SLPar.LIBS_INFO_DIR = SLPar.CONF_DIR;
+        }
+
+        // Загрузить конфиг-файл - если есть. Заменить дефолтные значения
+        try {
+            SLCons.CONFIG_MANAGERS.load();
+            SLCons.CONFIG_MANAGERS.update();
+        } catch (Exception e) {
+            Log.file.error("Load config-file (" + SLCons.CONFIG_FILE + ") error", e);
         }
     }
 

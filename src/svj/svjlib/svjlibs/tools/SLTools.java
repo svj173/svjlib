@@ -36,13 +36,29 @@ public class SLTools {
 
         result  = new WEMenu ( "Библиотека" );
 
+        /*
         menu    = new WEMenuItem("Список подсоединенных библиотек");
         menu.addActionListener(new ViewLibsListListener());
         result.add ( menu );
+        */
 
         menu    = new WEMenuItem("Добавить библиотеку");
         menu.addActionListener(new LoadLibListListener());
         result.add ( menu );
+
+        return result;
+    }
+
+    public static WEMenu createSettingsMenu() {
+        WEMenu     result;
+        WEMenuItem menu;
+
+        result  = new WEMenu ( "Настройки" );
+
+        menu    = new WEMenuItem("Сменить рабочие директории");
+        menu.addActionListener(new SetLibFolderListener());
+        result.add ( menu );
+
 
         return result;
     }

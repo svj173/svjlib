@@ -32,9 +32,13 @@ public class WEMenuBar extends JMenuBar
         menu    = SLTools.createLibMenu();
         add ( menu );
 
-        menu    = SLTools.createStatisticMenu();
+        // Настройки
+        menu    = SLTools.createSettingsMenu();
         add ( menu );
 
+        // Статистика
+        menu    = SLTools.createStatisticMenu();
+        add ( menu );
 
 
         // help -- не реализовано в java
