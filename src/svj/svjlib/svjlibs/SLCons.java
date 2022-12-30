@@ -44,7 +44,7 @@ public interface SLCons {
     SlGuiManager SL_GUI_MANAGER = new SlGuiManager();
     LibsManager LIBS_MANAGER = new LibsManager();
     BooksManager BOOKS_MANAGERS = new BooksManager();
-    ConfigManager CONFIG_MANAGERS = new ConfigManager(SLCons.CONFIG_FILE);
+    ConfigManager CONFIG_MANAGERS = new ConfigManager();
 
 
 }

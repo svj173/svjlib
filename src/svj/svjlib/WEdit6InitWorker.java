@@ -92,7 +92,7 @@ public class WEdit6InitWorker    extends SwingWorker<Void,String>
                 // Итоговый диалог. Скачано:
                 // - всего библиотек
                 // - всего книг
-                showTotalProcessDialog(SLCons.LIBS_MANAGER.libSize(), SLCons.BOOKS_MANAGERS.bookSize());
+                //showTotalProcessDialog(SLCons.LIBS_MANAGER.libSize(), SLCons.BOOKS_MANAGERS.bookSize());
             }
 
         } catch (WEditException we) {

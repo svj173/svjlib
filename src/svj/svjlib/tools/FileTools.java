@@ -313,6 +313,8 @@ public class FileTools
     public static Properties loadProperties ( String fileName ) throws WEditException
     {
         Properties result = new Properties ();
+        if (fileName == null) return result;
+
         FileInputStream fis;
         try
         {

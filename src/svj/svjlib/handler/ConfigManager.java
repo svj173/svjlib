@@ -1,6 +1,7 @@
 package svj.svjlib.handler;
 
 import svj.svjlib.exc.WEditException;
+import svj.svjlib.svjlibs.SLCons;
 import svj.svjlib.svjlibs.SLPar;
 import svj.svjlib.tools.FileTools;
 import svj.svjlib.tools.StringTools;
@@ -26,35 +27,25 @@ public class ConfigManager {
     /**
      * Конфиг-файл - SLCons.CONFIG_FILE - константа
      */
-    private final String configFileName;
+    //private final String configFileName;
 
     /**
      * флаг, был ли загружен конфиг-файл
      */
-    private boolean loaded = false;
+    //private boolean loaded = false;
 
-    private Properties props = null;
-
-    public ConfigManager(String configFileName) {
-        this.configFileName = configFileName;
-    }
-
-    public String getConfigFileName() {
-        return configFileName;
-    }
+    private Properties props = new Properties();
 
     public void load () throws WEditException {
-        props = FileTools.loadProperties(configFileName);
-        loaded = true;
+        props = FileTools.loadProperties(SLCons.CONFIG_FILE);
+        //loaded = true;
     }
 
     public void save () throws WEditException {
-        if (props != null)
-            FileTools.saveProps(configFileName, props);
+        FileTools.saveProps(SLCons.CONFIG_FILE, props);
     }
 
     public void update() {
-        if (props == null) return;
         String str = props.getProperty(EXPORT_DIR_P);
         if (! StringTools.isEmpty(str)) {
             SLPar.EXPORT_DIR = str;
@@ -77,4 +68,11 @@ public class ConfigManager {
         }
     }
 
+    @Override
+    public String toString() {
+        return "ConfigManager{" +
+                "configFileName='" + SLCons.CONFIG_FILE + '\'' +
+                "; props=" + props +
+                '}';
+    }
 }

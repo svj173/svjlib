@@ -153,6 +153,7 @@ public class SvjLib implements Runnable {
         } catch (Exception e) {
             Log.file.error("Load config-file (" + SLCons.CONFIG_FILE + ") error", e);
         }
+        Log.l.info("[T] SLCons.CONFIG_MANAGERS = {}", SLCons.CONFIG_MANAGERS);
     }
 
 }

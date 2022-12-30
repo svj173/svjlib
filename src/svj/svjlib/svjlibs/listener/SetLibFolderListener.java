@@ -11,9 +11,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
- * Выводит на экран в диалоге - Задать - Директория, в которой находятся файлы описания книг и библиотек
- * <BR/> Эти данные хранятся в SLPar.LIBS
- * <BR/>
+ * Выводит на экран в диалоге - Сменить рабочие директории
+ * <BR/> - Директория, в которой находятся файлы описания книг и библиотек
+ * (Для того, чтобы разным пользователям пользоваться одним файлом описания книг библиотеки).
+ * <BR/> - Директория, в которую экспортируются книги из библиотеки
  */
 public class SetLibFolderListener implements ActionListener {
 
@@ -30,7 +31,7 @@ public class SetLibFolderListener implements ActionListener {
 
         WidgetsDialog dialog = new WidgetsDialog("Настроить рабочие директории");
 
-        int titleWidth = 350;
+        int titleWidth = 450;
 
         libFolder = new FileWidget("Директория, в которой находятся файлы описания книг и библиотек",
                 false, SLPar.LIBS_INFO_DIR);
@@ -48,6 +49,8 @@ public class SetLibFolderListener implements ActionListener {
 
         boolean change = false;
         if (dialog.isOK()) {
+            Log.l.info("[T] libFolder = {}");
+            Log.l.info("[T] exportFolder = {}");
             if (libFolder.isChangeValue()) {
                 SLCons.CONFIG_MANAGERS.setLibsDir(libFolder.getValue());
                 change = true;
@@ -57,6 +60,7 @@ public class SetLibFolderListener implements ActionListener {
                 change = true;
             }
 
+            //Log.l.info("[T] SLCons.CONFIG_MANAGERS before save = {}", SLCons.CONFIG_MANAGERS);
             if (change) {
                 try {
                     SLCons.CONFIG_MANAGERS.save();
@@ -66,6 +70,7 @@ public class SetLibFolderListener implements ActionListener {
                             "Ошибка сохранения конфиг-файла");
                 }
             }
+            Log.l.info("[T] SLCons.CONFIG_MANAGERS after save = {}", SLCons.CONFIG_MANAGERS);
         }
     }
     

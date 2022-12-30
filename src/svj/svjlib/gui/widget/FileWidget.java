@@ -190,4 +190,8 @@ public class FileWidget extends AbstractWidget<String>
         textField.setText ( value );
     }
 
+    @Override
+    public String toString() {
+        return "FileWidget{ " + super.toString() + "}";
+    }
 }

@@ -269,4 +269,16 @@ public abstract class AbstractWidget<T>   extends JPanel
         if ( getGuiComponent () != null )  getGuiComponent ().setToolTipText ( toolTip );
     }
 
+    @Override
+    public String toString() {
+        return "AbstractWidget{" +
+                "titleName='" + titleName + '\'' +
+                "; hasEmpty=" + hasEmpty +
+                "; emptyValue='" + emptyValue + '\'' +
+                "; startValue=" + startValue +
+                "; object=" + object +
+                "; value=" + getValue() +
+                "; isChangeValue=" + isChangeValue() +
+                '}';
+    }
 }
